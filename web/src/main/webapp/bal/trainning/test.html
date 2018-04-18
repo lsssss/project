@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='stylesheet' href='../../css/trainning.css'>
+<link rel='stylesheet'
+	href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+</head>
+<body>
+			<div class="form-group">
+				<div class="col-md-4">
+					<div class="">
+						<input type="file" name="img[]" class="input-file">
+						<div class="input-group form-group-lg col-xs-12">
+							<span class="input-group-addon"><i
+								class="fa fa-video-camera"></i></span> <input type="text"
+								class="form-control" disabled placeholder="Upload Video">
+							<span class="input-group-btn">
+								<button class="upload-field btn btn-lg btn-success"
+									type="button">
+									<i class="fa fa-search"></i> Browse
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+	<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+        $(document).on('click', '.upload-field', function() {
+            var file = $(this).parent().parent().parent().find('.input-file');
+            file.trigger('click');
+        });
+        $(document).on(
+                'change',
+                '.input-file',
+                function() {
+                    $(this).parent().find('.form-control').val(
+                            $(this).val().replace(/C:\\fakepath\\/i, ''));
+                });
+    </script>
+
+</body>
+</html>

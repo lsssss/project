@@ -1,0 +1,80 @@
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+ol, ul, li{
+  list-style: none;
+}
+
+.plan {
+  height: 100%;
+  width: 90% !important;
+  padding-top: 5px;
+}
+
+.plan-title {
+  text-align:center;
+  font-size: 24px;
+  color: #99badd;
+}
+
+.plan-features {
+  border-top: 1px solid #e5ded6;
+}
+
+.plan-feature {
+  float: left;
+  width: 15%;
+  font-size: 15px;
+  font-weight: 500;
+  text-align:left;
+  color: #333;
+}
+
+.plan-feature-unit {
+  font-size: 16px;
+}
+
+.plan-feature-name {
+  width: 85%;
+  font-size: 20px;
+  text-align:right;
+  font-weight: normal;
+  margin-left: 20px;
+  color: #aaa;
+}
+
+.plan-button {
+  display: block;
+  font-size: 14px  !important;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+  background: #ffa07a;
+  border-bottom: 2px solid #cf7e3b;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+.plan-button:active {
+  top: 2px;
+  border-bottom: 0;
+}
+
+.plan-highlight {
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 170px;
+  border: 4px solid #37bbe6;
+}
+.plan-highlight .plan-button {
+  font-size: 18px;
+  line-height: 25px;
+  margin-bottom: 10px;
+  background: #37bce5;
+  border-color: #3996b3;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+

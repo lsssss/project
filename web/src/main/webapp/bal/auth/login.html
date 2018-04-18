@@ -1,0 +1,235 @@
+
+<div class="modal-header" style="padding: 10% 5%;">
+            <button id="cancelBtn" type="button" class="close">&times;</button>
+            <h4 class="login">
+                <span class="glyphicon glyphicon-lock"></span> Login
+            </h4>
+            <h4 class="signUp">
+                <span class="glyphicon glyphicon-lock"></span> SignUp
+            </h4>
+        </div>
+        <div class="modal-body" style="padding: 40px 20px;">
+            <form id="loginForm" enctype="multipart/form-data">
+            
+                <div class="form-group">
+                    <label for="email"><span class="glyphicon glyphicon-user"></span>
+                        이메일</label> <input type="text" class="form-control" id="email"
+                        placeholder="Enter email">
+                </div>
+        
+                <div class="form-group">
+                    <label for="password"><span
+                        class="glyphicon glyphicon-eye-open"></span> 암호</label> <input
+                        type="password" class="form-control" id="password"
+                        placeholder="Enter password">
+                </div>
+        
+                <div class="checkbox login">
+                    <label><input type="checkbox" checked id="saveEmail"
+                        name="saveEmail">Remember me</label>
+                </div>
+        
+                <div class="checkbox signUp">
+                    <label><input type="checkbox" checked id="saveAgreement" 
+                        name="saveAgreement">Balance Pet 약관 동의</label>
+                </div>
+        
+                <button id="loginBtn2" type="button"
+                    class="btn btn-success btn-block login">
+                    <span class="glyphicon glyphicon-off"></span> Login
+                </button>
+        
+                <button id="signUpBtn2" type="button"
+                    class="btn btn-success btn-block signUp">
+                    <span class="glyphicon glyphicon-off"></span> SignUp
+                </button>
+                
+                <br>
+            
+<div id="fb-root">
+</div>
+<div class="fb-login-button" data-width="280" data-max-rows="1" data-size="large" 
+    data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" 
+    data-use-continue-as="false" style="margin-top: -3%;"></div>
+               
+               <div style="margin-top: 5%;">
+                <a id="custom-login-btn" href="javascript:loginWithKakao();" >
+                <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="280" height="38"/>
+                </a>
+               </div>
+            </form>
+        </div>
+        
+        <footer class="login">
+            <div style="margin-left: 6%;">
+                아직 회원이 아니신가요? <button id="signUpBtn" class="btn btn-sm btn-link">Sign Up</button>
+                <br>
+                비밀번호를 잊어버리셨나요? <a href="#">Password?</a>
+            </div>
+        </footer>
+        
+        <footer class="signUp">
+            <div style="margin-left: 6%;">
+                이전으로 가시겠습니까?
+                <button id="goBackBtn" class="btn btn-sm btn-link">돌아가기</button>
+            </div>
+        </footer>
+        
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<script type="text/javascript">
+var loginForm = $('#loginForm'),
+    loginBtn2 = $('#loginBtn2'),
+    signUpBtn2 = $('#signUpBtn2'),
+    email = $('#email'),
+    password = $('#password'),
+    saveEmail = $('#saveEmail'),
+    goBackBtn = $('#goBackBtn');
+
+load();
+
+function load() {
+$('.signUp').css('display', 'none');
+
+loginBtn2.click(() => {
+    
+    $.post('../../json/auth/login', {
+        email: email.val(),
+        password: password.val(),
+        saveEmail: saveEmail.is(':checked') 
+    }, function(result) {
+        if (result.status == "success") {
+            location.href = "home.html"
+        } else {
+            swal("로그인실패!", "이메일이나 암호를 확인 해주세요!", "error");
+        }
+    }, 'json');
+    
+});
+
+$('.fb-login-button').on('login', function() {
+	alert('ooooooo')
+});
+
+function autoServerLogin(accessToken) {
+    console.log(accessToken)
+    $.getJSON(
+        '../../json/auth/facebookLogin', 
+        {'accessToken': accessToken}, 
+        function(result) {
+            console.log(result.status);
+          if (result.status == 'success') {
+              location.href = 'home.html';
+          } else {
+              swal("로그인실패!", "로그인에 실패하였습니다.", "error");
+          }
+    });
+}
+
+function checkLoginState() {
+    FB.getLoginStatus(function(response) { 
+      statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId   : '1608875912532374',
+        cookie  : true,
+        xfbml   : true,
+        version : 'v2.12'
+    });
+    
+    FB.Event.subscribe('auth.statusChange', function(response) {
+        if (response.status === 'connected') { // 로그인이 정상적으로 되었을 때,
+              autoServerLogin(response.authResponse.accessToken);
+          
+          } else { // 로그인이 되지 않았을 때,
+              console.log("로그인 되지 않았음");
+          }
+    });
+};
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/ko_KR/sdk.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+}  
+
+Kakao.init('ff1cbf9468f0d7759d24a8472491276e')
+function loginWithKakao() {
+Kakao.Auth.login({
+  success: function(authObj) {
+      $.getJSON(
+              '../../json/auth/kakaotalkLogin', 
+              {"access_token":authObj.access_token},
+              function(result) {
+                if (result.status == 'success') {
+                    location.href = '../main/home.html';
+                } else {
+                    swal("로그인실패!", "로그인에 실패하였습니다.", "error");
+                }
+          });
+  },
+  fail: function(err) {
+    alert(JSON.stringify(err));
+  }
+});
+};
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+    $('#cancelBtn').click(() => {
+       document.getElementById("loginSection").style.transform = "translateX(200%)";
+    });
+    
+});
+</script>
+
+<script type="text/javascript">
+signUpBtn2.click(() => {
+    $.post('../../json/member/add', {
+        email: email.val(),
+        password: password.val()
+    }, function(result) {
+        if (result.status == "addFail") {
+        	swal("가입 실패!", "이미 등록된 이메일입니다.", "error");
+        } else {
+        	$.post('../../json/auth/login', {
+                email: result.email,
+                password: result.password
+            }, (result) => {
+                setTimeout(() => {  
+                    swal({
+                          position: 'center',
+                          type: 'success',
+                          title: '가입이 완료되었습니다.',
+                          showConfirmButton: false,
+                          timer: 3000
+                    }),
+                    setTimeout(() => {
+                        location.href = "../main/home.html"
+                    }, 3000);
+                 }, 0);
+                        
+            }, 'json');
+        }
+    }, 'json');
+    
+});
+
+$('#signUpBtn').click(() => {
+    $('.signUp').css('display', '');
+    $('.login').css('display', 'none');
+});
+
+goBackBtn.click(() => {
+	$('.signUp').css('display', 'none');
+    $('.login').css('display', '');
+});
+</script>

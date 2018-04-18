@@ -1,0 +1,56 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>네이버지도 - 주소-&gt;좌표변환 ::: ollagaza's story</title>
+    <script src="https://pagead2.googlesyndication.com/pub-config/r20160913/ca-pub-9403747526161077.js"></script><script src="http://dev.hotelxml.com/js/jquery-1.9.1.js"></script>
+    <script src="http://dev.hotelxml.com/js/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://dev.hotelxml.com/css/jquery-ui.css">
+
+ <link rel="preload" href="https://adservice.google.co.kr/adsid/integrator.js?domain=f.goodkiss.co.kr" as="script"><script type="text/javascript" src="https://adservice.google.co.kr/adsid/integrator.js?domain=f.goodkiss.co.kr">
+ </script>
+ <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=f.goodkiss.co.kr" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=f.goodkiss.co.kr">
+ </script>
+ </head>
+ <body>
+  <p style="font-weight:bold;font-size:30px;">● 네이버지도 - 주소-&gt;좌표변환 </p>
+  <form name="frmNaverMap" method="post" action="navermap.asp">
+  <input type="text" name="dummy" style="display:none;">
+  &nbsp;&nbsp;<span style="font-weight:bold;font-size:20px;">주소를 입력해주세요 <input type="text" name="addr" style="width:340px;"> <input type="button" name="btnSearch" value="좌표검색">
+  
+  <br><br>
+    <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- 네이버지도용 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-9403747526161077" data-ad-slot="1374780144" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe width="728" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:728px;height:90px;"></iframe></ins></ins></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<script>
+$("input[name='addr']").keypress(function(event) {
+    if (event.which == 13) {
+        alert("AAAAAAA");
+//         fnNaverAddrSearch();
+    }
+});
+
+$("input[name='btnSearch']").click(function(event) {
+        alert("BBBB");
+	
+//     fnNaverAddrSearch();
+});
+
+function fnNaverAddrSearch()
+{
+    var frm = document.frmNaverMap;
+
+    if(frm.addr.value == "")
+    {
+        alert("주소를 입력해 주세요");
+        $("input[name='addr']").focus();
+        return;
+    }
+
+    frm.submit();
+}
+</script>
+ 
+
+</span></form></body></html>

@@ -1,0 +1,598 @@
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Motion blur effect for HTML elements using SVG filters" />
+<meta name="keywords" content="motion blur, html, css, svg, filter, javascript, web design, image gallery" />
+<meta name="author" content="Lucas Bebber for Codrops" />
+<link rel="shortcut icon" href="../favicon.ico">
+
+<link rel="stylesheet" type="text/css" href="../../css/diagnosis/font-awesome-4.3.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href='../../node_modules/jquery-ui-dist/jquery-ui.css' /> 
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel="stylesheet" type="text/css" href="../../business_view/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="../../business_view/css/gallery.css" />
+<link rel="stylesheet" type="text/css" href="../../css/main.css" /> 
+<style>  
+ nav a {
+color:#7D87AE;   
+
+}
+ nav a:hover{
+color:#212529;
+}
+</style> 
+<div id=diagnosis_form>
+	<div class="container_b">
+		<header class="codrops-header" style="margin-bottom: -4%">
+			<h1>Diagnosis<span> <a href="../main/home.html#diagnosis"> of Custommer</a></span></h1> 
+			<nav style="margin-bottom:40px" class="codrops-demos">
+				<a href="../main/home.html#diagnosis">home</a>			
+				<div class="modal fade" role="dialog" id="diagnosisModalView">
+					<div class="modal-dialog">					
+						<div class="modal-content" id=modal_view_content>
+						</div>
+					</div>
+				</div>									
+			</nav>
+		</header>
+		<div style="width: 27%; text-align: left; margin-bottom: 1%; margin-left:18%; display: inline-block;">
+		
+			<input type="text" readonly="readonly" id="selectDate" class="selectDate calendar" style="font-size:15px; height: 40px; background-image:url(../../images/button/calendar48_2.png); background-repeat: no-repeat; background-position: right; background-size: 40px">
+			<a>~</a>
+			<input type="text" readonly="readonly" id="nowDate" class="nowDate calendar" style="font-size:15px; height: 40px; background-image:url(../../images/button/calendar48_2.png); background-repeat: no-repeat; background-position: right; background-size: 40px">
+			
+			
+		<select style="margin-left:20px; margin-bottom:10px" id='category' class="btn btn-secondary data-reset"
+			name="category">
+			<option value="All">All</option>
+			<option  value="5">5</option>
+			<option  value="10">10</option>
+			<option  value="15">15</option>
+		</select> 
+		</div>
+		
+		
+		<div style="width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">
+			<div style='width:10%; display:inline-block; ; font-size:20px;'>No</div><div style='width:15%; display:inline-block; ; font-size:20px;'>Hospital</div><div style='width:15%; display:inline-block; ; font-size:20px;'>Customer</div><div style='width:15%; display:inline-block; ; font-size:20px;'>Date</div><div style='width:15%; display:inline-block; ; font-size:20px;'>Category</div><div style='width:10%; display:inline-block; ; font-size:20px;'>Medical name</div><div style='width:20%; display:inline-block; ; font-size:20px;'>Contents</div>
+		</div>
+
+		<div id="diagnosisbody" style="font-size:18px;margin-top: 15px;"> 
+		
+		
+		</div>
+		<!-- Related demos -->
+		<div class="container">
+			 <nav aria-label="Page navigation">
+ 			 <ul class="pagination justify-content-center">
+    		 <li class="page-item"><a id="prevBtn" class="page-link" tabindex="-1">이전</a></li>
+             <li class="page-item"><a id="currBtn" class="page-link" href="#">1</a></li>
+    		 <li class="page-item"><a id="nextBtn" class="page-link" tabindex="0">다음</a></li>
+ 		 </ul>
+		</nav>
+		
+		</div>
+	</div>
+	<!-- /container -->
+</div>
+
+<div class="modal" id="testModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-sm" style="max-width: 1000px;">
+<div class="modal-content">
+<div class="modal-header">
+<button id="closeBtn" type="button" class='btn btn-primary btn-sm my-new'  data-dismiss="modal">닫기</button>
+</div>
+<div class="modal-body" style="padding: 40px 50px;">
+<div class='container' style="font-family:contsfont-kor">
+
+        <h2 style="margin-bottom: 50px; font-family:contsfont-kor">진료 상세정보</h2>
+
+        <form action='update' method='post'>
+
+            <div class='form-group row my-view'>
+                <label for='diagnosisNo' class='col-sm-2 col-form-label'>진료번호</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' readonly id='diagnosisNo' type='number'
+                        name='diagnosisNo'>
+                </div>
+            </div>
+
+            <div class='form-group row my-view'>
+                <label for='hospitalName' class='col-sm-2 col-form-label'>병원명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' readonly id='hospitalName' type='text'
+                        name='diagnosis.hospital.hospitalName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='memberName' class='col-sm-2 col-form-label'>진료회원명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='memberName' type='text' name='memberName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='memberTel' class='col-sm-2 col-form-label'>진료회원연락처</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='memberTel' type='text' name='memberTel'>
+                </div>
+            </div>
+
+
+            <div class='form-group row'>
+                <label for='dogweight' class='col-sm-2 col-form-label'>강아지무게</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='dogweight' type='number'
+                        name='dogweight'>
+                </div>
+            </div>
+
+
+            <div class='form-group row'>
+                <label class='col-sm-2 col-form-label'>분류</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisCategory' type='text'
+                        name='diagnosisCategory'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='diagnosisName' class='col-sm-2 col-form-label'>진료명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisName' type='text'
+                        name='diagnosisName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='diagnosisContents' class='col-sm-2 col-form-label'>진료내용</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisContents' type='text'
+                        name='diagnosisContents'>
+                </div>
+            </div>
+
+
+            <div class='form-group row my-view'>
+                <label for='dateRecording' class='col-sm-2 col-form-label'>기록일자</label>
+                <div class='col-sm-10'>
+                    <input class='form-control my-recordData' id='dateRecording'
+                        type='date' name='dateRecording'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='recorder' class='col-sm-2 col-form-label'>기록자</label>
+                <div class='col-sm-10'>
+                    <input class='form-control my-recordData' id='recorder' type='text'
+                        name='recorder'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='remarks' class='col-sm-2 col-form-label'>비고</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='remarks' type='text' name='remarks'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <div class='col-sm-10'>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../../node_modules/jquery-ui-dist/jquery-ui.js'></script>
+
+<script>
+var prevBtn = $('#prevBtn'),
+currBtn = $('#currBtn'),
+nextBtn = $('#nextBtn'),
+currPageNo =1,
+pageSize = 1000;
+
+var closeBtn=$('#closeBtn'),
+noItem=$('#diagnosisNo'),
+memberNameItem=$('#memberName'),
+memberTelItem=$('#memberTel'),
+hospitalNameItem=$('#hospitalName'),
+hospitalNoItem=$('#hospitalNo'),
+dogweightItem=$('#dogweight'),
+categoryItem=$('#diagnosisCategory'),
+nameItem=$('#diagnosisName'),
+contentsItem=$('#diagnosisContents'),
+recordingItem=$('#dateRecording'),
+recorderItem=$('#recorder'),
+remarksItem=$('#remarks');
+
+
+var nowDate = new Date();
+var date = new Date();
+var year = nowDate.getFullYear();
+var month = nowDate.getMonth()+1
+var day = nowDate.getDate();
+if(month < 10){
+    month = "0"+month;
+}
+if(day < 10){
+    day = "0"+day;
+}
+var resultNowDate = year+"-"+month+"-"+day;
+var selectDate = nowDate.getTime() - (30*24*60*60*1000);
+nowDate.setTime(selectDate);
+
+var selectYear = nowDate.getFullYear();
+var selectMonth = nowDate.getMonth() +1;
+var selectDay = nowDate.getDate();
+if(selectMonth < 10){ selectMonth = "0" + selectMonth}
+if(selectDay < 10) {selectDay = "0"+selectDay}
+var text = 'null';
+
+var resultSelectDate = selectYear+"-"+selectMonth+"-" + selectDay;
+
+
+document.getElementById('selectDate').value = resultSelectDate;
+document.getElementById('nowDate').value = resultNowDate;
+
+var dateItem=$('#selectDate'),
+	nowDateItem=$('#nowDate'),
+	allDateBtn=$('#allDateList');
+
+$.datepicker.regional['kr'] = {
+			//showOn: "both", // 버튼과 텍스트 필드 모두 캘린더를 보여준다.
+			//buttonImage: "../../images/button/calendar48_2.png", // 버튼 이미지
+		 	//buttonImageOnly: true, // 버튼에 있는 이미지만 표시한다.
+			dateFormat: 'yy-mm-dd',
+	        prevText: '이전 달',
+	        nextText: '다음 달',
+	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	        showMonthAfterYear: true,
+	        yearSuffix: '년',
+	        showButtonPanel: true, // 캘린더 하단에 버튼 패널을 표시한다. 
+	        currentText: '오늘 날짜' , // 오늘 날짜로 이동하는 버튼 패널
+	        closeText: '닫기',  // 닫기 버튼 패널
+	        yearRange: 'c-1000:c+100', // 년도 선택 셀렉트박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할것인가.
+	        changeMonth: true, // 월을 바꿀수 있는 셀렉트 박스를 표시한다.
+	        changeYear: true, // 년을 바꿀 수 있는 셀렉트 박스를 표시한다.
+	        numberOfMonths: [1,1],
+	        showOtherMonths: true,
+	        showAnim: 'slideDown',
+	        
+	};
+
+	$.datepicker.setDefaults($.datepicker.regional['kr']);
+//	$("#navigation-list").hide();
+//	$("#123").click(function() {
+//	$("#navigation-list").toggle();
+	
+	
+	var currentPosition = parseInt($("#sidebox").css("top")); $(window).scroll(function() { var position = $(window).scrollTop(); $("#sidebox").stop().animate({"top":position+currentPosition+"px"},700); });
+
+	
+//	});
+/* 	   var diagnosisModalView = $('#diagnosisModalView');
+	   var diagnosisModalViewContent = $('#diagnosisModalView .modal-content');	 */
+	
+	// 페이지 시작 ajax로딩
+	
+	startpage();
+	function startpage(){
+	        $.ajax('../../json/diagnosis/mylist', {
+	        	data: { 
+				       dateRecording: dateItem.val(),
+				       nowDateRecording: nowDateItem.val()
+	        	},
+	            dataType: 'json',
+	            method: 'POST',
+	            success: (result) => {
+	             	$('#diagnosisbody').html("");
+	                for (var data of result.list) {
+	                 	$('<div class="modalList" style="cursor:pointer; border-bottom: 1px solid #aaa; font-family: contsfont-kor; width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">')
+	                     .html(  
+	                     		"<div style='width:9%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisNo + "</div>" + 
+	                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>"+ data.hospital.hospitalName + "</div>" + 
+	                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.memberName + "</div>" +
+	                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.dateRecording + "</div>" +
+	                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisCategory + "</div>" +
+	                                "<div style='width:8%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisName + "</div>" +
+	                                "<div style='width:18%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisContents + "</div>") 
+	 	                            .appendTo('#diagnosisbody'); 
+	                }
+	                
+	             	$(prevBtn.parent()).css("display","none");
+	            	$(currBtn.parent()).css("display","none");
+	                $(nextBtn.parent()).css("display","none");
+	            },
+	            error: () => {
+	            }
+	        });
+	    }
+	$(document).on('click', '.modalList', function(){
+	    text = $(this).children().first().text();
+	    var diagnosisViewModalContent = $('#diagnosisViewModal .modal-content');
+	    console.log(text);
+	    console.log(diagnosisViewModalContent);
+	    modalPopup(text);
+	    $("#testModal").modal();
+	}); 
+	
+	function modalPopup(text){
+	    $.ajax('../../json/diagnosis/' + text, {
+            dataType: 'json',
+            success: (result) => {
+                noItem.val(result.data.diagnosisNo);
+                memberNameItem.val(result.data.memberName);
+                memberTelItem.val(result.data.memberTel);
+                hospitalNameItem.val(result.data.hospital.hospitalName);
+                dogweightItem.val(result.data.dogweight);
+                categoryItem.val(result.data.diagnosisCategory);
+                nameItem.val(result.data.diagnosisName);
+                contentsItem.val(result.data.diagnosisContents);
+                recordingItem.val(result.data.dateRecording);
+                recorderItem.val(result.data.recorder);
+                remarksItem.val(result.data.remarks);
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+	}
+	// 데이트피커 선택날짜 리스트
+	$(".selectDate").datepicker({
+		onSelect:  function selectdatepicker(dateText, inst) {
+			load(1);
+			function load(pageNo, options){
+				
+			    if (options == undefined) options = {};
+			       options.pn = pageNo;
+			       $.ajax('../../json/diagnosis/mypagesizelist', {
+			           data: { 
+			        	   options,
+			        	   pageNo: pageNo,
+			        	   pageSize: pageSize,
+					       dateRecording: dateItem.val(),
+					       nowDateRecording: nowDateItem.val()
+			    			},
+						       
+			           dataType: 'json',
+			           success: (result) => {
+			        	 	$('#diagnosisbody').html("");
+			                for (var data of result.list) {
+			                 	$('<div class="modalList" style="cursor:pointer; border-bottom: 1px solid #aaa; font-family: contsfont-kor; width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">')
+			                     .html(  
+			                     		"<div style='width:9%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisNo + "</div>" + 
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>"+ data.hospital.hospitalName + "</div>" + 
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.memberName + "</div>" +
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.dateRecording + "</div>" +
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisCategory + "</div>" +
+			                                "<div style='width:8%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisName + "</div>" +
+			                                "<div style='width:18%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisContents + "</div>") 
+			 	                            .appendTo('#diagnosisbody'); 
+			                }
+			               
+			               currPageNo = result.pageNo;
+			               currBtn.html(currPageNo);
+			               
+			               if (result.pageNo == 1) {
+			                   $(prevBtn.parent()).addClass("disabled"); 
+			               } else {
+			                   $(prevBtn.parent()).removeClass("disabled");
+			               }
+			               
+			               if (result.lastPageNo == result.pageNo) {
+			                   $(nextBtn.parent()).addClass("disabled");
+			               } else {
+			                   $(nextBtn.parent()).removeClass("disabled");
+			               }
+			               
+			           },
+			           error: () => {
+			           }
+			       });
+			   }
+			}
+	});
+	
+	// 데이트피커 현재날짜 선택시  
+	$(".nowDate").datepicker({
+		onSelect: function selectdatepicker(dateText, inst) {
+			load(1);
+			function load(pageNo, options){
+				
+			    if (options == undefined) options = {};
+			       options.pn = pageNo;
+			       $.ajax('../../json/diagnosis/mypagesizelist', {
+			           data: { 
+			        	   options,
+			        	   pageNo: pageNo,
+			        	   pageSize: pageSize,
+					       dateRecording: dateItem.val(),
+					       nowDateRecording: nowDateItem.val()
+			    			},
+						       
+			           dataType: 'json',
+			           success: (result) => {
+			               
+			        	 	$('#diagnosisbody').html("");
+			                for (var data of result.list) {
+			                 	$('<div class="modalList" style="cursor:pointer; border-bottom: 1px solid #aaa; font-family: contsfont-kor; width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">')
+			                     .html(  
+			                     		"<div style='width:9%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisNo + "</div>" + 
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>"+ data.hospital.hospitalName + "</div>" + 
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.memberName + "</div>" +
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.dateRecording + "</div>" +
+			                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisCategory + "</div>" +
+			                                "<div style='width:8%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisName + "</div>" +
+			                                "<div style='width:18%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisContents + "</div>") 
+			 	                            .appendTo('#diagnosisbody'); 
+			                }
+			               
+			               currPageNo = result.pageNo;
+			               currBtn.html(currPageNo);
+			               
+			               if (result.pageNo == 1) {
+			                   $(prevBtn.parent()).addClass("disabled"); 
+			               } else {
+			                   $(prevBtn.parent()).removeClass("disabled");
+			               }
+			               
+			               if (result.lastPageNo == result.pageNo) {
+			                   $(nextBtn.parent()).addClass("disabled");
+			               } else {
+			                   $(nextBtn.parent()).removeClass("disabled");
+			               }
+			               
+			           },
+			           error: () => {
+			           }
+			       });
+			   }
+			}
+	});
+
+/* 
+$(".dropdownlist").click( function(){
+		if($(this).children().last().attr('value') == null){
+			loadAll();
+		}else if($(this).children().last().attr('value') == 5){
+			pageSize = $(this).children().attr('value');
+			load(1);
+		}else if($(this).children().last().attr('value') == 10){
+			pageSize = $(this).children().attr('value');
+			load(1);
+		}else if($(this).children().last().attr('value') == 15){
+			pageSize = $(this).children().attr('value');
+			load(1);
+		}
+});
+ */
+$('#category').on('change', function() {
+	category = $("#category option:selected").val();
+	  if(category =='All'){
+		  loadAll();
+	  }else if(category == '5'){
+		  pageSize = $("#category option:selected").val();
+		  load(1);
+	  }else if(category == '10'){
+		  pageSize = $("#category option:selected").val();
+		  load(1);
+	  }else if(category == '15'){
+		  pageSize = $("#category option:selected").val();
+		load(1);
+	  }
+	
+})
+
+
+
+
+
+function loadAll(pageNo, option){
+$.ajax('../../json/diagnosis/myAlllist', {
+    dataType: 'json',
+    success: (result) => {
+     	$('#diagnosisbody').html("");
+        for (var data of result.list) {
+         	$('<div class="modalList" style="cursor:pointer; border-bottom: 1px solid #aaa; font-family: contsfont-kor; width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">')
+             .html(  
+             		"<div style='width:9%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisNo + "</div>" + 
+                        "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>"+ data.hospital.hospitalName + "</div>" + 
+                        "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.memberName + "</div>" +
+                        "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.dateRecording + "</div>" +
+                        "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisCategory + "</div>" +
+                        "<div style='width:8%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisName + "</div>" +
+                        "<div style='width:18%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisContents + "</div>") 
+                         .appendTo('#diagnosisbody'); 
+        }
+        	$(prevBtn.parent()).css("display","none");
+        	$(currBtn.parent()).css("display","none");
+            $(nextBtn.parent()).css("display","none");
+            
+    },
+    error: () => {
+    }
+});
+}
+
+function load(pageNo, options){
+    if (options == undefined) options = {};
+       $.ajax('../../json/diagnosis/mypagesizelist', {
+           data: { 
+        	   options,
+        	   pageNo: pageNo,
+        	   pageSize: pageSize,
+		       dateRecording: dateItem.val(),
+		       nowDateRecording: nowDateItem.val()
+    			},
+			       
+           dataType: 'json',
+           success: (result) => {
+               
+        	 	$('#diagnosisbody').html("");
+                for (var data of result.list) {
+                 	$('<div class="modalList" style="cursor:pointer; border-bottom: 1px solid #aaa; font-family: contsfont-kor; width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%;text-align:center">')
+                     .html(  
+                     		"<div style='width:9%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisNo + "</div>" + 
+                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>"+ data.hospital.hospitalName + "</div>" + 
+                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.memberName + "</div>" +
+                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.dateRecording + "</div>" +
+                                "<div style='width:13%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisCategory + "</div>" +
+                                "<div style='width:8%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisName + "</div>" +
+                                "<div style='width:18%;margin-left:1%; margin-right:1%; display:inline-block; overflow:hidden;text-overflow: ellipsis;white-space:nowrap;'>" + data.diagnosisContents + "</div>") 
+ 	                            .appendTo('#diagnosisbody'); 
+                }
+               
+               currPageNo = result.pageNo;
+               currBtn.html(currPageNo);
+               
+               $(prevBtn.parent()).css("display","block");
+           	   $(currBtn.parent()).css("display","block");
+               $(nextBtn.parent()).css("display","block");
+               
+               if (result.pageNo == 1) {
+                   $(prevBtn.parent()).addClass("disabled"); 
+               } else {
+                   $(prevBtn.parent()).removeClass("disabled");
+               }
+               
+               if (result.lastPageNo == result.pageNo) {
+                   $(nextBtn.parent()).addClass("disabled");
+               } else {
+                   $(nextBtn.parent()).removeClass("disabled");
+               }
+           },
+           error: () => {
+           }
+       });
+   }
+
+
+
+
+prevBtn.click(() => {
+	console.log(pageSize)
+    load(currPageNo - 1,)
+    console.log(currPageNo)
+});
+nextBtn.click(() => {
+	console.log(pageSize)
+    load(currPageNo + 1)
+    console.log(currPageNo)
+});
+
+
+   
+</script>

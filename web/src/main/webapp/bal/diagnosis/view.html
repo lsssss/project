@@ -1,0 +1,287 @@
+<meta charset="UTF-8" />
+<link rel='stylesheet'
+    href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
+
+<div class="modal-body" style="padding: 40px 50px;">
+<div class='container'>
+
+        <h1>회원 상세정보</h1>
+
+        <form action='update' method='post'>
+
+            <div class='form-group row my-view'>
+                <label for='diagnosisNo' class='col-sm-2 col-form-label'>진료번호</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' readonly id='diagnosisNo' type='number'
+                        name='diagnosisNo'>
+                </div>
+            </div>
+
+            <div class='form-group row my-view'>
+                <label for='hospitalName' class='col-sm-2 col-form-label'>병원명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' readonly id='hospitalName' type='text'
+                        name='diagnosis.hospital.hospitalName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='memberName' class='col-sm-2 col-form-label'>진료회원명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='memberName' type='text' name='memberName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='memberTel' class='col-sm-2 col-form-label'>진료회원연락처</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='memberTel' type='text' name='memberTel'>
+                </div>
+            </div>
+
+
+            <div class='form-group row'>
+                <label for='dogweight' class='col-sm-2 col-form-label'>강아지무게</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='dogweight' type='number'
+                        name='dogweight'>
+                </div>
+            </div>
+
+
+            <div class='form-group row'>
+                <label class='col-sm-2 col-form-label'>분류</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisCategory' type='text'
+                        name='diagnosisCategory'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='diagnosisName' class='col-sm-2 col-form-label'>진료명</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisName' type='text'
+                        name='diagnosisName'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='diagnosisContents' class='col-sm-2 col-form-label'>진료내용</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='diagnosisContents' type='text'
+                        name='diagnosisContents'>
+                </div>
+            </div>
+
+
+            <div class='form-group row my-view'>
+                <label for='dateRecording' class='col-sm-2 col-form-label'>기록일자</label>
+                <div class='col-sm-10'>
+                    <input class='form-control my-recordData' id='dateRecording'
+                        type='date' name='dateRecording'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='recorder' class='col-sm-2 col-form-label'>기록자</label>
+                <div class='col-sm-10'>
+                    <input class='form-control my-recordData' id='recorder' type='text'
+                        name='recorder'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <label for='remarks' class='col-sm-2 col-form-label'>비고</label>
+                <div class='col-sm-10'>
+                    <input class='form-control' id='remarks' type='text' name='remarks'>
+                </div>
+            </div>
+
+            <div class='form-group row'>
+                <div class='col-sm-10'>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal-footer">
+	<button id="addBtn" type="button" class='btn btn-primary btn-sm my-new'>추가</button>
+	<button id="updateBtn" type="button" class='btn btn-primary btn-sm my-view'>변경</button>
+	<button id="deleteBtn" type="button" class='btn btn-primary btn-sm my-view'>삭제</button>
+</div>
+
+   <script src='../../node_modules/jquery/dist/jquery.js'></script>
+    <script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+    <script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+    <script type="text/javascript">
+var addBtn=$('#addBtn'),
+    updateBtn = $('#updateBtn'),
+    deleteBtn = $('#deleteBtn'),
+    noItem=$('#diagnosisNo'),
+    memberNameItem=$('#memberName'),
+    memberTelItem=$('#memberTel'),
+    hospitalNameItem=$('#hospitalName'),
+    hospitalNoItem=$('#hospitalNo'),
+    dogweightItem=$('#dogweight'),
+    categoryItem=$('#diagnosisCategory'),
+    nameItem=$('#diagnosisName'),
+    contentsItem=$('#diagnosisContents'),
+    recordingItem=$('#dateRecording'),
+    recorderItem=$('#recorder'),
+    remarksItem=$('#remarks');
+    
+$('header').load('../../header.html');
+$('footer').load('../../footer.html');
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $('.my-new').css('display','none');
+    $('.my-recordData').attr('readonly','readonly');
+    $(() => {
+        $.ajax('../../json/diagnosis/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                noItem.val(result.data.diagnosisNo);
+                memberNameItem.val(result.data.memberName);
+                memberTelItem.val(result.data.memberTel);
+                hospitalNameItem.val(result.data.hospital.hospitalName);
+                dogweightItem.val(result.data.dogweight);
+                categoryItem.val(result.data.diagnosisCategory);
+                nameItem.val(result.data.diagnosisName);
+                contentsItem.val(result.data.diagnosisContents);
+                recordingItem.val(result.data.dateRecording);
+                recorderItem.val(result.data.recorder);
+                remarksItem.val(result.data.remarks);
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+}else {
+     $('.my-view').css('display', 'none');
+     $(() => {
+            $.ajax('../../json/diagnosis/form' ,{
+                dataType: 'json',
+                success: (result) => {
+                    if(result.data==null){
+                        hospitalNoItem.val(''); 
+                    }else{
+                        hospitalNoItem.val(result.data.hospital.hospitalNo);    
+                    }
+                   
+                },
+                error: () => {
+                    window.alert('서버 실행 오류!');
+                }
+            });
+        });
+        
+}
+/* else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
+    
+    $(() => {
+        $.ajax('../../json/diagnosis/form' {
+            dataType: 'json',
+            success: (result) => {
+                hospitalNoItem.val(result.data.hospital.hospitalNo);
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+     });
+    });
+}
+ */
+ 
+addBtn.click(() => {
+     if (hospitalNoItem.val()=='') {
+            alert("병원관련 회원만 입력 가능 합니다");
+            return;
+        }
+    $.ajax('../../json/diagnosis/add', {
+        data: {
+            dogweight: dogweightItem.val(),
+            diagnosisCategory: categoryItem.val(),
+            diagnosisName: nameItem.val(),
+            diagnosisContents: contentsItem.val(),
+            dateRecording: recordingItem.val(),
+            hospitalNo: hospitalNoItem.val(),
+            recorder: recorderItem.val(),
+            remarks: remarksItem.val(),
+            memberName: memberNameItem.val(),
+            memberTel: memberTelItem.val()
+        },
+        dataType: 'json',
+        method: 'POST',
+        success: (result) => {
+            if(result.status=='success'){
+                location.href = "../diagnosis/CustomerForm.html";    
+            }else if(result.status=='fail'){
+                window.alert('병원회원만 입력 가능합니다');
+            }else{
+                window.alert('해당 회원이 없습니다.');
+            }
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+updateBtn.click(() => {
+    $.ajax('../../json/diagnosis/update', {
+        data: {
+             diagnosisNo: noItem.val(),
+             dogweight: dogweightItem.val(),
+             diagnosisCategory: categoryItem.val(),
+             diagnosisName: nameItem.val(),
+             diagnosisContents: contentsItem.val(),
+             hospitalName: hospitalNameItem.val(),
+             remarks: remarksItem.val(),
+             recorder: recorderItem.val(),
+             memberName: memberNameItem.val(),
+             memberTel: memberTelItem.val()
+        },
+        dataType: 'json',
+        method: 'POST',
+        success: (result) => {
+            if(result.status=='success'){
+                location.href = "../diagnosis/hospitalStaffForm.html";    
+            }else if(result.status=='fail'){
+                window.alert('자신의 병원 진료자료만 가능합니다');
+            }else{
+                window.alert('병원운영 회원의 자기 병원의 진료만 변경가능 합니다');
+            }
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+
+deleteBtn.click(() => {
+    $.ajax('../../json/diagnosis/delete', {
+        data: {
+            no: noItem.val()
+        },
+        dataType: 'json',
+        success: (result) => {
+            if(result.status=='success'){
+                location.href = "../diagnosis/CustomerForm.html";    
+            }else if(result.status=='fail'){
+                window.alert('삭제권한이 없습니다');
+            }else{
+                window.alert('병원등록 후 자신이 등록한 진료기록만 삭제가능 합니다');
+            }
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+</script>
+    

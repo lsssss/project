@@ -1,0 +1,118 @@
+<meta charset="UTF-8">
+<link href="../../css/together.css" rel="stylesheet">
+<link href="../../css/together2.css" rel="stylesheet">
+<div class="bal-mb-3">
+	<div style="margin-top: 15%;text-align: center;">
+	<h2><a href='../business/list.html' style="color:#000000; z-index:10">PET' TOGETHER</a></h2>
+	<div class="bal-mb-3-list">
+	</div>
+	</div>
+</div>
+<!-- <a href="../business/form.html?no={{businessNo}}""> -->
+<script id="template" type="text/x-handlebars-template">
+{{#each list}}
+    <div class="bal-mb-3-data">
+		<figure class="snip1132">
+        {{#each files}}
+            {{#if @first}}
+                 <img src="../../download/{{filename}}" alt="{{filename}}" style="width:100%; height:100%;">
+            {{/if}}
+        {{/each}}
+	<figcaption>
+    	<div class="heading">
+     		<h3><span>{{adress primary_address}}</span></h3>
+    	</div>
+    	<div class="caption">
+      		<p>{{category}}</p>
+    	</div>
+  	</figcaption>
+  	<a href="../business/form.html?no={{businessNo}}"></a>
+</figure>
+        </a>
+    </div>
+	{{#if @last}}
+        <div class="bal-mb-3-data">
+           <figure class="snip1283">
+                <img src="../../download/plus3.png" alt="sample70"/>
+                <figcaption style="text-align: center;">
+                    <h3>More View</h3>
+                    <p>of   Pet Together<br><br>숙박업소 식당 카페 등<br>우리 아이와 떠나자!</p>
+                    <div><a href="../business/list.html" class="read-more">Read More</a></div>
+                </figcaption>
+            </figure>
+        </div>
+    {{/if}}
+
+{{/each}}
+</script>
+
+<script src="../../js/together.js"></script>
+<script src="../../js/together2.js"></script>
+<script type="text/javascript">
+var prevBtn = $('#prevBtn'),
+currBtn = $('#currBtn'),
+nextBtn = $('#nextBtn'),
+blistItem = $('.bal-mb-3-list'),
+currPageNo = 1;
+templateSrc = $('#template').html(),
+templateEngine = Handlebars.compile(templateSrc);
+load(1);
+prevBtn.click(() => {
+load(currPageNo - 1)
+});
+
+nextBtn.click(() => {
+load(currPageNo + 1)
+});
+
+Handlebars.registerHelper('ifCond', function(v1, options) {
+	vi=5;
+	  if(vi <= 5) {
+	    return options.fn(this);
+	  }
+	  return options.inverse(this);
+});
+Handlebars.registerHelper('adress', function (primary_adress) {
+    return primary_adress.substring(0,2);
+  });
+
+function load(pageNo, options) {
+
+if (options == undefined) options = {};
+options.pn = pageNo;
+
+var count;
+$.ajax('../../json/business/list', {
+    /*method: 'GET',*/
+    data: options,
+    dataType: 'json',  
+    success: (result) => {
+        for (var item of result.list) {
+            for (var files of item.files) {
+                files.businessName = item.businessName;
+            }
+        }
+        console.log(result);
+        blistItem.html(templateEngine(result));
+        
+        currPageNo = result.pageNo;
+        currBtn.html(currPageNo);
+        
+        if (result.pageNo == 1) {
+            $(prevBtn.parent()).addClass("disabled");
+        } else {
+            $(prevBtn.parent()).removeClass("disabled");
+        }
+        
+        if (result.lastPageNo == result.pageNo) {
+            $(nextBtn.parent()).addClass("disabled");
+        } else {
+            $(nextBtn.parent()).removeClass("disabled");
+        }
+    },
+    error: () => {
+        window.alert('error blist');
+    }
+});
+}
+</script>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java100.app.dao.MemberFileDao">
+
+    <select id="findByMemberNo" resultType="memberUploadFile" parameterType="int">
+        select mda_no, file
+        from m_mda
+        where m_no=#{value}
+    </select>
+
+    <insert id="insert" parameterType="memberUploadFile">
+        insert into m_mda(file, m_no)
+        values(#{filename}, #{memberNo})
+    </insert>
+
+    <delete id="deleteAllByMemberNo" parameterType="int">
+        delete from m_mda
+        where m_no=#{value}
+    </delete> 
+
+</mapper>  
+
+
+
+
+
+
+
+
+

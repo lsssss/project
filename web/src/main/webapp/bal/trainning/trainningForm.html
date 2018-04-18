@@ -1,0 +1,130 @@
+<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Motion blur effect for HTML elements using SVG filters" />
+		<meta name="keywords" content="motion blur, html, css, svg, filter, javascript, web design, image gallery" />
+		<meta name="author" content="Lucas Bebber for Codrops" />
+		
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../../business_view/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../business_view/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="../../business_view/css/gallery.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<!--  <style>          
+.b { .align-center { text-align: center; }
+
+}
+</style>   -->
+ 
+<div id=view_form>
+   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="filters hidden">
+           <defs>
+             <filter id="blur">
+                 <feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />
+             </filter>
+           </defs>
+   </svg>
+	<div class="container">
+		<header class="codrops-header">
+			<h1>Balance Pet<span style="padding-bottom: 0px; padding-top: 10px; font-size: 35px">by <a href="../main/home.html#cast">pet cast</a></span></h1>
+			<nav class="codrops-demos">
+
+				<a href="../main/home.html#cast">Menu</a><br>
+				
+				<a data-toggle="modal" id="trainningInfo" class="open-modal" href="#trainningViewModal">information</a><br>
+				<div class="modal fade" role="dialog" id="trainningViewModal">
+				<div class="modal-dialog">
+				<div class="modal-content" id=modal_view_content>
+				<!-- modal 삽입 -->
+				</div>
+				</div>
+				</div>
+				
+				<a class="current-demo" href="form.html">Image Gallery</a>
+			</nav>
+		 </header>
+		<div class="content">
+			<div class="gallery">
+			
+						 <div align="center" id="vi"></div> 
+
+ 			</div>
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="100" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7j69ut6"
+	style="left: 340px; position: absolute; top: 650px; width: 90px; height: 100px;">
+	<div id="comp-j7j69ut6link" class="ca1link"
+		style="width: 90px; height: 100px;">
+		<div data-style="" class="ca1img" id="comp-j7j69ut6img"
+			style="position: relative; width: 90px; height: 100px;">
+			<img id="comp-j7j69ut6imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_36da5282389f4f01a6a34bff456f056f~mv2.png/v1/fill/w_77,h_100,al_c,usm_0.66_1.00_0.01/5bfb6f_36da5282389f4f01a6a34bff456f056f~mv2.png"
+				style="width: 90px; height: 100px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+<div data-exact-height="56" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7j5wx82"
+	style="left: 1390px; position: absolute; top: 304px; width: 57px; height: 56px;">
+	<div id="comp-j7j5wx82link" class="ca1link"
+		style="width: 57px; height: 56px;">
+		<div data-style="" class="ca1img" id="comp-j7j5wx82img"
+			style="position: relative; width: 57px; height: 56px;">
+			<img id="comp-j7j5wx82imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_848ef9fdc8d24cd7b9640be264f778d8~mv2.png/v1/fill/w_57,h_56,al_c/5bfb6f_848ef9fdc8d24cd7b9640be264f778d8~mv2.png"
+				style="width: 57px; height: 56px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+<script src="../../business_view/js/TweenMax.min.js"></script>
+ <script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script> 
+<script src="../../business_view/js/gallery.js"></script>
+<script type="text/javascript">
+
+   var index = location.href.indexOf('?');
+   if (index != -1) { // 기존 데이터를 조회할 경우,
+       var qs = location.href.substr(index + 1);
+       var arr = qs.split('=');
+       /*  $('.my-new').css('display', 'none');  */
+       $(() => {
+           $.ajax('../../json/trainning/' + arr[1], {
+               dataType: 'json',
+               success: (result) => {
+   				console.log(result)                
+                   for (var file of result.data.files){
+                   $('#vi').html('<video src="../../download/' + file.filename + '" controls="controls"  autoplay loop id="video" width="800px" height="auto"></video>');
+                   }
+                   
+               },
+               error: () => {
+                   window.alert('서버 실행 오류!');
+               }
+           });
+       });  
+ 
+
+
+       var trainningViewModal = $('#trainningViewModal');
+      var trainningViewModalContent = $('#trainningViewModal .modal-content');
+      $(document).ready(function(){ 
+          $('#trainningInfo').click(function(e){
+          trainningViewModalContent.load('../trainning/trainningView.html', () => {
+              trainningViewModal.modal();
+              });
+          });
+      }); 
+       
+   }
+   
+</script>

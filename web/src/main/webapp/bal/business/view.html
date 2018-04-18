@@ -1,0 +1,321 @@
+<meta charset="UTF-8" />
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
+<link rel='stylesheet' href='../../css/business.css'>
+<link rel='stylesheet' href='../../css/main.css'>
+
+<div class="modal-header"  style="padding: 15px 50px;">
+    <button type="button" class="close my-view" data-dismiss="modal">&times;</button>
+</div> 
+
+<div class="modal-body" style="padding: 25px 50px;">
+<div class='container' style="font-family:contsfont-kor">
+
+    <h2 class='my-new' style="margin-bottom: 50px; font-family:contsfont-kor">업체등록</h2>
+    <h2 class='my-view' style="margin-bottom: 50px; font-family:contsfont-kor">업체 상세정보</h2>
+
+
+<form id='frm' method="post" enctype="multipart/form-data" style="font-size: 11px;">
+
+<div class="form-group row ">
+<div class="col-sm-10">
+    <select id='category' class="btn btn-secondary data-reset" name="category">
+    <option value=카테고리>카테고리</option>
+    <option value=숙박업소>숙박업소</option>
+    <option value=식당>식당</option>
+    <option value=기타>기타</option>
+    </select>
+</div>
+</div>
+<div class='form-group row my-view' style="float: left; display:none; width: 50%;">
+<label for='businessNo' class='col-sm-2 col-form-label'>번호</label>
+<div id="nodiv" class='col-sm-10'></div>
+</div> 
+
+<div style="font-weight: bold; width: 77%; margin: auto;">
+<div class='form-group row my-mo' style="float: left; width: 50%;">
+<label for='businessName' class='col-sm-2 col-form-label' style="padding-left: 18px; padding-right: 0px; margin: auto;">업체명</label>
+<div class='col-sm-10'>
+<input class='form-control' id='businessName' type='text' name='businessName' >
+</div>
+</div>
+
+<div class='form-group row my-mo'>
+<label for='tel' class='col-sm-2 col-form-label' style="padding-left: 18px; padding-right: 0px; margin: auto;">전화번호</label>
+<div class='col-sm-10'>
+<input class='form-control' id='tel' type='text' name='tel' >
+</div>
+</div>
+</div>
+
+<div style="font-weight: bold; width: 77%; margin: auto;">
+<div class='form-group row my-mo' style="float: left; width: 50%;">
+<label for='open_time' class='col-sm-2 col-form-label' style="padding-left: 13px; padding-right: 0px; margin: auto;">오픈시간</label>
+<div class='col-sm-10'>
+<input class='form-control' id='open_time' type='time' name='open_time' >
+</div>
+</div>
+
+<div class='form-group row my-mo'>
+<label for='close_time' class='col-sm-2 col-form-label' style="padding-left: 18px; padding-right: 0px; margin: auto;">마감시간</label>
+<div class='col-sm-10'>
+<input class='form-control' id='close_time' type='time' name='close_time' >
+</div>
+</div>
+</div>
+
+<div class='form-group row my-mo' style="margin-left: 0px; width: 96%">
+<label for='content' class='col-sm-2 col-form-label' style="padding-left: 105px; font-weight: bold; margin: auto;">내용</label>
+<div class='col-sm-10'>
+<textarea class='form-control' id='content' type='text' name='content' style="width: 612px; height: 130px;"></textarea>
+</div>
+</div>
+
+<div style="font-weight: bold; width: 77%; margin: auto;">
+<div class='form-group row my-mo'  style="float: left; width: 50%;">
+<label for='post_no' class='col-sm-2 col-form-label' style="padding-left: 13px; padding-right: 0px; margin: auto; margin-top: 4px;">우편번호</label>
+<div class='col-sm-10'>
+<input class='form-control' id='post_no' type="number" name='post_no' >
+<input type="button" onclick="addresearch()" value="우편번호 찾기" style="float: left;"><br>
+</div>
+</div>
+
+<div class='form-group row my-mo'>
+<label for='url' class='col-sm-2 col-form-label' style="padding-left: 18px; padding-right: 0px; margin: auto;">홈페이지</label>
+<div class='col-sm-10'>
+<a href="http://www.sweetmong.com"><input class='form-control' id='url' type='text' name='url' ></a>
+</div>
+</div>
+</div>
+
+<div class='form-group row my-mo' style="font-weight: bold; width: 739px; margin-left: 52px;">
+<label for='primary_address' class='col-sm-2 col-form-label' 
+style="padding-right: 0px; margin: auto;padding-left: 15px;margin-left: 0px;margin-right: 1px;">기본주소</label>
+<div class='col-sm-10' style="margin-left: -17px; padding-left: 0px;">
+<input class='form-control' id='primary_address' type='text' name='primary_address' style="width: 610px;">
+</div>
+</div>
+
+<div class='form-group row my-mo'  style="font-weight: bold; float: left; width: 739px; margin-left: 52px; position: relative; z-index: 1">
+<label for='detail_address' class='col-sm-2 col-form-label' 
+style="padding-right: 0px; margin: auto;padding-left: 15px;margin-left: 0px;margin-right: 1px;">상세주소</label>
+<div class='col-sm-10' style="margin-left: -17px; padding-left: 0px;">
+<input class='form-control' id='detail_address' type='text' name='detail_address' style="width: 610px;">
+</div>
+</div>
+ 
+<!-- <div class='form-group row my-view'>
+<label for='filename' class='col-sm-2 col-form-label'>사진</label>
+<div id=filediv class='col-sm-10'>
+</div>
+</div> -->
+<div class='col-sm-10 my-mo'>
+<input type='file' class='form-control-file' id='filename1' name='file'>
+</div>
+<div class='col-sm-10 my-mo'>
+<input type='file' class='form-control-file' id='filename2' name='file'>
+</div>
+<div class='col-sm-10 my-mo'>
+<input type='file' class='form-control-file' id='filename3' name='file'>
+</div>
+<!-- <div id="inserthere" class='form-group row my-view'></div> -->
+
+<div class='form-group row'>
+<div class='col-sm-10'>
+
+</div>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal-footer" style="padding-right: 100px;">
+<div style="margin: auto;">
+<button id="bus_addBtn" type="button" class='btn btn-primary btn-sm my-new'>추가</button>
+<button id="bus_backBtn" type="button" class='btn btn-primary btn-sm my-new'  onclick="history.back();">돌아가기</button>
+<button id="bus_updateBtn" type="button" class='btn btn-primary btn-sm my-view'>변경</button>
+<button id="bus_deleteBtn" type="button" class='btn btn-primary btn-sm my-view'>삭제</button>
+</div>
+</div>
+
+<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+<script type="text/javascript">
+var addBtn = $('#bus_addBtn'),
+    updateBtn = $('#bus_updateBtn'),
+    deleteBtn = $('#bus_deleteBtn'),
+    addReviewBtn = $('#bus_addRBtn'),
+    modifyBtn = $('#modifyBtn'),
+    ctgrItem = $('#category'),
+    nameItem = $('#businessName'),
+    openItem = $('#open_time'),
+    closeItem = $('#close_time'),
+    telItem = $('#tel'),
+    menuItem = $('#menu'),
+    contsItem = $('#content'),
+    urlItem = $('#url'),
+    pstItem = $('#post_no'),
+    prmItem = $('#primary_address'),
+    detItem = $('#detail_address'),
+    nodItem = $('#nodiv'),
+    filedItem = $('#filediv'),
+    fileItem1 = $('#filename1'),
+    fileItem2 = $('#filename2'),
+    fileItem3 = $('#filename3'),
+    reviewdItem = $('#reviewdiv'),
+    reviewItem = $('#title');
+var b_number;
+    
+ 
+ 
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    b_number = arr[1];
+    $('.my-new').css('display', 'none');
+    $("#inserthere").load("reviewlist.html");
+    $(() => {
+        $.ajax('../../json/business/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                ctgrItem.val(result.data.category);
+                nodItem.html("<input class='form-control' readonly id='businessNo' " + 
+                             "name='businessNo' value='" + result.data.businessNo + "'> ");
+                nameItem.val(result.data.businessName);
+                openItem.val(result.data.open_time);
+                closeItem.val(result.data.close_time);
+                telItem.val(result.data.tel);
+                menuItem.val(result.data.menu);
+                contsItem.val(result.data.content);
+                urlItem.val(result.data.url);
+                pstItem.val(result.data.post_no);
+                prmItem.val(result.data.primary_address);
+                detItem.val(result.data.detail_address);
+                for (var file of result.data.files){
+                filedItem.html( "<img src='../../download/" + file.filename + "' alt=" + file.filename + ">")
+                console.log(file.filename)
+                }
+                $.get('../../json/review/form',{
+                    b_number: b_number
+                },  
+                )
+            },
+            error: () => {
+                
+                window.alert('tqtq!');
+            }
+        });
+       
+    });
+} else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
+}
+
+addReviewBtn.click(()=> {
+    location.href = "review.html";
+     alert(number)
+ });
+
+ addBtn.click(() => {
+     if (ctgrItem.val() == '카테고리') {
+         return alert('카테고리 선택하세요');
+     }  
+     var formData = new FormData($("#frm")[0]);
+     $.ajax('../../json/business/add', {
+         data: formData,
+         dataType: 'json',
+         method: 'POST',
+         processData : false,
+         contentType : false,
+         success: (result) => {
+             location.href = "list.html";
+         },
+         error: (jqXHR, textStatus, errorThrown) => {
+             window.alert('서버 실행 오류2!');
+         }
+     });
+ });
+ updateBtn.click(() => {
+     
+     if (ctgrItem.val() == '카테고리') {
+         return alert('카테고리 선택하세요');
+     }  
+     var formData = new FormData($("#frm")[0]);
+     $.ajax('../../json/business/update', {
+         data: formData,
+         dataType: 'json',
+         method: 'POST',
+         processData : false,
+         contentType : false,
+         success: (result) => {
+             location.href = "list.html";
+         },
+         error: () => {
+             window.alert('서버 실행 오류!');
+         }
+     });
+ });
+
+
+deleteBtn.click(function() {
+    $.ajax('../../json/business/delete', {
+        data: {
+            no: b_number
+        },
+        dataType: 'json',
+        success: (result) => {
+           
+            location.href = "list.html";
+        },
+        error: () => {
+            window.alert('서버 실행 오류! delete');
+        }
+    });
+});
+
+function addresearch() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var fullAddr = ''; // 최종 주소 변수
+            var extraAddr = ''; // 조합형 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                fullAddr = data.roadAddress;
+
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                fullAddr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+            if(data.userSelectedType === 'R'){
+                //법정동명이 있을 경우 추가한다.
+                if(data.bname !== ''){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있을 경우 추가한다.
+                if(data.buildingName !== ''){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('post_no').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('primary_address').value = fullAddr;
+
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById('detail_address').focus();
+        }
+    }).open();
+}
+</script>
+
+</body>
+</html>
+    

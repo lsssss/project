@@ -1,0 +1,140 @@
+
+<a href="#">
+<img id="memberPhoto" style="width: 30%; height: 10%; border-radius: 100% 100% 100% 100%; margin: 25% 0% 3% 35%;"></img>
+</a>
+
+<div id="memberInfo" style="width: 80%; height: 10%; border-color: black; margin: 5% 10% 20% 10%; text-align: center;" >
+</div>
+<div id="pushOnBtn" style="margin-left: 7.5rem;" class="btn btn-sm btn-outline">
+<img style="margin-left: 1rem;" src="../../download/offBell.png">
+</div>
+<div id="pushOffBtn" style="margin-left: 7.5rem;" class="btn btn-sm btn-outline">
+<img style="margin-left: 1rem;" src="../../download/onBell.png">
+</div>
+<br>
+<hr>
+
+<footer>
+<br>
+<div id="memberInfoModify" style="width: 80%; margin-left: 10%; text-align: center; color: #824027;" class="btn btn-lg btn-light">My Page</div>
+
+<br>
+<div id="myPetBtn" style="width: 80%; margin-left: 10%; text-align: center; color: #824027;" class="btn btn-lg btn-light">My Pet</div>
+
+<br>
+<div style="width: 80%; margin-left: 10%; text-align: center; color: #824027;" class="btn btn-lg btn-light">F A Q</div>
+
+<br>
+<div style="width: 80%; margin-left: 10%; text-align: center; color: #824027;" class="btn btn-lg btn-light">Balance Pet 알아보기</div>
+
+<br>
+<div id="cancelBtn" style="width: 80%; margin-left: 10%; text-align: center; color: #824027;" class="btn btn-lg btn-light">close</div>
+
+<br>
+
+</footer>
+
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script type="text/javascript">
+
+$.getJSON('../../json/auth/loginUser', (result) => {
+    var member = result.member;
+    var memberNo = member.memberNo;
+    
+    if (member.push) {
+    	$('#pushOnBtn').css('display','none');
+    } else {
+        $('#pushOffBtn').css('display','none');
+    }
+    
+   	$('#pushOnBtn').click(() => {
+   		pushOn(member)
+   	});
+   	$('#pushOffBtn').click(() => {
+   		pushOff(member)
+   	});
+    
+    for (var file of member.files) {
+        if (file.filename == null) {
+            var srcpath = "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/200px-Snoopy_Peanuts.png";
+        } else {
+            var srcpath = "../../download/" + file.filename;
+        }
+        $('#memberPhoto').attr({
+            src: srcpath,
+            alt: "'" + file.filename + "'"
+        });
+        $('#memberInfo').html(
+         		"<br>" +
+        		"<h6>" + member.email + "</h6>" +
+         		"<br>" + 
+         		"<h6>" + member.name + "</h6>" +
+         		"<br>" + 
+        		"<h6>" + member.tel + "</h6>")
+    }
+});
+
+var memberViewModal = $('#memberViewModal');
+var memberViewModalContent = $('#memberViewModal .modal-content');
+$(document).ready(function(){ 
+    $('#memberInfoModify').click(() => {
+		event.preventDefault();
+	    event.stopPropagation();
+        memberViewModalContent.load('../member/memberForm.html', () => {
+        memberViewModal.modal();
+        });
+    });
+});
+
+var petViewModal = $('#myPetListModal');
+var petViewModalContent = $('#myPetListModal .modal-content');
+$(document).ready(function(){ 
+    $('#myPetBtn').click(() => {
+		event.preventDefault();
+	    event.stopPropagation();
+        petViewModalContent.load('../pet/petList.html', () => {
+		petViewModal.modal();
+        });
+    });
+});
+
+$(document).ready(function(){ 
+    $('#cancelBtn').click(() => {
+       document.getElementById("memberViewSection").style.transform = "translateX(200%)";
+    });
+});
+
+function pushOn(member) {
+  $.ajax('../../json/member/updatePush', {
+    data: {
+        push: 'true',
+        no: member.memberNo
+    },
+    dataType: 'json',
+    method: 'POST',
+    success: (result) => {
+      swal('알림을 시작하였습니다.')
+      $('#pushOnBtn').css('display','none');
+      $('#pushOffBtn').css('display','');
+    }
+  });   
+}
+
+function pushOff(member) {
+    $.ajax('../../json/member/updatePush', {
+     data: {
+         push: 'false',
+         no: member.memberNo
+     },
+     dataType: 'json',
+     method: 'POST',
+     success: (result) => {
+       swal('알림을 종료하였습니다.')
+       $('#pushOnBtn').css('display','');
+       $('#pushOffBtn').css('display','none');
+     }
+   });  
+}
+</script>
+
+

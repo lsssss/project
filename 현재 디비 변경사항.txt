@@ -1,0 +1,8 @@
+# mysql º¯°æ
+
+alter table bus change con_inf tel varchar(20);
+alter table bus change menu menu varchar(255);
+
+alter table hp add cl_time datetime not null;
+alter table pet change name p_name varchar(50);
+add brd varchar(50) null;

@@ -1,0 +1,212 @@
+<link rel="stylesheet" href="../../myDesign/pet/pet.css">
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' type="text/css" href='../../css/main.css'>
+<style>
+a,li{
+color: #BD5D38;
+}
+</style>
+<div class="modal-header"  style="padding: 5% 5% 5% 5%; text-align: center">
+    <h3 style="font-family:contsfont-kor;">
+        <span class="glyphicon glyphicon-lock"></span> 미아 등록
+    </h3>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="w3-content w3-display-container" style="max-width: 90%; height: 70vh; margin-top: 1%;">
+<form id="fileForm" enctype="multipart/form-data">
+
+  <img id="lostPetPhoto" class="mySlides2" style="width: 35rem; height: 35vh; margin-top: 3rem;" src= "http://fitnessw.alltheway.kr/images/main/noimg_1200.png" alt=''>
+  <div class="mySlides3" style="width: 35rem; height: 23vh;">
+  <div class="input-group mb-3" style="width: 40%; float: left; margin-top: 3%; margin-left: 10%;">
+  <p style="color: gray;">
+      <input class="form-control" id="petName" type="text" name="petName" style="width: 14rem;" placeholder="이름을 입력하세요."> 
+      <br>
+      <input class="form-control"  id="breed" type="text" name="breed" style="width: 14rem;" placeholder="품종을 입력하세요."> 
+      <br>
+      <input class="form-control"  id="lostLocation" type="text" name="lostLocation" style="width: 14rem;" onclick="addreSearch()" placeholder="분실 장소를 입력하세요.">
+      <br>
+      분실일 : <input class="form-control"  id='lostDate' type='date' name='lostDate' style="width: 10.2rem;">
+  </p>
+  </div>
+  <div style="width: 37%; float: left; margin-top: 3%; margin-left: 10%;">
+  <p style=" margin-left: -1rem;">
+      <input class="form-control"  id='character' type='text' name='character' style="width: 14rem;" placeholder="특징을 입력하세요.">
+      <br>
+      알람 전송 : <input id='pushAlert' type="checkbox" name='pushAlert' style="width: 1rem;">
+      <input class="form-control"  id='contents' type='text' name='contents' style="width: 14rem;" placeholder="기타 알릴 사항을 입력하세요.">
+      <br>
+      <input class="form-control"  id='reward' type='text' name='reward' style="width: 14rem;" placeholder="사례금 입력">
+      <br>
+      <input class="form-control"  id="file" type="file" name="file" style="width: 10rem; color: black;" >
+  </p>
+  </div>
+  </div>
+
+</form>
+</div>
+
+<div style="width: 100%; height: 8vh;">
+<button style="margin: 0 0 0 16.5rem;    width: 7em;font-size: 17px;" id="addBtn2" type="button" class='btn btn-primary btn-sm'>등록</button>
+</div>
+
+<script src='../../node_modules/jquery/dist/jquery.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../../node_modules/sweetalert/dist/sweetalert.min.js'></script>
+<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+<script type="text/javascript">
+var addBtn2 = $('#addBtn2'),
+    updateBtn = $('#updateBtn'),
+    deleteBtn = $('#deleteBtn'),
+    lostNoItem = $('#lostNo'),
+    petNameItem = $('#petName'),
+    breedItem = $('#breed'),
+    lostLocationItem = $('#lostLocation'),
+    lostDateItem = $('#lostDate'),
+    characterItem = $('#character'),
+    rewardItem = $('#reward'),
+    viewCountItem = $('#viewCount'),
+    contentsItem = $('#contents'),
+    attFile = $('#attFile'),
+    fileItem = $('#file'),
+    lostNum = $('#lostNum');
+    viewC = $('#viewC'),
+    logout = $('#logout');
+
+$(function() {
+  $("#file").on('change', function(){
+      readURL(this);
+  });
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+            $('#lostPetPhoto').attr('src', e.target.result);
+    }
+
+      reader.readAsDataURL(input.files[0]);
+    } 
+}
+var index = location.href.indexOf('?');
+if (index != -1) {
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+
+    $('.my-new').css('display', 'none');
+    $(function load() {
+        $.ajax('../../json/lost/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+            	console.log(result);
+            	$('#lostNum').html("<input class='form-control' readonly id='lostNo' type='number' name='lostNo' value='" + result.data.lostNo + "'>");
+            	lostNoItem.val(result.data.lostNo);
+            	$('#viewC').html("<input class='form-control' readonly id='viewCount' type='number' name='viewCount' value='" + result.data.viewCount + "'>");
+            	viewCountItem.val(result.data.viewCount);
+            	petNameItem.val(result.data.petName);
+            	breedItem.val(result.data.breed);
+            	lostLocationItem.val(result.data.lostLocation);
+            	lostDateItem.val(result.data.lostDate);
+            	characterItem.val(result.data.character);
+            	rewardItem.val(result.data.reward);
+            	contentsItem.val(result.data.contents);
+            	for (var file of result.data.files) {
+            		$('#attFile').html("<a href='../../download/" + file.filename + "'>" + file.filename + "</a>")
+            	}
+            	
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+    
+} else {
+    $('.my-view').css('display', 'none');
+}
+
+addBtn2.click(() => {
+    var formData = new FormData($("#fileForm")[0]);
+//      console.log(formData.get('petName'))
+    $.ajax('../../json/lost/add', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+         	location.reload();
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            swal("등록 실패!", "정보를 확인해보세요!", "error");
+        }
+    });
+});
+
+function addreSearch() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var fullAddr = ''; // 최종 주소 변수
+            var extraAddr = ''; // 조합형 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                fullAddr = data.roadAddress;
+
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                fullAddr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+            if(data.userSelectedType === 'R'){
+                //법정동명이 있을 경우 추가한다.
+                if(data.bname !== ''){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있을 경우 추가한다.
+                if(data.buildingName !== ''){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('lostLocation').value = fullAddr;
+
+        }
+    }).open();
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

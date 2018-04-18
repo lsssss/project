@@ -1,0 +1,301 @@
+<div class="modal-header"  style="padding: 5% 5% 5% 5%; background-color: #DCDCDC;">
+    <h4 style="color: black;">
+        <span class="glyphicon glyphicon-lock"></span> 회원 상세정보
+    </h4>
+    <button type="button" class="close" data-dismiss="modal" style="background-color: #DCDCDC; color: black;">&times;</button>
+</div>
+
+<div class="modal-body" style="padding: 1%; 10%; 5%;">
+<div class='container'>
+
+<form id="fileForm" enctype="multipart/form-data">
+
+<div class='form-group row' id="memberNoDiv">
+<label for='memberNo' class='col-sm-3 col-form-label'>번호</label>
+<div id="memberNo" class='col-sm-7'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='name' class='col-sm-3 col-form-label'>이름</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='name' type='text' name='name'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='nicname' class='col-sm-3 col-form-label'>별명</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='nicname' type='text' name='nicname'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label id="memberTypeLabel" for='memberType' class='col-sm-3 col-form-label'>회원유형</label>
+<div id="memberTypeView" class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='memberType' type='text' name='memberType'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='email' class='col-sm-3 col-form-label'>이메일</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='email' type='text' name='email'>
+</div>
+</div>
+
+<div class='form-group row my-modify'>
+<label for='password' class='col-sm-3 col-form-label'>암호</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='password' type='password' name='password' placeholder="변경할 암호를 입력하세요.">
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='tel' class='col-sm-3 col-form-label'>전화번호</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='tel' type='text' name='tel'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label id="pushLabel" for='push' class='col-sm-3 col-form-label'>알람수신여부</label>
+<div id="pushView" class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='push' type='text' name='push'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='postalNo' class='col-sm-3 col-form-label'>우편번호</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='postalNo' onclick="addreSearch()" type='text' name='postalNo'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='primaryAddress' class='col-sm-3 col-form-label'>기본주소</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='primaryAddress' type='text' name='primaryAddress'>
+</div>
+</div>
+
+<div class='form-group row'>
+<label for='detailAddress' class='col-sm-3 col-form-label'>상세주소</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='detailAddress' type='text' name='detailAddress'>
+</div>
+</div>
+
+<div class='form-group row my-view'>
+<label for='createDate' class='col-sm-3 col-form-label'>가입일</label>
+<div class='col-sm-7' style="padding-right: 5%;">
+<input class='form-control' id='createDate' type="date" name="createDate">
+</div>
+</div>
+
+<div class='form-group row my-modify'>
+<label for='file1' class='col-sm-3 col-form-label'>사진</label>
+<div class='col-sm-7' style="display: inline-block; margin-bottom: 15px; margin-left: 5px;">
+<input type="file" class="form-control-file" id="file" name="file">
+</div>
+</div>
+  
+<div class='form-group row my-modify my-new'>
+<label class='col-sm-3 col-form-label'>첨부파일</label>
+<div id="attFile" class='col-sm-7' style="display: inline-block;">
+<br>
+</div>
+</div>
+
+</form>
+        
+</div>
+</div>
+
+<div class="modal-footer">
+<button id="memberUpdateBtn" type="button" class="btn btn-primary btn-sm my-view">정보수정</button>
+<button id="memberModifyBtn" type="button" class="btn btn-primary btn-sm my-modify">변경</button>
+<button id="goBackBtn" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancel</button>
+</div>
+<script src='/node_modules/jquery/dist/jquery.js'></script>
+<script src='/node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<script>
+var memberNoItem = $('#memberNo'),
+    nameItem = $('#name'),
+    nicnameItem = $('#nicname'),
+    memberTypeItem = $('#memberType'),
+    emailItem = $('#email'),
+    passwordItem = $('#password'),
+    telItem = $('#tel'),
+    pushItem = $('#push'),
+    postalNoItem = $('#postalNo'),
+    primaryAddressItem = $('#primaryAddress'),
+    detailAddressItem = $('#detailAddress'),
+    createDateItem = $('#createDate'),
+    memberNo = "",    
+    attFile = $('#attFile'),
+    memberUpdateBtn = $('#memberUpdateBtn'),
+    memberModifyBtn = $('#memberModifyBtn'),
+    goBackBtn = $('#goBackBtn');
+
+load();
+
+function load() {
+	$('#memberNoDiv').css('display', 'none');
+	$('.my-modify').css('display', 'none');
+	$('.my-new').css('display', 'none');
+	$.getJSON('../../json/auth/loginUser', (result) => {
+        $.ajax('../../json/member/' + result.member.memberNo, {
+            dataType: 'json',
+            success: (result) => {
+                memberNoItem.html("<input class='form-control' readonly id='memberNo' type='number' name='memberNo' value='" + result.member.memberNo + "'>")
+                nameItem.attr('readonly', 'readonly');
+                nameItem.val(result.member.name);
+                nicnameItem.attr('readonly', 'readonly');
+                nicnameItem.val(result.member.nicname);
+                memberTypeItem.attr('readonly', 'readonly');
+                memberTypeItem.val(result.member.memberType);
+                emailItem.attr('readonly', 'readonly');
+                emailItem.val(result.member.email);
+                telItem.attr('readonly', 'readonly');
+                telItem.val(result.member.tel);
+                pushItem.attr('readonly', 'readonly');
+                pushItem.val(result.member.push);
+                postalNoItem.attr('readonly', 'readonly');
+                postalNoItem.val(result.member.postalNo);
+                primaryAddressItem.attr('readonly', 'readonly');
+                primaryAddressItem.val(result.member.primaryAddress);
+                detailAddressItem.attr('readonly', 'readonly');
+                detailAddressItem.val(result.member.detailAddress);
+                createDateItem.attr('readonly', 'readonly');
+                createDateItem.val(result.member.createDate);
+                for (var file of result.member.files) {
+                    $('#attFile').html("<a href='../../download/" + file.filename + "'>" + file.filename + "</a>")
+                };
+            },
+            error: () => {
+                swal("실행 오류!", "로그인 정보를 확인해보세요!", "error");
+            }
+        });
+    });
+    
+}
+
+memberUpdateBtn.click(() => {
+	$('.my-view').css('display', 'none');
+	$('.my-modify').css('display', '');
+	$('#memberTypeView').remove();
+	$('#pushView').remove();
+	$('#memberViewModal .modal-content').css('height', '90vh');
+	
+	$(document).ready(() => {
+	     $('#memberTypeLabel').after(
+	    		 "<div class='selectbox' style='display: inline-block; margin-bottom: 1%;'>" + 
+                 "<select style='margin-left: 5%; width: 18.4rem;' class='grouped_select optional form-control' id='memberType' name='memberType'>" + 
+                 "<option value='선택하세요'>선택하세요</option>" + 
+                 "<option value='일반유저'>일반유저</option>" + 
+                 "<option value='사업자회원'>사업자회원</option>" + 
+                 "<option value='병원회원'>병원회원</option>" + 
+                 "</select>" + 
+                 "</div>"
+	     );
+	     
+	     $('#pushLabel').after(
+	    		 "<div id='pushView' class='col-sm-7' style='display: inline-block; margin-left: 3%;'>" + 
+                 "<input id='pushModify1' type='radio' name='push' value='true' />예" + 
+                 "<input id='pushModify2' type='radio' name='push' value='false' checked='checked'/>아니오" + 
+                 "</div>"
+	     );
+	});
+	     
+	$(document).ready(() => {
+	nameItem.removeAttr('readonly');
+	nicnameItem.removeAttr('readonly');
+	memberTypeItem.removeAttr('readonly');
+	emailItem.removeAttr('readonly');
+	telItem.removeAttr('readonly');
+	pushItem.removeAttr('readonly');
+	postalNoItem.removeAttr('readonly');
+	primaryAddressItem.removeAttr('readonly');
+	detailAddressItem.removeAttr('readonly');
+		
+	});
+});
+
+memberModifyBtn.click(() => {
+    var formData = new FormData($("#fileForm")[0]);
+    var pushData = $("input:radio[name=push]:checked").val();
+    
+    if (pushData) {
+        var pushKey = 'pushModify1';
+    } else {
+        var pushKey = 'pushModify2';
+    }
+
+    formData.append(pushKey, pushData); 
+    $.ajax('../../json/member/update', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+	       	setTimeout(() => {  
+	            swal({
+	                  position: 'center',
+	                  type: 'success',
+	                  title: '변경 완료되었습니다.',
+	                  showConfirmButton: false,
+	                  timer: 3000
+	            }),
+	            setTimeout(() => {
+	                location.href = "../main/home.html"
+	            }, 3000);
+	         }, 0);
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+        	swal("변경 실패!", "변경할 정보를 확인해보세요!", "error");
+        }
+    });
+});
+
+function addreSearch() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var fullAddr = ''; // 최종 주소 변수
+            var extraAddr = ''; // 조합형 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                fullAddr = data.roadAddress;
+
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                fullAddr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+            if(data.userSelectedType === 'R'){
+                //법정동명이 있을 경우 추가한다.
+                if(data.bname !== ''){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있을 경우 추가한다.
+                if(data.buildingName !== ''){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postalNo').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('primaryAddress').value = fullAddr;
+
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById('detailAddress').focus();
+        }
+    }).open();
+}
+
+</script>

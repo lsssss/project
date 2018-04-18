@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Filter Image View Using jQuery| Webstuffshare.com</title>
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="demo.css" />
+		<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+		<script type="text/javascript">
+			
+			$(document).ready(function() {
+				
+				$('.menu li a').click(function() {
+					
+					
+					$('.menu li').removeClass('selected');
+					$(this).parent('li').addClass('selected');
+					
+					thisItem 	= $(this).attr('rel');
+					
+					if(thisItem != "all") {
+					
+						$('.item li[rel='+thisItem+']').stop()
+																.animate({'width' : '110px', 
+																			 'opacity' : 1, 
+																			 'marginRight' : '.5em', 
+																			 'marginLeft' : '.5em'
+																			});
+																			
+						$('.item li[rel!='+thisItem+']').stop()
+																.animate({'width' : 0, 
+																			 'opacity' : 0,
+																			 'marginRight' : 0, 
+																			 'marginLeft' : 0
+																			});
+					} else {
+						
+						$('.item li').stop()
+										.animate({'opacity' : 1, 
+													 'width' : '110px', 
+													 'marginRight' : '.5em', 
+													 'marginLeft' : '.5em'
+													});
+					}
+				})
+				
+				$('.item li img').animate({'opacity' : 0.5}).hover(function() {
+					$(this).animate({'opacity' : 1});
+				}, function() {
+					$(this).animate({'opacity' : 0.5});
+				});
+				
+			});
+			
+		</script>
+</head>
+<body>
+<div id="container">
+	<span class="title">Filter Image View Using jQuery</span>
+	
+	<ul class="menu">
+		<li class="selected"><a href="#" rel="all">All Tutorial</a></li>
+		<li><a href="#" rel="jquery">jQuery Tutorial</a></li>
+		<li><a href="#" rel="css">CSS Tutorial</a></li>
+		<li><a href="#" rel="psd">Free PSD</a></li>
+	</ul>
+	
+	<ul class="item">
+		<li rel="jquery"><a href="http://www.htmldrive.net/items/show/223/Nice-Menu-CSS-Animation-jQuery-Animate.html"><img src="images/button.jpg" /></a></li>
+		<li rel="jquery"><a href="http://www.htmldrive.net/items/show/180/jQuery-Flipping-Menu-Tutorial-using-backgroundPosition-Plugin.html"><img src="images/codesnippet.jpg" /></a></li>
+		<li rel="css"><a href="http://www.htmldrive.net/items/show/197/CSS3-Styled-jQuery-Dropdown.html"><img src="images/css.jpg" /></a></li>
+		<li rel="css"><a href="http://www.htmldrive.net/items/show/192/Rotated-navigation-CSS3.html"><img src="images/css2.jpg" /></a></li>
+		<li rel="psd"><a href="http://www.htmldrive.net/items/show/164/iPhone-Style-Radio-and-Checkbox-Switches-using-jQuery-and-CSS.html"><img src="images/psd.jpg" /></a></li>
+		<li rel="jquery"><a href="http://www.htmldrive.net/items/show/15/Html5-canvas-loading-animation-effect.html"><img src="images/groovershark.jpg" /></a></li>
+		<li rel="css"><a href="http://www.htmldrive.net/items/show/222/Stylize-Input-Element-Using-CSS3.html"><img src="images/stylize.jpg" /></a></li>
+		<li rel="psd"><a href="http://www.htmldrive.net/items/show/55/Neon-Text-Effect-With-jQuery-CSS.html"><img src="images/psd2.jpg" /></a></li>
+	</ul>
+	
+	<div class="cleaner"></div>
+	<span class="title">More script and css style
+: <a href="http://www.htmldrive.net/" title="HTML DRIVE - Free DHMTL Scripts,Jquery plugins,Javascript,CSS,CSS3,Html5 Library">www.htmldrive.net </a></span>
+</div>
+</body>

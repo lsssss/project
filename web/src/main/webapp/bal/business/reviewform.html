@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>업체등록</title>
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>  
+<link rel='stylesheet' href='../../css/common.css'>
+</head>
+<body>
+<div class='container'>
+
+<header></header>
+
+    <h1>리뷰 등록</h1>
+<form id='rv_frm' method="post" enctype="multipart/form-data">
+
+<div class='form-group row my-view'>
+<label for='reviewNo' class='col-sm-2 col-form-label'>리뷰번호</label>
+<div id="rnodiv" class='col-sm-10'></div>
+</div> 
+
+<div class='form-group row my-mo'>
+<label for='title' class='col-sm-2 col-form-label'>제목</label>
+<div class='col-sm-10'>
+<input class='form-control' id='title' type='text' name='title' >
+</div>
+</div>
+
+<div class='form-group row my-mo'>
+<label for='content' class='col-sm-2 col-form-label'>내용</label>
+<div class='col-sm-10'>
+<input class='form-control' id='content' type='text' name='content' >
+</div>
+</div> 
+
+<div class='form-group row my-view'>
+<label for='filename' class='col-sm-2 col-form-label'>사진</label>
+<div id=filediv class='col-sm-10'>
+</div>
+</div>
+
+<div class='form-group row my-mo'>
+<div class='col-sm-10'>
+<input type='file' class='form-control-file' id='filename' name='file'>
+</div>
+</div>
+
+
+<div class='form-group row'>
+<div class='col-sm-10'>
+<button id="addBtn" type="button" class='btn btn-primary btn-sm my-new'>추가</button>
+<button id="modifyBtn" type="button" class='btn btn-primary btn-sm my-view'>수정</button>
+<button id="updateBtn" type="button" class='btn btn-primary btn-sm my-view'>변경</button>
+<button id="deleteBtn" type="button" class='btn btn-primary btn-sm my-view'>삭제</button>
+</div>
+</div>
+</form>
+<footer></footer>
+</div>
+
+<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script type="text/javascript">
+var addBtn = $('#addBtn'),
+    updateBtn = $('#updateBtn'),
+    deleteBtn = $('#deleteBtn'),
+    bnameItem = $('#businessName'),
+    rnodItem = $('#rnodiv'),
+    rv_bnoItem = $('#businessNo'),
+    titleItem = $("#title"),
+    filedItem = $('#filediv'),
+    fileItem = $('#filename'),
+    contsItem = $('#content');
+ 
+$('header').load('../../header.html');
+$('footer').load('../../footer.html');
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    var filename;
+    $('.my-new').css('display', 'none');
+    $(() => {
+        $.ajax('../../json/review/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                rnodItem.html("<input class='form-control' readonly id='reviewNo' " + 
+                        "name='reviewNo' value='" + result.data.reviewNo + "'> ");
+                titleItem.val(result.data.title);
+                contsItem.val(result.data.content);
+                for (var file of result.data.files){
+                    filedItem.html( "<img src='../../download/" + file.filename + "' alt=" + file.filename + " width='50px' height='50px'>")
+                    console.log(file.filename)
+                    }
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+    
+} else {
+    $('.my-view').css('display', 'none');
+}
+
+addBtn.click(() => {
+    var formData = new FormData($("#rv_frm")[0]);
+     $.ajax('../../json/review/add', {
+         data: formData,
+         dataType: 'json',
+         method: 'POST',
+         processData : false,
+         contentType : false,
+         success: (result) => {
+             console.log(fileItem.val())
+             location.href = "form.html?no=" + result.data.businessNo;
+         },
+         error: (jqXHR, textStatus, errorThrown) => {
+             window.alert('서버 실행 오류2!');
+         }
+     });
+ });
+
+ updateBtn.click(() => {
+     
+     var formData = new FormData($("#rv_frm")[0]);
+     $.ajax('../../json/review/update', {
+         data: formData,
+         dataType: 'json',
+         method: 'POST',
+         processData : false,
+         contentType : false,
+         success: (result) => {
+             location.href = "form.html?no=" + result.data.businessNo;
+         },
+         error: () => {
+             alert(rnoItem.val());
+             window.alert('서버 실행 오류!');
+         }
+     });
+ });
+
+
+deleteBtn.click(function() {
+    $.ajax('../../json/review/delete', {
+        data: {
+            no: arr[1]
+        },
+        dataType: 'json',
+        success: (result) => {
+            location.href = "form.html?no=" + result.data.businessNo;
+        },
+        error: () => {
+            
+            window.alert('서버 실행 오류! delete');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+    

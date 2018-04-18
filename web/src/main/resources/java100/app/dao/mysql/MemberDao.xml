@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.MemberDao">
+
+    <resultMap type="member" id="memberMap">
+        <id column="m_no" property="memberNo"/>
+        <result column="email" property="email"/>
+        <result column="pwd" property="password"/>
+        <result column="nic_name" property="nicname"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="push" property="push"/>
+        <result column="pst_no" property="postalNo"/>
+        <result column="prm_addr" property="primaryAddress"/>
+        <result column="det_addr" property="detailAddress"/>
+        <result column="m_type" property="memberType"/>
+        <result column="cre_date" property="createDate"/>
+        
+        <!-- 첨부파일 정보를 담을 수 있도록 설정한다. -->
+        <collection property="files"  ofType="memberUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="m_no"   property="memberNo"/>
+        </collection>
+        
+    </resultMap>
+
+    <sql id="select1">
+        select 
+            m_no,
+            email,
+            pwd,
+            nic_name,
+            name,
+            tel,
+            push,
+            pst_no,
+            prm_addr,
+            det_addr,
+            m_type,
+            cre_date     
+    </sql>
+
+    <select id="findAll" resultMap="memberMap" parameterType="map">
+         select 
+            m.m_no,
+            m.email,
+            m.pwd,
+            m.nic_name,
+            m.name,
+            m.tel,
+            m.push,
+            m.pst_no,
+            m.prm_addr,
+            m.det_addr,
+            m.m_type,
+            m.cre_date,       
+            d.mda_no,
+            d.file
+        from memb as m 
+        left join m_mda as d 
+             on m.m_no=d.m_no
+
+        <if test="words != null">
+	        <where>
+	            <foreach collection="words" item="word">
+	                or title like '%${word}%'
+	            </foreach>
+	        </where>
+        </if>
+        
+        order by 
+        <choose>
+            <when test="orderColumn == 'name' and align == 'desc'">
+                name desc
+            </when>
+            <when test="orderColumn == 'name' and align == 'asc'">
+                name asc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'desc'">
+                nic_name desc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'asc'">
+                nic_name asc
+            </when>
+            <when test="orderColumn == 'email' and align == 'desc'">
+                email desc
+            </when>
+            <when test="orderColumn == 'email' and align == 'asc'">
+                email asc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'desc'">
+                cre_date desc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'asc'">
+                cre_date asc
+            </when>
+            <when test="orderColumn == 'm_type' and align == 'desc'">
+                m_type desc
+            </when>
+            <when test="orderColumn == 'm_type' and align == 'asc'">
+                m_type asc
+            </when>
+            <otherwise>
+                m_no asc
+            </otherwise>
+        </choose>
+        limit #{startIndex}, #{size}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from memb
+    </select>
+    
+    <insert id="insert" parameterType="member"
+        useGeneratedKeys="true" keyColumn="m_no" keyProperty="memberNo">
+        insert into memb(email,pwd,nic_name,name,tel,push,pst_no,prm_addr,det_addr,m_type,cre_date)
+        values(#{email},password('test'),#{nicname},#{name},#{tel},#{push},#{postalNo},#{primaryAddress},#{detailAddress},#{memberType},now())
+    </insert>
+
+    <select id="findByNo" resultMap="memberMap" parameterType="int">
+        select 
+		    m.m_no,
+		    m.email,
+		    m.pwd,
+		    m.nic_name,
+		    m.name,
+		    m.tel,
+		    m.push,
+		    m.pst_no,
+		    m.prm_addr,
+		    m.det_addr,
+		    m.m_type,
+		    m.cre_date,	    
+		    d.mda_no,
+		    d.file
+		from 
+		    memb as m 
+		    left join m_mda as d on m.m_no=d.m_no
+        where m.m_no=#{value}
+    </select>
+        
+    <select id="findByEmailAndPassword" 
+            resultMap="memberMap" parameterType="map">
+        <include refid="select1"/>
+        from memb
+        where email=#{email} and pwd=password('test')
+    </select>
+        
+    <select id="findByEmail" resultMap="memberMap" parameterType="String">
+        <include refid="select1"/>
+        from memb
+        where email=#{email}
+    </select>
+    
+    <update id="update" parameterType="member">
+        update memb set
+            name=#{name}, 
+            nic_name=#{nicname}, 
+            email=#{email}, 
+            pwd=password('test'),
+            tel=#{tel}, 
+            push=#{push},
+            pst_no=#{postalNo}, 
+            prm_addr=#{primaryAddress}, 
+            det_addr=#{detailAddress}, 
+            m_type=#{memberType}
+        where m_no=#{memberNo}
+    </update>
+    
+    <update id="updatePush" parameterType="map">
+        update memb set
+            push=#{push}
+        where m_no=#{no}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from memb
+        where m_no=#{value}
+    </delete>
+</mapper>  
+
+
+
+
+
+
+
+
+

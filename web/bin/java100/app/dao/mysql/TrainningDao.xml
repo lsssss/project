@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.TrainningDao">
+
+    <resultMap type="trainning" id="trainningMap">
+        <id column="t_no" property="trainningNo"/>
+        <result column="conts" property="contents"/>
+        <result column="vwcnt" property="viewCount"/>
+        <result column="rdt" property="registrationDate"/>
+        <result column="m_no" property="memberNo"/>
+        <result column="title" property="title"/>
+         
+         <!-- 게시글 작성자 정보를 담을 수 있도록 설정한다 -->
+         <association property="member" javaType="member">
+         	<id column="m_no" property="memberNo"/>
+         	<id column="nic_name" property="nicname"/>
+         </association>
+ 
+         
+         
+        <!-- 첨부파일 정보를 담을 수 있도록 설정한다. -->
+        <collection property="files"  ofType="trainningUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="t_no"   property="trainningNo"/>
+        </collection>
+        
+    </resultMap>
+
+
+    <select id="findAll" resultMap="trainningMap" parameterType="map">
+          select 
+            t.t_no,
+            t.title,
+            t.conts,
+            t.vwcnt,
+            t.rdt,
+            tm.file,
+            tm.t_no,
+            m.m_no,
+            m.nic_name
+        	from 
+        	trainning as t join memb as m on t.m_no=m.m_no
+        left join t_mda as tm 
+             on t.t_no=tm.t_no 
+
+        <if test="words != null">
+	        <where>
+	            <foreach collection="words" item="word">
+	                or title like '%${word}%'
+	            </foreach>
+	        </where>
+        </if>
+        
+        order by vwcnt desc
+     	
+     	
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from trainning
+    </select>
+    
+    <insert id="insert" parameterType="trainning"
+        useGeneratedKeys="true" keyColumn="t_no" keyProperty="trainningNo">
+        insert into trainning(m_no, title, conts, rdt)
+        values(#{member.memberNo}, #{title}, #{contents}, now())
+    </insert>
+
+    <select id="findByNo" resultMap="trainningMap" parameterType="int">
+        select 
+            t.t_no,
+            t.title,
+            t.conts,
+            t.vwcnt,
+            t.rdt,
+            tm.mda_no,
+            tm.file,
+            m.m_no,
+            m.nic_name
+        from 
+            trainning as t join memb as m on t.m_no=m.m_no
+            left join t_mda as tm on t.t_no=tm.t_no
+        where t.t_no=#{value}
+         
+    </select>
+        
+    <!-- <select id="findByEmailAndPassword" 
+            resultMap="memberMap" parameterType="map">
+        <include refid="select1"/>
+        from memb
+        where email=#{email} and pwd=password(#{password})
+    </select>
+    -->
+    
+     <update id="updateViewCount" parameterType="int">
+        update trainning set 
+            vwcnt=vwcnt + 1
+        where t_no=#{value}
+    </update> 
+    
+    <select id="countLikes" resultType="int">
+    	select count(*) from likes
+    </select>
+    
+    <insert id="like" parameterType="trainning">
+    	insert into likes(m_no, t_no, liked) values(#{memberNo}, #{trainningNo}, 1)
+    </insert>
+    
+    <delete id="dislike" parameterType="trainning">
+    	delete from likes where m_no=#{memberNo} and t_no=#{trainningNo}
+    </delete>
+    
+    <select id="checkLike" parameterType="trainning" resultType="int">
+    	select liked from likes where m_no=#{memberNo} and t_no=#{trainningNo}
+    	<if test="liked == null">
+    	liked=0 
+    	</if>
+    	
+    </select>
+        
+    <!-- <select id="findByLikes" resultMap="trainningMap" parameterType="trainning">
+    select 
+		    l.l_no,
+		    m.m_no,
+		    t.t_no,
+		    l.like
+		    
+	from 
+			likes as l  join memb as m on l.m_no=m.m_no
+						join trainning as t on l.t_no=t.t_no
+	where 
+			t.t_no=#{t_no} 
+	  and 
+	  		m.m_no=#{m_no}
+	 </select> 
+	 
+	 <select id="findByLikeCount" resultMap="trainningMap" parameterType="trainning">
+    select 
+		    count(l.like) as likeCount
+		    
+	from 
+			likes as l  join memb as m on l.m_no=m.m_no
+						join trainning as t on l.t_no=t.t_no
+	where 
+			t.t_no=#{t_no} 	 
+	 </select>  -->
+
+    
+    <update id="update" parameterType="trainning">
+        update trainning set
+            title=#{title}, 
+            conts=#{contents},
+            vwcnt=#{viewCount}
+        where t_no=#{trainningNo}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from trainning
+        where t_no=#{value}
+    </delete> 
+</mapper>  
+
+
+
+
+
+
+
+
+

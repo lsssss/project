@@ -1,0 +1,178 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../reviewDesign/css/style.css">
+    
+<div class='container_Review'>
+  <div class='container_ui'>
+    <div class='container_ui__heading'>
+      <h1 style="text-align: center;">
+        Review
+      </h1>
+    </div>
+  <div id=review_list_div></div>
+  <label>
+   <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a id="prevBtn" class="page-link" tabindex="-1">이전</a></li>
+            
+        <li class="page-item">
+            <a id="currBtn" class="page-link" href="#">1</a></li>
+        
+        <li class="page-item">
+            <a id="nextBtn" class="page-link" tabindex="0">다음</a></li>
+        </ul>
+    </nav>
+  </label>
+  </div>
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="../../reviewDesign/js/index.js"></script>
+<script src='../../node_modules/handlebars/dist/handlebars.min.js'></script>
+<script src="../../js/jquery.scrollfollow.js"></script>
+<script id="template" type="text/x-handlebars-template">
+{{#each list}}
+{{#shared b_number}}
+
+    {{#if @first}}
+                <input id='message-{{@key}}' type='checkbox'>
+            {{else if @last}}
+                <input id='message-{{@key}}' type='checkbox'>
+            {{else}}
+                <input id='message-{{@key}}' type='checkbox'>
+    {{/if}}
+
+    {{#if @first}}
+                <label for='message-{{@key}}' href='#move'>
+            {{else if @last}}
+                <label for='message-{{@key}}' href='#move'>
+            {{else}}
+                <label for='message-{{@key}}' href='#move'>
+     {{/if}}
+      <div class='container_ui__item'>
+        <div class='face'>
+          {{#each files}}
+          <img src="../../download/{{filename}}" alt={{filename}} >
+          {{/each}}
+            <div class='color_bar one'>
+            <p>Now Reading</p>
+            <span>Read</span>
+          </div>
+        </div>
+        <h2>
+          {{title}}
+        </h2>
+        <div class='dot active'></div>
+        <h3>subj: thanks, you are amazing</h3>
+        <h4>Your generous donation saved 3 million puppies...</h4>
+      </div>
+      <div class='container_ui__expand' id='close'>
+        <div class='heading'>
+          <div class='heading_head'></div>
+            {{#if @first}}
+                 <label for='message-{{@key}}'>
+                {{else if @last}}
+                  <label for='message-{{@key}}'>
+                {{else}}
+                 <label for='message-{{@key}}'>
+             {{/if}}
+            x
+          </label>
+        </div>
+
+        <div class='body'>
+          <div class='user'>
+            <div class='face'>
+              {{#each files}}
+              <img src="../../download/{{filename}}" alt={{filename}}>
+              {{/each}}
+            </div>
+            <div class='details'>
+              <h2>aspca</h2>
+              <h3>subj: thanks you are amazing</h3>
+            </div>
+          </div>
+          <div class='content'>
+            <p><b>Email text</b>
+                </br>{{content}}<br/><br/>
+                조회수 : {{viewCount}}<br/>
+                별점   : {{starPoint}}<br/>
+                등록일 : {{createDate}}<br/>
+                b_number : {{b_number}}
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </label>
+{{/shared}}
+{{/each}}
+
+</script>
+<script type="text/javascript"> // 리뷰 리스트 뽑기
+var words = $('#words'),
+prevBtn = $('#prevBtn'),
+currBtn = $('#currBtn'),
+nextBtn = $('#nextBtn'),
+tbody = $('#review_list_div'),
+currPageNo = 1,
+thisB_number = 9999;
+templateSrc = $('#template').html(),
+templateEngine = Handlebars.compile(templateSrc);
+
+Handlebars.registerHelper("shared", function(b_number, options) {
+     if(thisB_number == b_number){
+         return options.fn(this);
+    } 
+});
+
+load(1);
+
+prevBtn.click(() => {
+    load(currPageNo - 1)
+});
+
+nextBtn.click(() => {
+    load(currPageNo + 1)    
+});
+
+function load(pageNo, options) {
+
+if (options == undefined) options = {};
+options.pn = pageNo;
+
+$.ajax('../../json/review/list', {
+    /*method: 'GET',*/
+    data: options,
+    dataType: 'json',  
+    success: (result) => {
+        console.log("해당 비지 넘버!! : " + result.b_number);
+        thisB_number = result.b_number;
+        for(data of result.list){
+        console.log("리뷰(비지니스) 넘버!! : " + data.b_number);
+            /* if(b_number == result.list.businessNo) */
+                tbody.html(templateEngine(result));
+        }
+        
+            currPageNo = result.pageNo;
+            currBtn.html(currPageNo);
+            
+            if (result.pageNo == 1) {
+                $(prevBtn.parent()).addClass("disabled");
+            } else {
+                $(prevBtn.parent()).removeClass("disabled");
+            }
+            
+            if (result.lastPageNo == result.pageNo) {
+                $(nextBtn.parent()).addClass("disabled");
+            } else {
+                $(nextBtn.parent()).removeClass("disabled");
+            }
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+           
+        }
+    });
+}
+</script>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>병원등록</title>
+<link rel='stylesheet'
+	href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
+<link rel='stylesheet' href='../../css/main.css'>
+
+</head>
+<body>
+
+<div class="modal-header" style="padding: 30px 50px;">
+	<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+</div>
+
+<div class="modal-body" style="padding: 13px 50px;">
+
+	<div class='container' style="font-family:contsfont-kor; font-weight: bold">
+
+
+		<h1 style="margin-bottom: 30px; font-family:contsfont-kor; font-size: 70px;">신규병원등록</h1>
+		<form id='addForm' method="post" enctype="multipart/form-data">
+
+		 	<div class='form-group row my-view'>
+				<label for='hospitalNo' class='col-sm-2 col-form-label '>병원번호</label>
+				<div  class='col-sm-10' id='hospitalNoDiv'>
+				
+				</div>
+			</div> 
+
+			<div class='form-group row'>
+				<label for='hospitalName' class='col-sm-2 col-form-label'>병원명</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='hospitalName' type='text' name='hospitalName'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='openTime' class='col-sm-2 col-form-label'>오픈시간</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='openTime' type='time' name='openTime'
+						value='08:00:00'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='closeTime' class='col-sm-2 col-form-label'>마감시간</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='closeTime' type='time' name='closeTime'
+						value='20:00:00'>
+				</div>
+			</div>
+
+
+			<div class='form-group row'>
+				<label for='medicalSubject' class='col-sm-2 col-form-label'>진료목록</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='medicalSubject' type='text' name='medicalSubject'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='medicalAnimal' class='col-sm-2 col-form-label'>진료동물</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='medicalAnimal' type='text' name='medicalAnimal'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='hospitalTel' class='col-sm-2 col-form-label'>병원전화번호</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='hospitalTel' type='text' name='hospitalTel'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='medicalStaff' class='col-sm-2 col-form-label'>의료진</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='medicalStaff' type='text' name='medicalStaff'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='contents' class='col-sm-2 col-form-label'>내용</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='contents' type='text' name='contents'>
+				</div>
+			</div>
+			
+			
+			
+
+			<div class='form-group row'>
+				<label for='postalNo' class='col-sm-2 col-form-label'>우편번호</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='postalNo' type='number' name='postalNo'>
+					<input type="button" onclick="addrsearch()" value="우편번호 찾기"><br>
+				</div>
+			</div>
+
+
+			<div class='form-group row'>
+				<label for='primaryAddress' class='col-sm-2 col-form-label'>기본주소</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='primaryAddress' type='text' name='primaryAddress'>
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='detailAddress' class='col-sm-2 col-form-label'>상세주소</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='detailAddress' type='text' name='detailAddress'>
+				</div>
+			</div>
+
+
+		 	<div class='form-group row my-view'>
+				<label for='hospital.member.memberNo'
+					class='col-sm-2 col-form-label'>병원회원번호</label>
+				<div id='memberNo' class='col-sm-10'>
+				</div>
+
+			</div>
+			 
+			<div class='form-group row my-view'>
+				<label class='col-sm-2 col-form-label'>사진</label>
+				<div id="fileView" class='col-sm-10'></div>
+			</div>
+
+
+			<div class='form-group row'>
+				<label for='file1' class='col-sm-2 col-form-label'>파일추가</label>
+				<div id="fileView" class='col-sm-10'>
+					<input type="file" class="form-control-file" id="file1" name="file">
+				</div>
+			</div>
+
+					</form>
+	</div>
+</div>
+
+
+<div class="modal-footer">
+	<div style="margin: auto;">
+		<button id="addBtn" type="button"
+			class='btn btn-primary btn-sm my-new'>추가</button>
+		<button id="backBtn" type="button"
+			class='btn btn-primary btn-sm my-new' onclick="history.back();">돌아가기</button>
+		<button id="updateBtn" type="button"
+			class='btn btn-primary btn-sm my-view'>변경</button>
+		<button id="deleteBtn" type="button"
+			class='btn btn-primary btn-sm my-view'>삭제</button>
+	</div>
+</div>
+
+	<script src='../../node_modules/jquery/dist/jquery.js'></script>
+	<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+	<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script>
+var addBtn=$('#addBtn'),
+	updateBtn = $('#updateBtn'),
+	deleteBtn = $('#deleteBtn'),
+	noItem = $('#hospitalNoDiv'),
+	nameItem = $('#hospitalName'),
+	openTimeItem = $('#openTime'),
+	closeTimeItem = $('#closeTime'),
+	medicalSubjectItem = $('#medicalSubject'),
+	medicalAnimalItem = $('#medicalAnimal'),
+	hospitalTelItem = $('#hospitalTel'),
+	medicalStaffItem = $('#medicalStaff'),
+	contentsItem = $('#contents'),
+	postalNoItem = $('#postalNo'),
+	primaryAddressItem = $('#primaryAddress'),
+	detailAddressItem = $('#detailAddress'),
+	memberNoItem = $('#memberNo'),	
+	viewFileItem = $('#fileView'),
+	addFileItem = $('#file1');
+	
+
+$('header').load('../../header.html');
+$('footer').load('../../footer.html');
+
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $('.my-new').css('display', 'none');
+    $(() => {
+        $.ajax('../../json/hospital/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                noItem.html("<input class='form-control' readonly id='hospitalNo' " + 
+                        "name='hospitalNo' value='" + result.data.hospitalNo + "'> ");
+                nameItem.val(result.data.hospitalName);
+                openTimeItem.val(result.data.openTime);
+                closeTimeItem.val(result.data.closeTime);
+                medicalSubjectItem.val(result.data.medicalSubject);
+                medicalStaffItem.val(result.data.medicalStaff);
+                medicalAnimalItem.val(result.data.medicalAnimal);
+                hospitalTelItem.val(result.data.hospitalTel);
+                contentsItem.val(result.data.contents);
+                postalNoItem.val(result.data.postalNo);
+                primaryAddressItem.val(result.data.primaryAddress);
+                detailAddressItem.val(result.data.detailAddress);
+                memberNoItem.html("<input class='form-control' readonly id='hospital.member.memberNo' " + 
+                        "name='hospital.member.memberNo' value='" + result.data.member.memberNo + "'> ");
+                
+                for (var file of result.data.files) {
+                	viewFileItem.html("<img src='../../download/" + file.filename + "' alt=" + file.filename + " width='50px' height='50px'>")
+                }
+             
+					
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+    
+} else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
+}
+
+
+addBtn.click(() => {
+	var formData = new FormData($("#addForm")[0]);
+    $.ajax('../../json/hospital/add', {
+    		data: formData,
+    		dataType: 'json',
+    		method: 'POST',
+    		processData: false,
+    		contentType: false,
+    		success: (result) => {
+    			if(result.status=='success'){
+    				location.href = "../main/home.html#care";	
+    			}else{
+    				window.alert('한계정당 하나의 병원만 생성할 수 있습니다');
+    			}
+    			
+    		},
+    		error: () => {
+    			window.alert('서버 실행 오류!');
+    		}
+    });
+});
+
+
+
+
+/* addBtn.click(() => {
+    $.ajax('../../json/hospital/add', {
+        data: {
+            hospitalName: nameItem.val(),
+			openTime: openTimeItem.val(),
+			closeTime: closeTimeItem.val(),
+			medicalSubject: medicalSubjectItem.val(),
+			medicalAnimal: medicalAnimalItem.val(),
+			hospitalTel: hospitalTelItem.val(),
+			contents: contentsItem.val(),
+			postalNo: postalNoItem.val(),
+			primaryAddress: primaryAddressItem.val(),
+			detailAddress: detailAddressItem.val(),
+			file1: fileItem.val()
+        },
+        dataType: 'json',
+        method: 'POST',
+        success: (result) => {
+            location.href = "list.html";
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+ */
+ 
+updateBtn.click(() => {
+     var formData = new FormData($("#addForm")[0]);
+     $.ajax('../../json/hospital/update', {
+         data: formData,
+         dataType: 'json',
+         method: 'POST',
+         processData : false,
+         contentType : false,
+         success: (result) => {
+        	   	if(result.status=='success'){
+    				location.href = "../main/home.html#care";	
+    			}else{
+    				window.alert('자신의 병원만 변경 가능합니다');
+    			}
+    		},
+    		error: () => {
+    			window.alert('서버 실행 오류!');
+    		}
+     });
+ });
+ 
+deleteBtn.click(() => {
+    $.ajax('../../json/hospital/delete', {
+        data: {
+            no: $('#hospitalNo').val()
+        },
+        dataType: 'json',
+        success: (result) => {
+        	if(result.status=='success'){
+				location.href = "../main/home.html#care";	
+			}else{
+				window.alert('자신의 병원만 삭제 가능합니다하시나');
+			}
+			
+		},
+		error: () => {
+			window.alert('서버 실행 오류!');
+		}
+    });
+});
+
+
+function addrsearch() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var fullAddr = ''; // 최종 주소 변수
+            var extraAddr = ''; // 조합형 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                fullAddr = data.roadAddress;
+
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                fullAddr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+            if(data.userSelectedType === 'R'){
+                //법정동명이 있을 경우 추가한다.
+                if(data.bname !== ''){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있을 경우 추가한다.
+                if(data.buildingName !== ''){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postalNo').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('primaryAddress').value = fullAddr;
+
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById('detailAddress').focus();
+        }
+    }).open();
+}
+
+
+
+
+	
+</script>
+</body>
+</html>

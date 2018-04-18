@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.trainning2-form {
+	display: block;
+	width: 15%;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.trainning-form {
+	display: block;
+	width: 50%;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	/* border-style: none; */
+	/* border-radius: .25rem; */
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.b {
+	border-bottom: 1px solid gray;
+	padding-bottom: 30px;
+}
+
+.c {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.d {
+	position: absolute;
+	right: 300px;
+}
+
+.f {
+	padding-left: 15px;
+}
+</style>
+<meta charset="UTF-8">
+<title>영상등록</title>
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<link rel='stylesheet' href='../../css/common.css'>
+<link rel='stylesheet' href='../../css/trainning.css'>
+</head>
+<body>
+	<div class='container'>
+	
+	<h1 class='my-new'>영상등록</h1>
+    <h1 class='my-view'>영상 상세정보</h1>
+
+
+		<form id='form' method="post" enctype="multipart/form-data">
+
+			<div class="form-group row ">
+				<div class="col-sm-10">
+					<select id='category' class="btn btn-secondary data-reset"
+						name="category">
+						<option value=0>카테고리</option>
+						<option value=1>훈련정보</option>
+						<option value=2>공유영상</option>
+						<option value=3>기타</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div align="center" id="vi"></div>
+
+			<div class='form-group row'>
+				<label for='file1' class='col-sm-2 col-form-label'>영상</label>
+				<div id="filediv" class='col-sm-10'>
+					<input type="file" class="form-control-file" id="file1" name="file">
+				</div>
+			</div>
+
+			<div class='form-group row'>
+				<label for='title' class='col-sm-2 col-form-label'>제목</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='title' type='text' name='title'>
+				</div>
+			</div>
+
+
+
+
+			<!-- <div class='form-group row'>
+				<label for='registrationDate' class='col-sm-2 col-form-label'>게시일</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='registrationDate' readonly type='text' name='registrationDate'>
+				</div>
+			</div> -->
+
+
+
+
+			<div id='viewno' class='form-group row b'>
+				<span id='view' class='col-sm-2 col-form-label c'>조회수</span>
+				<button style="border: 0; background: transparent" class='d'
+					id='like-btn' type='button'>
+					<img id='likeb' src="../../download/nolike.png" alt='좋아요' />
+					<div id='count' style="display: inline-block"></div>
+				</button>
+			</div>
+
+			<span id=likes>1111</span>
+
+			<div class='form-group row'>
+				<label for='nicname' class='col-sm-2 col-form-label'>닉네임</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='nicname' type='text' name='nicname'>
+				</div>
+			</div>
+			<div class='form-group row f'>
+				<div id='reg'>게시일</div>
+			</div>
+			<div class='form-group row b'>
+				<label for='contents' class='col-sm-2 col-form-label'>내용</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='contents' type='text'
+						name='contents'>
+				</div>
+			</div>
+			<!-- 	<div class='form-group row'>
+			</div>
+			
+			 -->
+			<div id=nodiv1 class='col-sm-10'></div>
+
+
+
+			<div class='form-group row'>
+				<label for='maintextContents' class='col-sm-2 col-form-label'>본문설명</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='maintextContents' type='text'
+						name='maintextContents'>
+				</div>
+			</div>
+
+
+			<!-- <div class='form-group row my-view'>
+				<label for='TrainningNo' class='col-sm-2 col-form-label'>번호</label>  -->
+			<div id=nodiv class='col-sm-10'></div>
+			<!-- <input class='form-control' readonly id='TrainningNo' type='number' 
+       				name='TrainningNo'> -->
+
+
+			<div class='form-group row'>
+				<div class='col-sm-10'>
+					<button id="addBtn" type="button"
+						class='btn btn-primary btn-sm my-new'>추가</button>
+					<button id="updateBtn" type="button"
+						class='btn btn-primary btn-sm my-view'>변경</button>
+					<button id="deleteBtn" type="button"
+						class='btn btn-primary btn-sm my-view'>삭제</button>
+					<!-- <button id='like-btn' type='button'>
+						<i class='fa fa-thumbs-up my-view'></i> 좋아요  0<span>0</span>
+					</button> -->
+
+					<!-- 					<button id="likesBtn" type="button"
+						class='btn btn-primary btn-sm my-view' href="">좋아요</button>
+ -->
+				</div>
+			</div>
+		</form>
+
+		<footer> 비트캠프 자바100기 Balance@2018 </footer>
+	</div>
+
+	<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+	<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+	<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+	<script type="text/javascript">
+	
+var addBtn = $('#addBtn'),
+updateBtn = $('#updateBtn'),
+deleteBtn = $('#deleteBtn'),
+likesBtn = $('#likesBtn'),
+/* t_noItem = $('#trainningNo'), */
+ctgItem = $('#category'),
+titleItem = $('#title'),
+contsItem = $('#contents'),
+m_contsItem = $('#maintextContents'),
+vwcntItem = $('#viewCount'),
+rdtItem = $('#registrationDate'),
+/* likesItem = $('#likes'), */
+nodItem = $('#nodiv'),
+nod1Item = $('#nodiv1'),
+nic_nameItem = $('#nicname'),
+/* vwcnItem = $('#vwcndiv'),
+likesItem = $('#likesdiv'), */
+filedItem = $('#filediv'),
+fileItem = $('#file1'),
+videoItem = $('#file1')
+memberNo = 0;
+
+
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $('.my-new').css('display', 'none');
+    $(() => {
+        $.ajax('../../json/trainning/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+				console.log(result)                
+                nodItem.html("<input class='form-control' type='hidden' id='trainningNo' " + 
+                        "name='trainningNo' value='" + result.data.trainningNo + "'> ");
+                nod1Item.html("<input class='form-control' type='hidden' id='member' " + 
+                        "name='MemberNo' value='" + result.data.memberNo + "'> ");
+                /* t_noItem.val(result.data.trainningNo); */
+                nic_nameItem.val(result.data.member.valueOf().nicname);
+                ctgItem.val(result.data.category);
+                titleItem.val(result.data.title);
+                contsItem.val(result.data.contents);
+                m_contsItem.val(result.data.maintextContents);
+                vwcntItem.val(result.data.viewCount);
+                rdtItem.val(result.data.registrationDate);
+                /* likesItem.val(result.data.likes); */
+                $('#reg').html('게시일 &nbsp; &nbsp; '  + result.data.registrationDate);
+                $('#view').html('조회수 &nbsp; &nbsp; '  + result.data.viewCount);
+                for (var file of result.data.files){
+                $('#vi').html('<video src="../../download/' + file.filename + '" controls="controls"  autoplay loop id="video" width="1000px" height="500px"></video>')
+                /* filedItem.html("<input type='file' class='form-control-file' id='file1' name='file'>" +
+                               "<img src='../../download/" + file.filename + "' alt=" + file.filename + " width='100px' height='100px'>") */
+                /* fileItem.val(file.filename); */
+                
+                }
+                
+			console.log(result.data.member.valueOf().nicname)
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+    
+} else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
+    $('#viewno').hide();
+    nic_nameItem.hide();
+}
+
+
+addBtn.click(() => {
+    var formData = new FormData($('#form')[0]);
+    $.ajax('../../json/trainning/add', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+            location.href = "../main/home.html#cast";
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            
+            window.alert('서버 실행 오류! add');
+        }
+    });
+});
+
+  updateBtn.click(() => {
+      var formData = new FormData($('#form')[0]);
+    $.ajax('../../json/trainning/update', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+            
+             location.href = "../main/home.html#cast"; 
+        },
+        error: () => {
+            window.alert('서버 실행 오류! update');
+        }
+    });
+});
+
+deleteBtn.click(function() {
+    $.ajax('../../json/trainning/delete', {
+        data: {
+            /* trainningNo: t_noItem.val() */
+            no: $('#trainningNo').val()
+        },
+        dataType: 'json',
+        success: (result) => {
+            location.href = "../main/home.html#cast";
+        },
+        error: () => {
+            window.alert('서버 실행 오류! delete');
+        }
+    }); 
+}); 
+
+$('#like-btn').click(() => {
+    console.log('clicked');
+    console.log($('#likeb').attr('src'));
+    if($('#likeb').attr('src') == '../../download/like.png') {
+        $('#likeb').attr('src', '../../download/nolike.png');
+        dislike();
+    }
+    else {
+        $('#likeb').attr('src', '../../download/like.png');
+        like();
+    }
+    
+    
+	
+});
+
+function like() {
+    console.log('like');
+    $.ajax('../../json/trainning/like', {
+        data: {
+            trainningNo: $('#trainningNo').val(),
+            memberNo: memberNo
+        },
+        dataType: 'json',
+        success: (result) => {
+            if(result.status == 'success') {
+                $.getJSON('../../json/trainning/countLike', (result) => {
+                    if(result.status == 'success') {
+                        $('#count').html(result.count);
+                    } else {
+                        $('#count').html('0');
+                    }
+                });
+            } 
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            window.alert('서버 실행 오류! like');
+        }}); 
+}
+
+function dislike() {
+    console.log('dislike');
+    $.ajax('../../json/trainning/dislike', {
+        data: {
+            trainningNo: $('#trainningNo').val(),
+            memberNo: memberNo
+        },
+        dataType: 'json',
+        success: (result) => {
+            if(result.status == 'success') {
+                $.getJSON('../../json/trainning/countLike', (result) => {
+                    if(result.status == 'success') {
+                        $('#count').html(result.count);
+                    } else {
+                        $('#count').html('0');
+                    }
+                });
+            } else {
+                alert('fail-dislike');
+            }
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            
+            window.alert('서버 실행 오류! dislike');
+        }});
+}
+    
+    $.getJSON('../../json/auth/loginUser', (result) => {
+        if (result.status == 'fail') {
+            $('#like-btn').prop("disabled", true);
+        } else {
+            var member = result.member;
+            memberNo = member.memberNo;
+            $('#like-btn').prop("disabled", false);
+        }
+        });
+     
+    $.getJSON('../../json/trainning/checkLike', (result) => {
+        console.log('hhhhhhhhhhhhhhh' + result.status);
+        if(result.status == 'unchecked') {
+            $('#likeb').attr('src', '../../download/nolike.png');
+        } else {
+            $('#likeb').attr('src', '../../download/like.png');
+        }
+    });
+    	$.getJSON('../../json/trainning/countLike', (result) => {
+            if(result.status == 'success') {
+                $('#count').html(result.count);
+            } else {
+                $('#count').html('0');
+            }
+        }); 
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

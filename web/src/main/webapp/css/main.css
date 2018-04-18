@@ -1,0 +1,132 @@
+@charset "UTF-8";
+@font-face{
+   font-family: 'titlefont';
+   src: url(../../fonts/AmaticSC-Bold.ttf) format('truetype');
+}
+@font-face{
+   font-family: 'contsfont-eg';
+   src: url(../../fonts/YummyCupcakes.ttf) format('truetype');
+}
+@font-face{
+   font-family: 'contsfont-kor';
+   src: url(../../fonts/Binggrae.ttf) format('truetype');
+}
+
+h2 {
+	font-family: titlefont;
+    font-size: 60px;
+}
+
+h1 {
+	font-family: titlefont;
+    font-size: 6em;
+}
+p ui li {
+	font-family: contsfont-kor;
+	color: black;
+}
+.menuItem {
+	font-family: titlefont;
+}
+/* home section */
+.bal-my-home {
+    width: 107%;
+    height: 65%;
+    margin-top:8%; 
+    position: absolute;
+    background-color: rgb(244, 236, 225);
+}
+
+.bal-my-section {
+	margin-left: 20%;
+    width: 980px;
+    height: 400vh;
+    position: absolute;
+    z-index:1;
+/*     border: 0.1em solid; */
+}
+.bal-my-table-img{
+	text-align:center; 
+}
+.bal-mb-0 {
+    text-align:center; 
+    line-height:0.9em;
+    font-family: titlefont;
+    font-size: 200px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    overflow: hidden;
+    
+}
+.bal-mb-0-img {
+	text-align:center; 
+	margin-top: 5px;
+    width:300px; 
+    height:300px;
+    margin-bottom:-130px;
+    position: relative;
+}
+.bal-mb-0-b {
+	clear: both;
+    text-align:center; 
+    font-family: contsfont-eg;
+    font-size: 40px;
+}
+/* care section */
+.bal-mb-1{
+	
+}
+.bal-mb-1-img-1 {
+	float: right;
+    width:50px; 
+    height:50px;
+    margin-right:0%;
+    padding-right: 45%
+}
+/* care diagnosis */
+.bal-mb-2 {
+/* 	border: 0.1em solid blue; */
+	height:100vh;
+}
+.bal-mb-2-b {
+/* 	border: 0.1em solid green; */
+	width: 975px;
+	height:30vh;
+	background-color: rgb(244, 236, 225);
+}
+/* pet together */
+.bal-mb-3 {
+/* 	border: 0.1em solid blue; */
+	height:100vh;
+}
+.bal-mb-3-data {
+	/* border: 0.3em solid yellow; */
+	width:314px;
+	height:275px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	position: relative;
+	float:left;
+}
+.btn-primary {
+	background-color: #ff8040;
+	border-color: #ff8040;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #824027;
+    border-color: #824027;
+}
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: #ff8040;
+    border-color: #ff8040;
+}
+.btn-outline-success {
+    color: #ff8040;
+    background-color: transparent;
+    background-image: none;
+    border-color: #ff8040;
+}

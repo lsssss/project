@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java100.app.dao.LostDao">
+    <resultMap type="lost" id="lostMap">
+        <id column="l_no" property="lostNo"/>
+        <result column="p_name" property="petName"/>
+        <result column="brd" property="breed"/>
+        <result column="l_loc" property="lostLocation"/>
+        <result column="l_date" property="lostDate"/>
+        <result column="cha" property="character"/>
+        <result column="rwd" property="reward"/>
+        <result column="vwcnt" property="viewCount"/>
+        <result column="conts" property="contents"/>
+        <result column="pushAlert" property="pushAlert"/>
+        
+        <association property="registrant" javaType="member">
+            <id column="m_no" property="memberNo"/>
+            <result column="tel"   property="tel"/>
+        </association>
+        
+        <collection property="files"  ofType="lostUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="l_no"   property="lostNo"/>
+        </collection>
+        
+    </resultMap>
+
+    <sql id="select1">
+        select 
+            l_no,
+            m_no,
+            p_name,
+            brd,
+            l_loc,
+            l_date,
+            cha,
+            rwd,
+            vwcnt,
+            conts
+    </sql>
+
+    <select id="findAll" resultMap="lostMap" parameterType="map">
+         select 
+            l.l_no,
+            l.m_no,
+            l.p_name,
+            l.brd,
+            l.cha,
+            l.l_date,
+            l.l_loc,
+            l.rwd,
+            l.vwcnt,
+            m.tel,
+            lm.file
+        from lost as l 
+        join memb as m on l.m_no=m.m_no
+        left join lost_mda as lm on l.l_no=lm.l_no
+             <if test="words != null">
+            <where>
+                <foreach collection="words" item="word">
+                    or p_name like '%${word}%'
+                </foreach>
+            </where>
+            </if>
+        
+        order by 
+        <choose>
+            <when test="orderColumn == 'm_no' and align == 'desc'">
+                m_no desc
+            </when>
+            <when test="orderColumn == 'm_no' and align == 'asc'">
+                m_no asc
+            </when>
+            <when test="orderColumn == 'p_name' and align == 'desc'">
+                p_name desc
+            </when>
+            <when test="orderColumn == 'p_name' and align == 'asc'">
+                p_name asc
+            </when>
+            <when test="orderColumn == 'brd' and align == 'desc'">
+                brd desc
+            </when>
+            <when test="orderColumn == 'brd' and align == 'asc'">
+                brd asc
+            </when>
+            <when test="orderColumn == 'cha' and align == 'desc'">
+                cha desc
+            </when>
+            <when test="orderColumn == 'cha' and align == 'asc'">
+                cha asc
+            </when>
+            <when test="orderColumn == 'rwd' and align == 'desc'">
+                rwd desc
+            </when>
+            <when test="orderColumn == 'rwd' and align == 'asc'">
+                rwd asc
+            </when>
+            <when test="orderColumn == 'vwcnt' and align == 'desc'">
+                vwcnt desc
+            </when>
+            <when test="orderColumn == 'vwcnt' and align == 'asc'">
+                vwcnt asc
+            </when>
+            <otherwise>
+                l_no asc
+            </otherwise>
+        </choose>
+        
+        limit #{startIndex}, #{size}
+    </select>
+
+    <select id="findAllList" resultMap="lostMap">
+	     select 
+	        l.l_no,
+	        l.m_no,
+	        l.p_name,
+	        l.brd,
+	        l.cha,
+	        l.rwd,
+	        l.vwcnt,
+	        l.l_loc,
+            l.l_date,
+	        l.vwcnt,
+	        l.pushAlert,
+	        m.tel,
+	        lm.file
+	    from lost as l 
+	    join memb as m on l.m_no=m.m_no
+	    left join lost_mda as lm on l.l_no=lm.l_no
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from lost
+    </select>
+    
+    <insert id="insert" parameterType="lost"
+        useGeneratedKeys="true" keyColumn="l_no" keyProperty="lostNo">
+        insert into lost(m_no,p_name,brd,l_loc,l_date,cha,rwd,conts,pushAlert)
+        values(#{registrant.memberNo},#{petName},#{breed},#{lostLocation},#{lostDate},#{character},#{reward},#{contents},#{pushAlert})
+    </insert>
+    
+    <select id="findByNo" resultMap="lostMap" parameterType="int">
+        select 
+		    l.l_no,
+		    l.m_no,
+		    l.p_name,
+		    l.l_loc,
+		    l.l_date,
+		    l.cha,
+		    l.rwd,
+		    l.vwcnt,
+		    l.conts,
+		    l.brd,
+		    l.pushAlert,
+		    lm.mda_no,
+		    lm.file,
+ 		    m.tel
+		from 
+		    lost as l 
+		    left join lost_mda as lm on l.l_no=lm.l_no
+	        join memb as m on l.m_no=m.m_no
+        where l.l_no=#{value}
+    </select>
+    
+    <update id="updateViewCount" parameterType="int">
+        update lost set 
+            vwcnt=vwcnt + 1
+        where l_no=#{lostNo}
+    </update>
+    
+    <update id="update" parameterType="lost">
+        update lost set
+            p_name=#{petName},
+            brd=#{breed},
+            l_loc=#{lostLocation},
+            l_date=#{lostDate},
+            cha=#{character},
+            rwd=#{reward},
+            conts=#{contents}
+        where l_no=#{lostNo}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from lost
+        where l_no=#{value}
+    </delete>
+</mapper>  
+
+
+
+
+
+
+
+
+

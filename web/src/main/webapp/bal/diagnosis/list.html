@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판</title>
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
+</head>
+<body>
+<div class='container'>
+
+<header></header>
+
+
+
+ <h1>게시물 목록</h1>
+
+<nav class="navbar navbar-light justify-content-between">
+  <a href='formbasic.html' class='btn btn-primary btn-sm'>추가</a>
+  <form class="form-inline">
+    <input id="words" name="words" class="form-control form-control-sm mr-sm-2" type="search" placeholder="검색" aria-label="Search">
+    <button id="searchBtn" class="btn btn-sm btn-outline-success my-2 my-sm-0" >Search</button>
+  </form>
+</nav>
+
+<table id="list" class='table table-hover'>
+<thead>
+<tr>
+<th>진료번호</th><th>병원명</th><th>회원명</th><th>회원전화번호</th><th>진료분류</th><th>진료명</th><th>진료내용</th>
+</tr>
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a id="prevBtn" class="page-link" tabindex="-1">이전</a></li>
+        
+    <li class="page-item"><a id="currBtn" class="page-link" href="#">1</a></li>
+    
+    <li class="page-item "><a id="nextBtn" class="page-link" tabindex="0">다음</a></li>
+  </ul>
+</nav>
+
+<footer>
+    비트캠프 자바100기 Balance@2018
+</footer>
+</div>
+
+<script src='../../node_modules/jquery/dist/jquery.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<script type="text/javascript">
+var words = $('#words'),    
+searchBtn = $('#searchBtn'),
+prevBtn = $('#prevBtn'),
+currBtn = $('#currBtn'),
+nextBtn = $('#nextBtn'),
+tbody = $('#list > tbody'),
+currPageNo = 1;
+$('header').load('../../header.html');
+$('footer').load('../../footer.html');    
+load(1);
+searchBtn.click(() => {
+    //event.preventDefault();
+    load(1, {
+        "words": words.value
+    })
+});
+prevBtn.click(() => {
+    load(currPageNo - 1)
+});
+nextBtn.click(() => {
+    load(currPageNo + 1)
+});
+function load(pageNo, options){
+     if (options == undefined) options = {};
+        options.pn = pageNo;
+        
+        $.ajax('../../json/diagnosis/list', {
+            /*method: 'GET',*/
+            data: options,
+            dataType: 'json',
+            success: (result) => {
+                
+                tbody.html(""); // <tbody> 콘텐츠를 지운다.
+                
+                for (var data of result.list) {
+                    $('<tr>')
+                        .html(  
+                            "<td>" + data.diagnosisNo + "</td>" + 
+                            "<td><a href='form.html?no=" + data.diagnosisNo + "'>"+ data.hospital.hospitalName + "</a></td>" + 
+                            "<td>" + data.memberName + "</td>" +
+                            "<td>" + data.memberTel + "</td>" +
+                            "<td>" + data.diagnosisCategory + "</td>" +
+                            "<td>" + data.diagnosisName + "</td>" +
+                            "<td>" + data.diagnosisContents + "</td>")
+                            .appendTo(tbody);
+                }
+                
+                currPageNo = result.pageNo;
+                currBtn.html(currPageNo);
+                
+                if (result.pageNo == 1) {
+                    $(prevBtn.parent()).addClass("disabled");
+                } else {
+                    $(prevBtn.parent()).removeClass("disabled");
+                }
+                
+                if (result.lastPageNo == result.pageNo) {
+                    $(nextBtn.parent()).addClass("disabled");
+                } else {
+                    $(nextBtn.parent()).removeClass("disabled");
+                }
+            },
+            error: () => {
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>
+    
+    
+    
+    

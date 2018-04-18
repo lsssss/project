@@ -1,0 +1,441 @@
+<meta charset="UTF-8" />
+<link rel='stylesheet'
+	href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
+<link rel='stylesheet' href='../../css/business.css'>
+<link rel='stylesheet' href='../../css/trainning.css'>
+<link rel='stylesheet' href='../../css/main.css'>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+<style>
+
+.tvideo {
+	width: 50%;
+	height: 50%;
+}
+
+.b {
+	border-bottom: 1px solid gray;
+	padding-bottom: 30px;
+	margin-left: -28px;
+}
+
+.c {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	left: 50px;
+}
+
+.d {
+	position: absolute;
+	right: 650px;
+}
+</style>
+
+
+<div class="modal-header" style="padding: 40px 50px;">
+	<button type="button" class="close my-view" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body" style="padding: 20px 50px;">
+
+  
+
+	<div class='container' style="font-family:contsfont-kor">
+
+
+		<h2 class='my-new' style="margin-bottom: 50px; font-family:contsfont-kor">영상등록</h2>
+		<h2 class='my-view' style="margin-bottom: 50px; font-family:contsfont-kor"> 영상 상세정보</h2>
+
+
+		<form id='form' method="post" enctype="multipart/form-data" style="font-size: 17px; font-weight: bold;">
+
+			<!-- <div class="form-group row ">
+				<div class="col-sm-10">
+					<select id='category' class="btn btn-secondary data-reset"
+						name="category">
+						<option value=0>카테고리</option>
+						<option value=1>훈련정보</option>
+						<option value=2>공유영상</option>
+						<option value=3>기타</option>
+					</select>
+				</div>
+			</div> -->
+
+
+			<!-- 	<div align="center" id="vi"></div>
+
+			<div class='form-group row'>
+				<label for='file1' class='col-sm-2 col-form-label'>영상</label>
+			</div> -->
+
+		 	<div class='form-group row'>
+				<label for='title' class='col-sm-2 col-form-label'>제목</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='title' type='text' name='title'>
+				</div>
+			</div> 
+
+
+
+
+			<!--  <div class='form-group row'>
+				<label for='registrationDate' class='col-sm-2 col-form-label'>게시일</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='registrationDate' readonly type='text' name='registrationDate'>
+				</div>
+			</div> -->
+
+
+
+
+			<div id='viewno' class='form-group row b'>
+				<div>
+					<span id='view' class='col-sm-2 col-form-label c'>조회수</span> <span
+						class='col-sm-2 col-form-label c' id='reg'>게시일</span>
+					<button style="border: 0; background: transparent" class='d'
+						id='like-btn' type='button'>
+						<img id='likeb' src="../../download/nolike.png" alt='좋아요' /> 좋아요 
+						<div id='count' style="display: inline-block"></div>
+					</button>
+				</div>
+			</div>
+
+			<!-- <span id=likes>1111</span> -->
+
+
+			<div class='form-group row my-view'>
+				<label for='nicname' class='col-sm-2 col-form-label'>닉네임</label>
+				<div class='col-sm-10'>
+					<input class='form-control' id='nicname' readonly type='text'
+						name='nicname' style='width: 25%; text-align: center;'>
+				</div>
+			</div>
+			<div class='form-group row'>
+				<label for='contents' class='col-sm-2 col-form-label'>내용</label>
+				<div class='col-sm-10'>
+					<textarea class='form-control' id='contents' type='text'
+						name='contents' style="height: 20%"></textarea>
+				</div>
+			</div>
+			
+			
+			<div  class="my-new">
+				<div id="filediv" class="small-12 large-4 columns">
+					<div class="containers">
+						<div class="imageWrapper">
+							<video src="../../download/' + file.filename + '"
+								controls="controls" autoplay loop id="video" width="100%"></video>
+						</div>
+					</div>
+				
+			<div class="" style="width:405px; position: absolute; top: 96%; left: 915px; transform: translate(-50%, -50%);">
+						<input type="file"  id="file1" name="file" class="input-file">
+						<div class="input-group form-group-lg col-xs-12">
+								<input type="text" class="form-control" disabled placeholder="Upload Video">
+							<span class="input-group-btn">
+								<button class="upload-field btn btn-lg btn-success"
+									type="button">
+									<i class="fa fa-search"></i> Browse
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			<!-- 
+				<div id="filediv" class='filebox'>
+					<input type="file" class="form-control-file" id="file1" name="file">
+				</div> -->
+
+			<div id=nodiv1 class='col-sm-10'></div>
+
+
+
+
+			<!-- <div class='form-group row my-view'>
+				<label for='TrainningNo' class='col-sm-2 col-form-label'>번호</label>  -->
+			<div id=nodiv class='col-sm-10'></div>
+			<!-- <input class='form-control' readonly id='TrainningNo' type='number' 
+       				name='TrainningNo'> -->
+
+
+
+
+		</form>
+	</div>
+</div>
+
+
+
+<div class="modal-footer" style="margin-top: 50px; padding-right: 100px;">
+	<div style="margin: auto;">
+		<button id="addBtn" type="button"
+			class='btn btn-primary btn-sm my-new'>추가</button>
+		<button id="backBtn" type="button"
+			class='btn btn-primary btn-sm my-new' onclick="history.back();">돌아가기</button>
+		<button id="updateBtn" type="button"
+			class='btn btn-primary btn-sm my-new'>변경</button>
+		<button id="deleteBtn" type="button"
+			class='btn btn-primary btn-sm my-new'>삭제</button>
+	</div>
+</div>
+
+<script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+var addBtn = $('#addBtn'),
+updateBtn = $('#updateBtn'),
+deleteBtn = $('#deleteBtn'),
+likesBtn = $('#likesBtn'),
+/* ctgItem = $('#category'), */
+titleItem = $('#title'),
+contsItem = $('#contents'),
+/* m_contsItem = $('#maintextContents'), */
+vwcntItem = $('#viewCount'),
+rdtItem = $('#registrationDate'),
+nodItem = $('#nodiv'),
+nod1Item = $('#nodiv1'),
+nic_nameItem = $('#nicname'),
+likesItem = $('#likesdiv'),
+filedItem = $('#filediv'),
+fileItem = $('#file1'),
+videoItem = $('#file1')
+memberNo = 0;
+
+
+var index = location.href.indexOf('?');
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $('.my-new').css('display', 'none');
+    $(() => {
+        $.ajax('../../json/trainning/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+				console.log(result)                
+                nodItem.html("<input class='form-control' type='hidden' id='trainningNo' " + 
+                        "name='trainningNo' value='" + result.data.trainningNo + "'> ");
+                nod1Item.html("<input class='form-control' type='hidden' id='member' " + 
+                        "name='MemberNo' value='" + result.data.memberNo + "'> ");
+                /* t_noItem.val(result.data.trainningNo); */
+                nic_nameItem.val(result.data.member.valueOf().nicname);
+                /* $('#title').html('제목 &nbsp; &nbsp; '  + result.data.title); */
+                titleItem.val(result.data.title);
+                contsItem.val(result.data.contents);
+                vwcntItem.val(result.data.viewCount);
+                rdtItem.val(result.data.registrationDate);
+                /* likesItem.val(result.data.likes); */
+                $('#reg').html('게시일 &nbsp; '  + result.data.registrationDate);
+                $('#view').html('조회수 &nbsp; '  + result.data.viewCount);
+                for (var file of result.data.files){
+               /*  $('#vi').html('<video src="../../download/' + file.filename + '" controls="controls"  autoplay loop id="video" width="1000px" height="500px"></video>') */
+                /* filedItem.html("<input type='file' class='form-control-file' id='file1' name='file'>" +
+                               "<img src='../../download/" + file.filename + "' alt=" + file.filename + " width='100px' height='100px'>") */
+                /* fileItem.val(file.filename); */
+                
+                }
+                
+			console.log(result.data.member.valueOf().nicname)
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+    
+} else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
+    $('#viewno').hide();
+    nic_nameItem.hide();
+}
+
+
+addBtn.click(() => {
+    var formData = new FormData($('#form')[0]);
+    $.ajax('../../json/trainning/add', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+            location.href = "../main/home.html#cast";
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            
+            window.alert('서버 실행 오류! add');
+        }
+    });
+});
+
+  updateBtn.click(() => {
+      var formData = new FormData($('#form')[0]);
+    $.ajax('../../json/trainning/update', {
+        data: formData,
+        dataType: 'json',
+        method: 'POST',
+        processData : false,
+        contentType : false,
+        success: (result) => {
+            
+             location.href = "../main/home.html#cast"; 
+        },
+        error: () => {
+            window.alert('서버 실행 오류! update');
+        }
+    });
+});
+
+deleteBtn.click(function() {
+    $.ajax('../../json/trainning/delete', {
+        data: {
+            /* trainningNo: t_noItem.val() */
+            no: $('#trainningNo').val()
+        },
+        dataType: 'json',
+        success: (result) => {
+            location.href = "../main/home.html#cast";
+        },
+        error: () => {
+            window.alert('서버 실행 오류! delete');
+        }
+    }); 
+}); 
+
+$('#like-btn').click(() => {
+    console.log('clicked');
+    console.log($('#likeb').attr('src'));
+    if($('#likeb').attr('src') == '../../download/like.png') {
+        $('#likeb').attr('src', '../../download/nolike.png');
+        dislike();
+    }
+    else {
+        $('#likeb').attr('src', '../../download/like.png');
+        like();
+    }
+    
+    
+	
+});
+
+function like() {
+    console.log('like');
+    $.ajax('../../json/trainning/like', {
+        data: {
+            trainningNo: $('#trainningNo').val(),
+            memberNo: memberNo
+        },
+        dataType: 'json',
+        success: (result) => {
+            if(result.status == 'success') {
+                $.getJSON('../../json/trainning/countLike', (result) => {
+                    if(result.status == 'success') {
+                        $('#count').html(result.count);
+                    } else {
+                        $('#count').html('0');
+                    }
+                });
+            } 
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            window.alert('서버 실행 오류! like');
+        }}); 
+}
+
+function dislike() {
+    console.log('dislike');
+    $.ajax('../../json/trainning/dislike', {
+        data: {
+            trainningNo: $('#trainningNo').val(),
+            memberNo: memberNo
+        },
+        dataType: 'json',
+        success: (result) => {
+            if(result.status == 'success') {
+                $.getJSON('../../json/trainning/countLike', (result) => {
+                    if(result.status == 'success') {
+                        $('#count').html(result.count);
+                    } else {
+                        $('#count').html('0');
+                    }
+                });
+            } else {
+                alert('fail-dislike');
+            }
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            
+            window.alert('서버 실행 오류! dislike');
+        }});
+}
+    
+    $.getJSON('../../json/auth/loginUser', (result) => {
+        if (result.status == 'fail') {
+            $('#like-btn').prop("disabled", true);
+        } else {
+            var member = result.member;
+            memberNo = member.memberNo;
+            $('#like-btn').prop("disabled", false);
+        }
+        });
+     
+    $.getJSON('../../json/trainning/checkLike', (result) => {
+        console.log('hhhhhhhhhhhhhhh' + result.status);
+        if(result.status == 'unchecked') {
+            $('#likeb').attr('src', '../../download/nolike.png');
+        } else {
+            $('#likeb').attr('src', '../../download/like.png');
+        }
+    });
+    	$.getJSON('../../json/trainning/countLike', (result) => {
+            if(result.status == 'success') {
+                $('#count').html(result.count);
+            } else {
+                $('#count').html('0');
+            }
+        }); 
+
+    	
+    	$('.input-file').change(function(){
+    	    var curElement = $(this).parent().parent().find('#video');
+    	    console.log(curElement);
+    	    var reader = new FileReader();
+
+    	    reader.onload = function (e) {
+    	        // get loaded data and render thumbnail.
+    	        curElement.attr('src', e.target.result);
+    	    };
+
+    	    // read the image file as a data URL.
+    	    reader.readAsDataURL(this.files[0]);
+    	}); 
+    	
+    	
+    	$(document).on('click', '.upload-field', function() {
+              var file = $(this).parent().parent().parent().find('.input-file');
+              file.trigger('click');
+          });
+          $(document).on(
+                  'change',
+                  '.input-file',
+                  function() {
+                      $(this).parent().find('.form-control').val(
+                              $(this).val().replace(/C:\\fakepath\\/i, ''));
+                  });
+    	
+    	
+</script>
+
+</body>
+</html>

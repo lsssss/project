@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.DiagnosisDao">
+
+    <resultMap type="diagnosis" id="diagnosisMap">
+    	<id column="dgn_no" property="diagnosisNo"/>
+        <result column="dgn_cg" property="diagnosisCategory"/>
+        <result column="dgn_name" property="diagnosisName"/>
+        <result column="dgn_conts" property="diagnosisContents"/>
+        <result column="date_rec" property="dateRecording"/>
+        <result column="weight" property="dogweight"/>
+        <result column="recd" property="recorder"/>
+        <result column="rems" property="remarks"/>
+		<result column="m_tel" property="memberTel"/>
+		<result column="m_name" property="memberName"/>
+       	
+       	<association property="member" javaType="member">
+			<id column="m_no" property="memberNo"/>
+		</association>
+		
+        <association property="hospital" javaType="hospital">
+			<id column="hp_no" property="hospitalNo"/>
+			<result column="hp_name" property="hospitalName"/>
+		</association>
+		
+		
+		<collection property="hfiles"  javaType="hospitalUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="hp_no"   property="hospitalNo"/>
+        </collection>
+        
+        <collection property="mfiles"  javaType="memberUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="m_no"   property="memberNo"/>
+        </collection>
+        
+    </resultMap>
+    
+    
+    <select id="findAll" resultMap="diagnosisMap" parameterType="map">
+         select 
+            d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.m_tel,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+
+   <!-- <if test="words != null">
+	        <where>
+	            <foreach collection="words" item="word">
+	                or title like '%${word}%'
+	            </foreach>
+	        </where>
+        </if>
+        
+        정렬 조건에 따라 SQL문을 변경한다.
+        order by 
+        <choose>
+            <when test="orderColumn == 'name' and align == 'desc'">
+                name desc
+            </when>
+            <when test="orderColumn == 'name' and align == 'asc'">
+                name asc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'desc'">
+                nic_name desc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'asc'">
+                nic_name asc
+            </when>
+            <when test="orderColumn == 'email' and align == 'desc'">
+                email desc
+            </when>
+            <when test="orderColumn == 'email' and align == 'asc'">
+                email asc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'desc'">
+                cre_date desc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'asc'">
+                cre_date asc
+            </when>
+            <otherwise>
+                m_no desc
+            </otherwise>
+        </choose> -->
+       
+     <!--    페이지징 처리 -->
+        limit #{startIndex}, #{size}
+    </select>
+    
+
+    
+   <select id="findByNo" resultMap="diagnosisMap" parameterType="int">
+        select 
+        	d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.weight,
+            d.date_rec,
+            d.recd,
+            d.rems,
+            d.m_name,
+            d.m_tel,
+            h.hp_no as hp_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	where d.dgn_no=#{value}
+    </select>
+  
+    <insert id="insert" parameterType="diagnosis" useGeneratedKeys="true" keyColumn="dgn_no" keyProperty="diagnosisNo">
+       insert into dgn(dgn_cg,dgn_name,dgn_conts,date_rec,recd,rems,m_name,hp_no,weight,m_tel,m_no)
+	   values(#{diagnosisCategory},#{diagnosisName},#{diagnosisContents},now(),#{recorder},#{remarks},#{memberName},#{hospital.hospitalNo},#{dogweight},#{memberTel},#{member.memberNo})
+    </insert>
+
+
+    <update id="update" parameterType="diagnosis">
+        update dgn set
+        weight=#{dogweight}, 
+        dgn_cg=#{diagnosisCategory}, 
+        dgn_name=#{diagnosisName}, 
+        dgn_conts=#{diagnosisContents},
+        m_name=#{memberName},
+        m_tel=#{memberTel},
+        rems=#{remarks}
+        where hp_no=#{hospital.hospitalNo} and dgn_no=#{diagnosisNo} 
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from dgn	where dgn_no=#{param1} and hp_no=#{arg1}
+    </delete> 
+    
+    <delete id="deleteAll" parameterType="int">
+        delete from dgn	where hp_no=#{value}
+    </delete> 
+    
+      <select id="getHospitalList" resultMap="diagnosisMap" parameterType="int">
+         select 
+            d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.m_tel,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+			where h.hp_no = #{no}
+			order by d.dgn_no DESC, d.date_rec DESC
+    </select>
+    
+    
+    
+    <select id="findByHospitalNo" resultMap="diagnosisMap" parameterType="int">
+    	select hp_no from hp where m_no=#{member.memberNo}
+    </select>
+    
+      <select id="countAll" resultType="int">
+        select count(*) from dgn
+    </select>
+    
+    <select id="dateCountAll" parameterType="map" resultType="int">
+    	select count(*) from dgn where m_tel=#{arg0} and date_rec between #{arg1} and #{arg2} 
+    </select>
+    
+     <select id="hospitalDateCountAll" resultType="int">
+    	select count(*) 
+    	from dgn as d 
+    	left join hp as h on d.hp_no=h.hp_no 
+    	where d.hp_no=#{arg0} and date_rec between #{arg1} and #{arg2} 
+    </select>
+    
+    <select id="CountMember" parameterType="string" resultType="int">
+    	select count(*) from memb where tel=#{param2} 
+    </select>
+    
+    
+     <select id="findMyAll" resultMap="diagnosisMap" parameterType="map">
+         <![CDATA[select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	where m_tel=#{arg0} and d.date_rec between #{arg1} and #{arg2} order by d.dgn_no DESC, d.date_rec DESC]]>
+    </select>
+    
+    
+     <select id="findHospitalList" resultMap="diagnosisMap" parameterType="map">
+         <![CDATA[select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            d.m_tel,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	where d.hp_no=#{arg0} and d.date_rec between #{arg1} and #{arg2} order by d.dgn_no DESC, d.date_rec DESC]]>
+    </select>
+    
+    
+    
+     <select id="findMy5" resultMap="diagnosisMap" parameterType="map">
+         <![CDATA[select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name,
+            f.file
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	left join hp_mda as f on d.hp_no=f.hp_no
+        	where m_tel=#{arg0} order by d.dgn_no DESC, d.date_rec DESC
+        	limit 5]]>
+    </select>
+    
+    
+    
+    
+    <select id="findHospitalList5" resultMap="diagnosisMap" parameterType="map">
+         <![CDATA[select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name,
+            f.file
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_tel=m.tel
+        	left join m_mda as f on m.m_no = f.m_no
+        	where d.hp_no=#{value} order by d.dgn_no DESC, d.date_rec DESC
+        	limit 5]]>
+    </select>
+    
+     <select id="findHospitalListAll" resultMap="diagnosisMap" parameterType="map">
+         <![CDATA[select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            d.m_tel,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	where d.hp_no=#{value} order by d.dgn_no DESC, d.date_rec DESC]]>
+    </select>
+    
+    
+    <select id="findMyAllList" resultMap="diagnosisMap" parameterType="map">
+          select 
+          d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+        	where m_tel=#{value} order by d.dgn_no DESC, d.date_rec DESC
+    </select>
+    
+       <select id="findMyPageSizeAll" resultMap="diagnosisMap" parameterType="map">
+         select 
+            d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.m_tel,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+			where m_tel=#{tel} and d.date_rec between #{selectDate} and #{nowDate} order by d.dgn_no DESC, d.date_rec DESC
+       		limit #{startIndex}, #{size}
+	    </select>
+	    
+	    
+	   <select id="findHospitalPageSizeAll" resultMap="diagnosisMap" parameterType="map">
+         select 
+            d.dgn_no,
+            d.dgn_cg,
+            d.dgn_name,
+            d.dgn_conts,
+            d.m_tel,
+            d.date_rec,
+            d.m_name,
+            m.m_no as m_no,
+            h.hp_name as hp_name
+       	 	from dgn as d 
+       	 	left join hp as h on d.hp_no=h.hp_no 
+        	left join memb as m on d.m_no=m.m_no
+			where d.hp_no=#{hpno} and d.date_rec between #{selectDate} and #{nowDate} order by d.dgn_no DESC, d.date_rec DESC
+       		limit #{startIndex}, #{size}
+	    </select>
+    
+</mapper>  

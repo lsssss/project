@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+    content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+<title>Balance Pet</title>
+<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
+<link rel='stylesheet' href='../../css/hospitalproducermainlist.css'> 
+<!-- Bootstrap core CSS -->
+<link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="../../sliding-panels/js/modernizr.js"></script>
+<!-- Custom fonts for this template -->
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link href="../../vendor/devicons/css/devicons.min.css" rel="stylesheet">
+<link href="../../vendor/simple-line-icons/css/simple-line-icons.css"
+    rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../../css/resume.css" rel="stylesheet">
+
+<!-- 자체 작업 CSS -->
+<link href="../../css/main.css" rel="stylesheet">
+
+<style>
+.modal-header, h4, .close {
+    text-align: center;
+    font-size: 30px;
+}
+.modal-footer {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+#business_form {
+    height: 50%;
+    margin-top: -102px;
+}
+</style>
+
+</head>
+
+<body id="page-top">
+
+    <header id="topMenu" style="top: 0; left:0; width: 100%; height: 8vh; background-color: white; position: fixed; z-index: 10; transform: translateX(0);">
+        <ul style="cursor: pointer; list-style-type: none; text-align: center; padding-top: 2vh; font-size:40px;">
+           <li class="menuItem" style="top: 12px; margin: 0; display: inline;">
+                 <img id="_logo7" src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/200px-Snoopy_Peanuts.png" height="40"> Balance Pet
+           </li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 100px; color: #BD5D38;"><a class="js-scroll-trigger" href="#first">Home</a></li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px; color: #BD5D38;"><a class="js-scroll-trigger" href="#care">Pet Care</a></li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px; color: #BD5D38;"><a class="js-scroll-trigger" href="#diagnosis">Pet Diagnosis</a></li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px; color: #BD5D38;"><a class="js-scroll-trigger" href="#together">Pet Together</a></li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px; color: #BD5D38;"><a class="js-scroll-trigger" href="#cast">Cast</a></li>
+              <li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px; color: #BD5D38;"><a class="js-scroll-trigger" href="#lost">Lost</a></li>
+              <li id="memberView" class="menuItem" style="display: inline; padding: 0px 0px 0px 2%; font-size: 25px; color: #BD5D38;"><a class="js-scroll-trigger after-login" href="#">MyInfo</a></li>
+              <li id="loginBtn" class="menuItem" style="display: inline; padding: 0px 0px 0px 2%; font-size: 25px; font: italic bold; color: #BD5D38;"><a class="js-scroll-trigger before-login" href="#">Login</a></li>
+              <li id="logoutBtn" class="menuItem" style="display: inline; padding: 0px 0px 0px 2%; font-size: 25px; font: italic bold; color: #BD5D38;"><a class="js-scroll-trigger after-login" href="#">Logout</a></li>
+          </ul>
+    </header>
+    
+<div class="home">
+    
+    <aside id="loginSection" class="before-login" style="width: 20rem; height: 1000px; position: fixed; 
+           background-color: white; top: 0; right: 0; clear: left; z-index: 20; 
+           transform: translateX(200%); border: medium; border-color: #808080;"></aside>
+    
+    <aside id="memberViewSection" class="after-login" style="width: 20rem; height: 1000px; position: fixed; border: gray; border-color: #808080;
+           background-color: white; top: 0; right: 0; clear: left; z-index: 20; transform: translateX(200%);"></aside>
+    
+        <div class="container-fluid" id="p-0" style="margin-left: -17rem">
+            <section class="resume-section p-3 p-lg-5 d-flex d-column" id="first"></section>
+            <div class="bal-my-section">
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="care"></section>
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="diagnosis"></section>
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="together"></section>
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="cast"></section>
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="lost"></section>
+            </div>
+        </div>
+    </div> 
+    
+<!-- MemberView -->
+<div class="modal fade" role="dialog" id="memberViewModal">
+<div class="modal-dialog">
+    <div class="modal-content"
+        style="width: 38rem; height: 80vh; overflow: auto; z-index: 30;">
+        </div>
+</div>
+</div>
+    
+<!-- PetList -->
+<div class="modal fade" role="dialog" id="myPetListModal">
+<div class="modal-dialog">
+    <div class="modal-content"
+        style="width: 40rem; height: 80vh; overflow: auto; z-index: 30;">
+        </div>
+</div>
+</div>
+
+<!-- lostFormAdd -->
+<div class="modal fade" role="dialog" id="lostFormAddModal">
+<div class="modal-dialog">
+    <div class="modal-content"
+        style="width: 40rem; height: 95vh; overflow: auto; z-index: 30;">
+        </div>
+</div>
+</div>
+
+<!-- lostPushAlert -->
+<div class="modal fade" role="dialog" id="lostPushAlertModal">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"
+        style="width: 31rem; height: 50vh; overflow: auto; z-index: 30;">
+        </div>
+</div>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="../../js/resume.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src='../../node_modules/handlebars/dist/handlebars.min.js'></script>
+<script src='../../node_modules/jquery/dist/jquery.js'></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94bb2cfc7cdc1dacca4463266c794af3&libraries=services,clusterer,drawing"></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../../node_modules/sweetalert/dist/sweetalert.min.js'></script>
+<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=AwM4n1sTQc0aC8F7RFeQ&submodules=geocoder"></script>
+
+<script type="text/javascript">
+$('#first').load('section_first.html');
+$('#care').load('section_pet_care.html');
+$('#diagnosis').load('section_diagnosis.html');
+$('#together').load('section_pet_together.html');
+$('#cast').load('section_pet_cast.html');
+$('#lost').load('section_lost.html');
+</script>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript">
+    
+var loginBtn = $('#loginBtn'),
+    logoutBtn = $('#logoutBtn'),
+    memberView = $('#memberView'),
+    memberNo = '';
+    
+$.getJSON('../../json/auth/loginUser', (result) => {
+    if (result.status == 'fail') {
+        $('.after-login').css('display', 'none');
+        return;
+    } else {
+        var member = result.member,
+            memberNo = member.memberNo,
+            addPoint = {};
+        addPoint = distance(member.primaryAddress);
+        
+    	console.log(addPoint)
+
+        if (result.member.push) {
+        	$.getJSON('../../json/lost/listAll', (result) => {
+	        	var count = 0;
+        		for (var data of result.list) {
+	        	    if (data.pushAlert  && data.registrant.tel != member.tel) {	count++; }
+        		}
+        		
+        		if (count > 0) {
+       	    	    var lostPushAlertModal = $('#lostPushAlertModal');
+       	    	    var lostPushAlertModalContent = $('#lostPushAlertModal .modal-content');
+       	    	    event.preventDefault();
+       	    	    event.stopPropagation();
+       	    	    lostPushAlertModalContent.load('../lost/lostPushAlert.html', () => {
+       	    	    	lostPushAlertModal.modal();
+       	    	    });
+        		}
+            })
+        }
+
+        $('.before-login').css('display', 'none');
+        for (var file of member.files) {
+            if (file.filename == null) {
+                var srcpath = "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/200px-Snoopy_Peanuts.png";
+            } else {
+                var srcpath = "../../download/" + file.filename;
+            }
+            $('#memberPhoto').attr({
+                src: srcpath,
+                class: 'img-fluid img-profile rounded-circle mx-auto mb-2',
+                alt: "'" + file.filename + "'",
+                id: 'memberInfo'
+            });
+        }
+    }
+});
+
+var index = location.href.indexOf('?');
+if (index != -1) {
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $(function load() {
+        $.ajax('../../json/main/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                location.href = "../main/home.html";
+            },
+            error: () => {
+            	swal('실행 오류', "잠시 후 다시 시도해주세요.", 'error');
+            }
+        });
+    });
+} else {}
+
+loginBtn.click(() => {
+    document.getElementById("loginSection").style.transform = "translateX(0%)";
+    document.getElementById("loginSection").style.transition = "1s";
+    
+    $('#loginSection').load('../auth/login.html');
+});
+    
+logoutBtn.click(() => {
+   $.getJSON('../../json/auth/logout', (result) => {
+       location.href = '../main/home.html';
+   });
+});
+
+$('#memberView').click(() => {
+	event.preventDefault();
+    event.stopPropagation();
+	document.getElementById("memberViewSection").style.transform = "translateX(0%)";
+	document.getElementById("memberViewSection").style.transition = "1s";
+	$('#memberViewSection').load('../member/memberView.html');
+});
+
+function distance(addr) {
+    var myaddress = addr;// 도로명 주소나 지번 주소만 가능 (건물명 불가!!!!)
+    var resultPoint = naver.maps.Service.geocode({address: myaddress}, function(status, response) {
+        if (status !== naver.maps.Service.Status.OK) {
+           // return alert(myaddress + '의 검색 결과가 없거나 기타 네트워크 에러');
+            }
+        var result = response.result;
+	    // 검색 결과 갯수: result.total
+	    // 첫번째 결과 결과 주소: result.items[0].address
+	    // 첫번째 검색 결과 좌표: result.items[0].point.y, result.items[0].point.x
+	    resultPoint.x = result.items[0].point.x;
+	    resultPoint.y = result.items[0].point.y;
+    });
+    console.log(resultPoint)
+};
+</script>
+
+</body>
+</html>

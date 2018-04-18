@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.HospitalDao">
+	
+
+    <resultMap type="hospital" id="hospitalMap">
+        <id column="hp_no" property="hospitalNo"/>
+        <result column="hp_name" property="hospitalName"/>
+        <result column="op_time" property="openTime"/>
+        <result column="cl_time" property="closeTime"/>
+        <result column="mdc_sub" property="medicalSubject"/>
+        <result column="mdc_ani" property="medicalAnimal"/>
+        <result column="hp_tel" property="hospitalTel"/>
+        <result column="mdc_staff" property="medicalStaff"/>
+        <result column="conts" property="contents"/>
+        <result column="pst_no" property="postalNo"/>
+        <result column="prm_addr" property="primaryAddress"/>
+        <result column="det_addr" property="detailAddress"/>
+        
+        
+  		<association property="member" javaType="member">
+			<id column="m_no" property="memberNo"/>
+			<result column="m_name" property="name"/>
+		</association> 
+        
+       <!--  첨부파일 정보를 담을 수 있도록 설정한다. -->
+        <collection property="files"  ofType="hospitalUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="hp_no"   property="hospitalNo"/>
+        </collection>
+        
+    </resultMap>
+
+    <select id="findAll" resultMap="hospitalMap" parameterType="map">
+         select 
+            h.hp_no,
+            h.hp_name,
+           	h.op_time,
+            h.hp_tel,
+            h.mdc_staff,
+            h.det_addr,
+            d.file
+       		 from hp as h 
+       		 left join hp_mda as d 
+             on h.hp_no=d.hp_no
+
+     <!--    <if test="words != null">
+	        <where>
+	            <foreach collection="words" item="word">
+	                or title like '%${word}%'
+	            </foreach>
+	        </where>
+        </if>
+        
+        정렬 조건에 따라 SQL문을 변경한다.
+        order by 
+        <choose>
+            <when test="orderColumn == 'name' and align == 'desc'">
+                name desc
+            </when>
+            <when test="orderColumn == 'name' and align == 'asc'">
+                name asc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'desc'">
+                nic_name desc
+            </when>
+            <when test="orderColumn == 'nic_name' and align == 'asc'">
+                nic_name asc
+            </when>
+            <when test="orderColumn == 'email' and align == 'desc'">
+                email desc
+            </when>
+            <when test="orderColumn == 'email' and align == 'asc'">
+                email asc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'desc'">
+                cre_date desc
+            </when>
+            <when test="orderColumn == 'cre_date' and align == 'asc'">
+                cre_date asc
+            </when>
+            <otherwise>
+                m_no desc
+            </otherwise>
+        </choose> -->
+       
+     <!--    페이지징 처리 -->
+        limit #{startIndex}, #{size}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from hp
+    </select>
+    
+    <select id="hospitalSelectByMemberNo" resultType="int">
+    	select count(*) from hp where m_no=#{value}
+    </select>
+    
+    <insert id="insert" parameterType="hospital"
+        useGeneratedKeys="true" keyColumn="hp_no" keyProperty="hospitalNo">
+        
+            insert into hp(hp_name,op_time,mdc_sub,mdc_ani,hp_tel,mdc_staff,conts,pst_no,prm_addr,det_addr,m_no,cl_time)
+			values (#{hospitalName},#{openTime},#{medicalSubject},#{medicalAnimal},#{hospitalTel},#{medicalStaff},#{contents},#{postalNo},#{primaryAddress},#{detailAddress},#{member.memberNo},#{closeTime})
+		
+      
+    <!--     insert into hp(hp_name,op_time,mdc_sub,mdc_ani,hp_tel,mdc_staff,conts,pst_no,prm_addr,det_addr,m_no,cl_time)
+		select #{hospitalName},#{openTime},#{medicalSubject},#{medicalAnimal},#{hospitalTel},#{medicalStaff},#{contents},#{postalNo},#{primaryAddress},#{detailAddress},#{member.memberNo},#{closeTime}
+		from dual where not exists(select * from hp where m_no=#{member.memberNo})
+		 -->
+		 
+    </insert>
+
+    <select id="findByNo" resultMap="hospitalMap" parameterType="int">
+        select h.hp_no,h.hp_name,h.op_time,h.conts,h.cl_time,h.mdc_sub,h.mdc_ani,h.hp_tel,h.mdc_staff,h.pst_no,h.prm_addr,h.det_addr,m.m_no,d.mda_no,d.file
+		from hp as h 
+		left join hp_mda as d on h.hp_no=d.hp_no
+		left join memb as m on m.m_no=h.m_no
+		where h.hp_no=#{value}
+    </select>
+    
+    <select id="hospitalNoLoginUserNo" resultMap="hospitalMap" parameterType="int">
+   		select h.hp_no,h.hp_name,h.op_time,h.conts,h.cl_time,h.mdc_sub,h.mdc_ani,h.hp_tel,h.mdc_staff,h.pst_no,h.prm_addr,h.det_addr,m.m_no,d.mda_no,d.file
+		from hp as h 
+		left join hp_mda as d on h.hp_no=d.hp_no
+		left join memb as m on m.m_no=h.m_no
+		where h.m_no=#{value}
+    </select>
+    
+    <update id="update" parameterType="hospital">
+        update hp set
+            hp_name=#{hospitalName}, 
+            op_time=#{openTime},
+            cl_time=#{closeTime},
+            mdc_sub=#{medicalSubject}, 
+            mdc_ani=#{medicalAnimal},
+            hp_tel=#{hospitalTel},
+            mdc_staff=#{medicalStaff},
+            conts=#{contents},
+            pst_no=#{postalNo},
+            prm_addr=#{primaryAddress}, 
+            det_addr=#{detailAddress}
+      		where m_no=#{member.memberNo}
+    </update>
+
+    <delete id="delete" parameterType="hospital">
+        delete from hp where m_no=#{value}
+    </delete>
+</mapper>  

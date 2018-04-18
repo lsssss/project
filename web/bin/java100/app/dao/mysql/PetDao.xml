@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java100.app.dao.PetDao">
+
+    <resultMap type="pet" id="petMap">
+        <id column="p_no" property="petNo"/>
+        <result column="p_name" property="petName"/>
+        <result column="brd" property="breed"/>
+        <result column="age" property="age"/>
+        <result column="wgt" property="weight"/>
+        <result column="g_wgt" property="goalWeight"/>
+        <result column="m_no"   property="memberNo"/>
+        
+        <collection property="files"  ofType="petUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="p_no"   property="petNo"/>
+        </collection>
+        
+    </resultMap>
+    <sql id="select1">
+        select 
+            p_no,
+            p_name,
+            brd,
+            age,
+            wgt,
+            g_wgt
+    </sql>
+    
+    <select id="findAll" resultMap="petMap" parameterType="int">
+        select 
+            p.p_no,
+            p.p_name,
+            p.brd,
+            p.age,
+            p.wgt,
+            p.g_wgt,
+            p.m_no,
+            pm.file
+        from pet as p
+        left join pet_mda as pm on p.p_no=pm.p_no
+        where p.m_no=${value}
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from pet
+    </select>
+        
+    <insert id="insert" parameterType="pet"
+        useGeneratedKeys="true" keyColumn="p_no" keyProperty="petNo">
+        insert into pet(p_name,brd,age,wgt,g_wgt,m_no)
+        values(#{petName},#{breed},#{age},#{weight},#{goalWeight},#{memberNo})
+    </insert>
+    
+    <select id="findByNo" resultMap="petMap" parameterType="int">
+        select 
+            p.p_no,
+            p.p_name,
+            p.brd,
+            p.age,
+            p.wgt,
+            p.g_wgt,
+            p.m_no,
+            pm.file 
+        from 
+            pet as p 
+            left join pet_mda as pm on p.p_no=pm.p_no
+        where p.p_no=#{value}
+    </select>
+     
+    <update id="update" parameterType="pet">
+        update pet set
+            p_name=#{petName},
+            brd=#{breed},
+            age=#{age},
+            wgt=#{weight},
+            g_wgt=#{goalWeight}
+        where p_no=#{petNo}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        delete from pet
+        where p_no=#{value}
+    </delete>
+</mapper>  
+
+
+
+
+
+
+
+
+

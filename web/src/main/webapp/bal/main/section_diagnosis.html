@@ -1,0 +1,108 @@
+<meta charset="utf-8">
+<link href="../../css/diagnosis.css" rel="stylesheet">
+<!-- 진료목록 5개 띄우기 -->
+<!-- snip1200 hover 클래스는 컨탠츠 고정 -->
+<div class="bal-mb-2">
+<div style="margin-top: 200px; position: relative">
+<h2 class="header" style="margin-left: 700px"><a href='../diagnosis/CustomerForm.html' style="color:#000000; z-index:10">DIANOGSIS</a></h2>
+<div class="bal-mb-2-b" id="diagnosisList">
+
+</div>
+</div>
+</div>
+<script src="../../js/diagnosis.js"></script>
+<script>
+
+load();
+function load() {
+   $.ajax('../../json/auth/loginUser', {
+        dataType: 'json',
+        success: (result) => {
+        	if(result.status == "success"){
+        		$(document).ready(function(){
+        		
+            		if(result.member.memberType=='병원회원'){
+            			console.log('병원회원')
+    					       $.ajax('../../json/diagnosis/hospitalproducerlist5', {
+    					           success: (result) => {
+    					        	   
+    					        	  if(result.status=="success"){
+    					        			$('.header').children().attr('href','../diagnosis/hospitalStaffForm.html')        	   
+        					            	$('#diagnosisList').html("");
+        					                for (var data of result.list) {
+        					             		$('<figure class="snip1200" onclick="location.href=\'../diagnosis/hospitalStaffForm.html\';" style="cursor:pointer">')
+        					                     .html(  	
+        					                    		 	'<img style="width: 180px;height:225px;" src="../../download/'+data.mfiles.filename+'" />'+
+        					                     	       "<figcaption>"+
+        					                    		 	"<p  style='text-align: center'><strong><u>Hospital</u></strong><br>" + data.hospital.hospitalName + "<br><strong><u>CUSTOMERNAME</u></strong><br>" + data.memberName +"<br><strong><u>CATEGORY</u></strong><br>" + data.diagnosisCategory  + "</p>" + 
+        					 	                   			 "<div class='heading'>"+
+        					 	                            " <h3><span>" + data.dateRecording +"</span></h3>"+
+        					 	                            "</div>")
+        					 	                            .appendTo('#diagnosisList'); 
+        					                }
+    					        	  }else{
+    					        			$('.header').children().attr('href','../diagnosis/hospitalStaffForm.html')
+    					        			$('.header').children().text('병원 등록하기')   
+    					        			$('#diagnosisList').html("");
+    				                        $('<div>')
+    				                         .html(     "<div style='padding-top: 6em;text-align: center;height: 283px;background-color: #000000;opacity: 0.8;'>"+
+    				                                 "<h3 style='float: left;font-size: 50px;margin-left: 166px;color:red;width:50px;'>!</h3>" +
+    				                                 "<div style='float: left;width: 600px;color:white;font-size:35px;font-family:contsfont-kor;'>병원등록이 필요한 서비스입니다.</div>"+
+    				                                 "</div>")
+    				                                    .appendTo('#diagnosisList'); 
+    					        	  } 
+    					           },
+    					           error: () => {
+    					           }
+    					       });
+    				}else {
+    					console.log('다른회원들')
+    					       $.ajax('../../json/diagnosis/mylist5', {
+    					           success: (result) => {
+    					               
+    					            	$('#diagnosisList').html("");
+    					                for (var data of result.list) {
+    					             		$('<figure class="snip1200" onclick="location.href=\'../diagnosis/CustomerForm.html\';" style="cursor:pointer">')
+    					                     .html(  	
+    					                    		   '<img style="width: 180px;height:225px;" src="../../download/'+data.hfiles.filename+'"/>'+
+    					                     	       "<figcaption>"+
+    					                    		 	"<p  style='text-align: center'><strong><u>Hospital</u></strong><br>" + data.hospital.hospitalName + "<br><strong><u>CUSTOMERNAME</u></strong><br>" + data.memberName +"<br><strong><u>CATEGORY</u></strong><br>" + data.diagnosisCategory  + "</p>" + 
+    					 	                   			 "<div class='heading'>"+
+    					 	                            " <h3><span>" + data.dateRecording +"</span></h3>"+
+    					 	                            "</div>")
+    					 	                            .appendTo('#diagnosisList'); 
+    					             		
+    					                }
+    					               
+    					           },
+    					           error: () => {
+    					           }
+    					       });
+    			}
+    		});
+        	}
+        	if(result.status=="fail"){
+            		$('#diagnosisList').html("");
+                 		$('<div>')
+                         .html(     "<div style='padding-top: 6em;text-align: center;height: 283px;background-color: #000000;opacity: 0.8;'>"+
+                               "<h3 style='float: left;font-size: 50px;margin-left: 166px;color:red;width:50px;'>!</h3>" +
+                               "<div style='float: left;width: 600px;color:white;font-size:40px;font-family:contsfont-kor;'>로그인이 필요한 서비스입니다</div>"+
+                               "</div>")
+                                    .appendTo('#diagnosisList'); 
+                       
+           }
+        },
+      error: () => {
+         window.alert('서버 실행 오류!');
+      }
+    });
+   
+}; 
+
+
+
+
+
+
+
+</script>

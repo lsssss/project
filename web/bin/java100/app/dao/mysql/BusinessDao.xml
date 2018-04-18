@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.BusinessDao">
+
+    <resultMap type="business" id="businessMap">
+        <id column="bus_no" property="businessNo"/>
+        <result column="ctgr" property="category"/>
+        <result column="b_name" property="businessName"/>
+        <result column="op_time" property="open_time"/>
+        <result column="cl_time" property="close_time"/>
+        <result column="tel" property="tel"/>
+        <result column="menu" property="menu"/>
+        <result column="conts" property="content"/>
+        <result column="url" property="url"/>
+        <result column="pst_no" property="post_no"/>
+        <result column="prm_addr" property="primary_address"/>
+        <result column="det_addr" property="detail_address"/>
+        
+        <association property="registrant" javaType="member">
+            <id column="m_no" property="memberNo"/>
+        </association>
+        <!-- 첨부파일 정보를 담을 수 있도록 설정한다. -->
+        <collection property="files"  ofType="businessUploadFile">
+            <id     column="mda_no"       property="no"/>
+            <result column="file"   property="filename"/>
+            <result column="bus_no"   property="businessNo"/>
+        </collection>
+        <!--
+         <collection property="reviews"  ofType="businessReview">
+            <id     column="rv_no"       property="reviewNo"/>
+            <result column="title"   property="title"/>
+            <result column="conts"   property="content"/>
+            <result column="date"   property="createDate"/>
+            <result column="point"   property="businessNo"/>
+            <result column="vwcnt"   property="viewCount"/>
+        </collection>
+        -->
+    </resultMap>
+
+    <select id="findAll" resultMap="businessMap" parameterType="map">
+         select 
+            b.bus_no,
+            b.b_name,
+            b.ctgr,
+            b.pst_no,
+            b.prm_addr,
+            b.det_addr,
+            b.ctgr,
+            d.file,
+            d.bus_no
+        from bus as b
+        left join (select min(mda_no), bus_no, file from bus_mda group by bus_no) as d 
+        on b.bus_no=d.bus_no
+
+        <if test="words != null">
+           <where>
+               <foreach collection="words" item="word">
+                   or title like '%${word}%'
+               </foreach>
+           </where>
+        </if>
+        limit #{startIndex}, #{size}
+    </select> 
+    
+    
+     <select id="findCategory" resultMap="businessMap" parameterType="map">
+         select 
+            b.bus_no,
+            d.file,
+            b.b_name,
+            b.ctgr,
+            b.pst_no,
+            b.prm_addr,
+            b.det_addr,
+            b.ctgr
+        from bus as b
+            left join bus_mda as d 
+             on b.bus_no=d.bus_no 
+		where b.ctgr=#{category}
+        <if test="words != null">
+           <where>
+               <foreach collection="words" item="word">
+                  or title like '%${word}%'
+               </foreach>
+           </where>
+        </if> 
+    </select> 
+    
+    <select id="findAllCategory" resultMap="businessMap" parameterType="map">
+         select 
+            b.bus_no,
+            d.file,
+            b.b_name,
+            b.ctgr,
+            b.pst_no,
+            b.prm_addr,
+            b.det_addr,
+            b.ctgr
+        from bus as b
+            left join bus_mda as d 
+             on b.bus_no=d.bus_no 
+  <if test="words != null">
+           <where>
+               <foreach collection="words" item="word">
+                  or title like '%${word}%'
+               </foreach>
+           </where>
+        </if> 
+    </select> 
+    
+    
+    
+    <select id="countAll" resultType="int">
+        select count(*) from bus
+    </select>
+  
+    <insert id="insert" parameterType="business"
+        useGeneratedKeys="true" keyColumn="bus_no" keyProperty="businessNo">
+        insert into bus(m_no,ctgr,b_name,op_time,cl_time,tel,menu,conts,url,pst_no,prm_addr,det_addr)
+        values(#{registrant.memberNo},#{category},#{businessName},#{open_time},#{close_time},#{tel},#{menu},#{content},#{url},#{post_no},#{primary_address},#{detail_address})
+    </insert>
+
+    <select id="findByNo" resultMap="businessMap" parameterType="int">
+        select 
+            b.bus_no,
+		    b.ctgr,
+		    b.b_name,
+		    b.op_time,
+		    b.cl_time,
+		    b.tel,
+		    b.menu,
+		    b.conts,
+		    b.url,
+		    b.pst_no,
+		    b.prm_addr,
+		    b.det_addr,
+		    d.mda_no,
+		    d.file
+		from 
+		    bus as b 
+		    left join bus_mda as d 
+		     on b.bus_no=d.bus_no
+        where b.bus_no=#{value}
+    </select>
+        
+    <select id="findByEmailAndPassword" 
+            resultMap="businessMap" parameterType="map">
+            select 
+        bus_no,
+        <!-- d.file, --> 
+        b_name,
+        prm_addr
+            from bus
+            where email=#{email} and pwd=password(#{password})
+    </select>
+    
+    <update id="update" parameterType="business">
+        update bus set
+            ctgr=#{category}, 
+            b_name=#{businessName}, 
+            op_time=#{open_time},
+            cl_time=#{close_time},
+            tel=#{tel}, 
+            menu=#{menu}, 
+            conts=#{content},
+            url=#{url},
+            pst_no=#{post_no},
+            prm_addr=#{primary_address}, 
+            det_addr=#{detail_address}
+         where bus_no=#{businessNo}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from bus
+        where bus_no=#{value}
+    </delete>
+</mapper>  
+
+
+
+
+
+
+
+

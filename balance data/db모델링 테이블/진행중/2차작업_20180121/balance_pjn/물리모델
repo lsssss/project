@@ -1,0 +1,51 @@
+#물리모델, 타입
+
+- 권한
+회원정보		m_no	member_number			일련번호	INTEGER
+일반			gnr	generner			권한		BOOLEAN
+관리자			admin	administrator			권한		BOOLEAN
+레스토랑		rest	restaurant 			권한		BOOLEAN
+숙박업소(펜션)		accmd	accomodations			권한		BOOLEAN
+
+
+- 강아지
+강아지번호		p_no		pet_no			일련번호	INTEGER
+이름			name		name			이름		VARCHAR(50)
+품종(종류)		brd		breed			품종		VARCHAR(50)
+나이			age		age			연령		DOUBLE
+체중			wgt		weight			체중		DOUBLE
+목표체중		g_wgt		goal_weight		체중		DOUBLE
+
+- 미아찾기
+미아번호		l_no		lost_number		일련번호	INTEGER
+강아지이름		p_name		pet_name		이름		VARCHAR(50)
+분실장소(잃어버린장소)	l_loc		lost_location		장소		VARCHAR(100)
+분실시간(잃어버린시간)	l_date		lost_date		일시		DATETIME
+특이사항		char		characteristic		내용		TEXT
+사례금			rwd		reward			금액		INTEGER
+
+- 리뷰
+리뷰번호		r_no		review_number		일련번호	INTEGER
+제목			title		title			제목		VARCHAR(255)
+일자			date		date			일자		DATE
+별점			point		point			점수		DOUBLE
+내용			conts		contents		내용		TEXT
+조회수			hits		hits			조회수		INTEGER
+카테고리		ctgr		category		카테고리	VARCHAR(30)		
+	
+- 펫과함께
+업소번호		b_no		business_number	일련번호	INTEGER	
+카테고리		ctgr		category		카테고리	VARCHAR(30)
+업소명			b_name		business_number	이름		VARCHAR(50)	
+영업시작시간(영업시간)	op_time		opening_time		시간		TIME
+영업종료시간(영업시간)	cl_time		closed_time		시간		TIME
+연락처			con_inf		contact_information	연락처		VARCHAR(20)	
+메뉴			menu		menu			메뉴		TEXT
+내용			conts		contents		내용		TEXT	
+url			url		url			웹주소		VARCHAR(255)
+
+- 주소
+주소번호		addr_no		address_number		일련번호	INTEGER
+기본주소		prm_addr	primary_address		주소		VARCHAR(255)
+상세주소		det_addr	detailed_address	주소		VARCHAR(255)	
+우편번호		pst_no		postal_code		우편번호	VARCHAR(6)

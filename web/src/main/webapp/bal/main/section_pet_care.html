@@ -1,0 +1,1030 @@
+
+<style>
+
+.scrollbar
+{
+    margin-left: -25px;
+    float: left;
+    height: 500px;
+    width: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-bottom: 25px;
+}
+.force-overflow
+{
+    min-height: 450px;
+}
+#style-7::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+} 
+
+#style-7::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-7::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+                     left bottom,
+                     left top,
+                     color-stop(0.44, rgb(122,153,217)),
+                     color-stop(0.72, rgb(73,125,189)),
+                     color-stop(0.86, rgb(28,58,148)));
+}
+/* 스크롤까지 */
+.radius_border {
+	border: 1px solid #919191;
+	border-radius: 5px;
+}
+
+.custom_typecontrol {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	overflow: hidden;
+	width: 130px;
+	height: 30px;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	font-size: 12px;
+	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+}
+
+.custom_typecontrol span {
+	display: block;
+	width: 65px;
+	height: 30px;
+	float: left;
+	text-align: center;
+	line-height: 30px;
+	cursor: pointer;
+}
+
+.custom_typecontrol .btn {
+	background: #fff;
+	background: linear-gradient(#fff, #e6e6e6);
+}
+
+.custom_typecontrol .btn:hover {
+	background: #f5f5f5;
+	background: linear-gradient(#f5f5f5, #e3e3e3);
+}
+
+.custom_typecontrol .btn:active {
+	background: #e6e6e6;
+	background: linear-gradient(#e6e6e6, #fff);
+}
+
+.custom_typecontrol .selected_btn {
+	color: #fff;
+	background: #425470;
+	background: linear-gradient(#425470, #5b6d8a);
+}
+
+.custom_typecontrol .selected_btn:hover {
+	color: #fff;
+}
+
+.custom_zoomcontrol {
+	position: absolute;
+	top: 50px;
+	right: 10px;
+	width: 36px;
+	height: 80px;
+	overflow: hidden;
+	z-index: 1;
+	background-color: #f5f5f5;
+}
+
+.custom_zoomcontrol span {
+	display: block;
+	width: 36px;
+	height: 40px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.custom_zoomcontrol span img {
+	width: 15px;
+	height: 15px;
+	padding: 12px 0;
+	border: none;
+}
+
+.custom_zoomcontrol span:first-child {
+	border-bottom: 1px solid #bfbfbf;
+}
+
+/* ------------------------------------------------------ */
+.map_wrap, .map_wrap * {
+	margin: 0;
+	padding: 0;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	font-size: 12px;
+}
+
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active {
+	color: #000;
+	text-decoration: none;
+}
+
+.map_wrap {
+	position: relative;
+	width: 690px;
+	height: 500px;
+	float: left;
+}
+
+#menu_wrap {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	height: 555px;
+    width: 290px; 
+	padding: 5px;
+	overflow-y: auto;
+	background: rgba(255, 255, 255, 0.7);
+	z-index: 1;
+	font-size: 12px;
+	border-radius: 10px;
+}
+
+.bg_white {
+	background: #fff;
+}
+
+#menu_wrap hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 2px solid #5F5F5F;
+	margin: 3px 0;
+}
+
+#menu_wrap .option {
+	text-align: center;
+}
+
+#menu_wrap .option p {
+	margin: 10px 0;
+}
+
+#menu_wrap .option button {
+	margin-left: 5px;
+}
+
+#placesList li {
+    margin-right: 10px; 
+	border-radius: 10px;
+	list-style: none;
+}
+
+#placesList li:hover {
+	background-color: #ff8040;
+	color: #ffffff
+}
+
+#placesList .item {
+	position: relative;
+	border: 1px solid #824027;
+	overflow: hidden;
+	cursor: pointer;
+	min-height: 65px;
+	text-align: center;
+}
+
+#placesList .item span {
+	display: block;
+	margin-top: 4px;
+}
+
+#placesList .item h5, #placesList .item .info {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#placesList .item .info {
+	padding: 10px 0 10px 0px;
+}
+
+#placesList .info .gray {
+	color: #8a8a8a;
+}
+
+#placesList .info .jibun {
+	padding-left: 26px;
+	background:
+		url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
+		no-repeat;
+}
+
+#placesList .info .tel {
+	color: #8a8a8a; 
+}
+
+#placesList .item .markerbg {
+	float: left;
+	position: absolute;
+	width: 36px;
+	height: 37px;
+	margin: 10px 0 0 10px;
+	background:
+		url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
+		no-repeat;
+}
+
+#placesList .item .marker_1 {
+	background-position: 0 -10px;
+}
+
+#placesList .item .marker_2 {
+	background-position: 0 -56px;
+}
+
+#placesList .item .marker_3 {
+	background-position: 0 -102px
+}
+
+#placesList .item .marker_4 {
+	background-position: 0 -148px;
+}
+
+#placesList .item .marker_5 {
+	background-position: 0 -194px;
+}
+
+#placesList .item .marker_6 {
+	background-position: 0 -240px;
+}
+
+#placesList .item .marker_7 {
+	background-position: 0 -286px;
+}
+
+#placesList .item .marker_8 {
+	background-position: 0 -332px;
+}
+
+#placesList .item .marker_9 {
+	background-position: 0 -378px;
+}
+
+#placesList .item .marker_10 {
+	background-position: 0 -423px;
+}
+
+#placesList .item .marker_11 {
+	background-position: 0 -470px;
+}
+
+#placesList .item .marker_12 {
+	background-position: 0 -516px;
+}
+
+#placesList .item .marker_13 {
+	background-position: 0 -562px;
+}
+
+#placesList .item .marker_14 {
+	background-position: 0 -608px;
+}
+
+#placesList .item .marker_15 {
+	background-position: 0 -654px;
+}
+
+#pagination {
+	margin: 10px auto;
+	text-align: center;
+}
+
+#pagination a {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#pagination .on {
+	font-weight: bold;
+	cursor: default;
+	color: #ffffff;
+}
+</style>
+
+
+
+<div data-exact-height="630" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7fyzhoq"
+	style="left: 276px; position: absolute; visibility: inherit; top: 0px; width: 600px; height: 630px;">
+	<div id="comp-j7fyzhoqlink" class="ca1link"
+		style="width: 600px; height: 630px;">
+		<div data-style="" class="ca1img" id="comp-j7fyzhoqimg"
+			style="position: relative; width: 600px; height: 630px;">
+			<img id="comp-j7fyzhoqimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png/v1/fill/w_750,h_788,al_c,usm_0.66_1.00_0.01/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png"
+				style="width: 600px; height: 630px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="599" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7g8a9jv"
+	style="left: 180px; position: absolute; visibility: inherit; top: 607px; width: 338px; height: 599px;">
+	<div id="comp-j7g8a9jvlink" class="ca1link"
+		style="width: 338px; height: 599px;">
+		<div data-style="" class="ca1img" id="comp-j7g8a9jvimg"
+			style="position: relative; width: 338px; height: 599px;">
+			<img id="comp-j7g8a9jvimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png/v1/fill/w_423,h_673,al_c,usm_0.66_1.00_0.01/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png"
+				style="width: 338px; height: 599px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="630" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7g8f80y"
+	style="left: 289px; position: absolute; visibility: inherit; top: 1179px; width: 600px; height: 630px;">
+	<div id="comp-j7g8f80ylink" class="ca1link"
+		style="width: 600px; height: 630px;">
+		<div data-style="" class="ca1img" id="comp-j7g8f80yimg"
+			style="position: relative; width: 600px; height: 630px;">
+			<img id="comp-j7g8f80yimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png/v1/fill/w_750,h_788,al_c,usm_0.66_1.00_0.01/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png"
+				style="width: 600px; height: 630px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="630" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7g8f80y"
+	style="left: 370px; position: absolute; visibility: inherit; top: 2384px; width: 600px; height: 630px;">
+	<div id="comp-j7g8f80ylink" class="ca1link"
+		style="width: 600px; height: 630px;">
+		<div data-style="" class="ca1img" id="comp-j7g8f80yimg"
+			style="position: relative; width: 600px; height: 630px;">
+			<img id="comp-j7g8f80yimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png/v1/fill/w_750,h_788,al_c,usm_0.66_1.00_0.01/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png"
+				style="width: 600px; height: 630px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="45" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	data-angle="165.9635690749585" id="comp-j7hc3ii7"
+	style="left: 700px; position: absolute; transform: rotate(165.964deg) translateZ(0px); top: 1398px; width: 65px; height: 45px;">
+	<div id="comp-j7hc3ii7link" class="ca1link"
+		style="width: 65px; height: 45px;">
+		<div data-style="" class="ca1img" id="comp-j7hc3ii7img"
+			style="position: relative; width: 65px; height: 45px;">
+			<img id="comp-j7hc3ii7imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_23ef5429ae3e4e30840978bb35b94064~mv2.png/v1/fill/w_77,h_56,al_c,lg_1/5bfb6f_23ef5429ae3e4e30840978bb35b94064~mv2.png"
+				style="width: 65px; height: 45px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+<div data-exact-height="244" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7ggynwq"
+	style="left: 233px; position: absolute; visibility: inherit; top: 4808px; width: 600px; height: 244px;">
+	<div id="comp-j7ggynwqlink" class="ca1link"
+		style="width: 600px; height: 244px;">
+		<div data-style="" class="ca1img" id="comp-j7ggynwqimg"
+			style="position: relative; width: 600px; height: 244px;">
+			<img id="comp-j7ggynwqimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png/v1/crop/x_0,y_0,w_895,h_364/fill/w_750,h_305,al_c,usm_0.66_1.00_0.01/5bfb6f_1534be33e38b46dba2fcf0d135b70972~mv2.png"
+				style="width: 600px; height: 244px; object-fit: cover;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="127" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7ga48r0"
+	style="left: 650px; position: absolute; top: 4983px; width: 284px; height: 127px;">
+	<div id="comp-j7ga48r0link" class="ca1link"
+		style="width: 284px; height: 127px;">
+		<div data-style="" class="ca1img" id="comp-j7ga48r0img"
+			style="position: relative; width: 284px; height: 127px;">
+			<img id="comp-j7ga48r0imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_16533bcc72db4af9a4996ea63b0589cc~mv2.png/v1/fill/w_330,h_159,al_c,usm_0.66_1.00_0.01/5bfb6f_16533bcc72db4af9a4996ea63b0589cc~mv2.png"
+				style="width: 284px; height: 127px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="599" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7g8a9jv"
+	style="left: 194px; position: absolute; visibility: inherit; top: 1787px; width: 338px; height: 599px;">
+	<div id="comp-j7g8a9jvlink" class="ca1link"
+		style="width: 338px; height: 599px;">
+		<div data-style="" class="ca1img" id="comp-j7g8a9jvimg"
+			style="position: relative; width: 338px; height: 599px;">
+			<img id="comp-j7g8a9jvimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png/v1/fill/w_423,h_673,al_c,usm_0.66_1.00_0.01/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png"
+				style="width: 338px; height: 599px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+
+
+<div data-exact-height="279" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7ga48qz"
+	style="left: 940px; position: absolute; top: 4833px; width: 44px; height: 279px;">
+	<div id="comp-j7ga48qzlink" class="ca1link"
+		style="width: 44px; height: 279px;">
+		<div data-style="" class="ca1img" id="comp-j7ga48qzimg"
+			style="position: relative; width: 44px; height: 279px;">
+			<img id="comp-j7ga48qzimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_46e83ee37f2743f4959c0a5ddb4078d4~mv2.png/v1/fill/w_55,h_330,al_c,usm_0.66_1.00_0.01/5bfb6f_46e83ee37f2743f4959c0a5ddb4078d4~mv2.png"
+				style="width: 44px; height: 279px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+<div data-exact-height="50" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	data-angle="344.6927565231638" id="comp-j7fz66ty"
+	style="left: 642px; position: absolute; transform: rotate(344.693deg) translateZ(0px); top: 202px; width: 69px; height: 50px;">
+	<div id="comp-j7fz66tylink" class="ca1link"
+		style="width: 69px; height: 50px;">
+		<div data-style="" class="ca1img" id="comp-j7fz66tyimg"
+			style="position: relative; width: 69px; height: 50px;">
+			<img id="comp-j7fz66tyimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_23ef5429ae3e4e30840978bb35b94064~mv2.png/v1/fill/w_86,h_63,al_c,lg_1/5bfb6f_23ef5429ae3e4e30840978bb35b94064~mv2.png"
+				style="width: 69px; height: 50px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+
+
+<div data-exact-height="26" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1" data-angle="255"
+	id="comp-j7g8gq6p"
+	style="left: 273px; position: absolute; transform: rotate(255deg) translateZ(0px); top: 601px; width: 27px; height: 26px;">
+	<div id="comp-j7g8gq6plink" class="ca1link"
+		style="width: 27px; height: 26px;">
+		<div data-style="" class="ca1img" id="comp-j7g8gq6pimg"
+			style="position: relative; width: 27px; height: 26px;">
+			<img id="comp-j7g8gq6pimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png/v1/fill/w_29,h_33,al_c,usm_0.66_1.00_0.01/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png"
+				style="width: 27px; height: 26px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+<div data-exact-height="26" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1" data-angle="255"
+	id="comp-j7g8h81f"
+	style="left: 310px; position: absolute; transform: rotate(255deg) translateZ(0px); top: 564px; width: 27px; height: 26px;">
+	<div id="comp-j7g8h81flink" class="ca1link"
+		style="width: 27px; height: 26px;">
+		<div data-style="" class="ca1img" id="comp-j7g8h81fimg"
+			style="position: relative; width: 27px; height: 26px;">
+			<img id="comp-j7g8h81fimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png/v1/fill/w_29,h_33,al_c,usm_0.66_1.00_0.01/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png"
+				style="width: 27px; height: 26px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+<div data-exact-height="26" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1" data-angle="255"
+	id="comp-j7g8hlon"
+	style="left: 353px; position: absolute; transform: rotate(255deg) translateZ(0px); top: 530px; width: 27px; height: 26px;">
+	<div id="comp-j7g8hlonlink" class="ca1link"
+		style="width: 27px; height: 26px;">
+		<div data-style="" class="ca1img" id="comp-j7g8hlonimg"
+			style="position: relative; width: 27px; height: 26px;">
+			<img id="comp-j7g8hlonimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png/v1/fill/w_29,h_33,al_c,usm_0.66_1.00_0.01/5bfb6f_5a6a149559e84004a5535dde2906491b~mv2.png"
+				style="width: 27px; height: 26px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="599" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7g8a9jv"
+	style="left: 275px; position: absolute; visibility: inherit; top: 2990px; width: 338px; height: 599px;">
+	<div id="comp-j7g8a9jvlink" class="ca1link"
+		style="width: 338px; height: 599px;">
+		<div data-style="" class="ca1img" id="comp-j7g8a9jvimg"
+			style="position: relative; width: 338px; height: 599px;">
+			<img id="comp-j7g8a9jvimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png/v1/fill/w_423,h_673,al_c,usm_0.66_1.00_0.01/5bfb6f_6c2b6767368b435ab5607c612de9ae15~mv2.png"
+				style="width: 338px; height: 599px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="56" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7j5wx82"
+	style="left: 1024px; position: absolute; top: 2004px; width: 57px; height: 56px;">
+	<div id="comp-j7j5wx82link" class="ca1link"
+		style="width: 57px; height: 56px;">
+		<div data-style="" class="ca1img" id="comp-j7j5wx82img"
+			style="position: relative; width: 57px; height: 56px;">
+			<img id="comp-j7j5wx82imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_848ef9fdc8d24cd7b9640be264f778d8~mv2.png/v1/fill/w_57,h_56,al_c/5bfb6f_848ef9fdc8d24cd7b9640be264f778d8~mv2.png"
+				style="width: 57px; height: 56px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="22" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7h9kyan"
+	style="left: -90px; position: absolute; top: 2950px; width: 20px; height: 22px;">
+	<div id="comp-j7h9kyanlink" class="ca1link"
+		style="width: 20px; height: 22px;">
+		<div data-style="" class="ca1img" id="comp-j7h9kyanimg"
+			style="position: relative; width: 20px; height: 22px;">
+			<img id="comp-j7h9kyanimgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_7c708382070f40a9be30790aab9f1cb1~mv2.png/v1/fill/w_20,h_19,al_c,usm_0.66_1.00_0.01/5bfb6f_7c708382070f40a9be30790aab9f1cb1~mv2.png"
+				style="width: 20px; height: 22px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+
+<div data-exact-height="100" data-content-padding-horizontal="0"
+	data-content-padding-vertical="0" title="" class="ca1"
+	id="comp-j7j69ut6"
+	style="left: -100px; position: absolute; top: 1000px; width: 90px; height: 100px;">
+	<div id="comp-j7j69ut6link" class="ca1link"
+		style="width: 90px; height: 100px;">
+		<div data-style="" class="ca1img" id="comp-j7j69ut6img"
+			style="position: relative; width: 90px; height: 100px;">
+			<img id="comp-j7j69ut6imgimage" alt="" data-type="image"
+				src="https://static.wixstatic.com/media/5bfb6f_36da5282389f4f01a6a34bff456f056f~mv2.png/v1/fill/w_77,h_100,al_c,usm_0.66_1.00_0.01/5bfb6f_36da5282389f4f01a6a34bff456f056f~mv2.png"
+				style="width: 90px; height: 100px; object-fit: contain;">
+		</div>
+	</div>
+</div>
+<div style="width: 100%; margin-top: 85px; display: inline-block"
+	class="pricing-header px-3 py-3 pt-md-5 pb-md-4  text-center">
+	<h2 class="display-4 hospitalh2">My Hospital</h2>
+	<p class="lead hospitalp">주변 병원을 검색합니다</p>
+</div>
+<div id="hospitalbody">
+		
+		
+		</div>
+<div id="cheol" style="width: 980px; height: 500px; position: relative; margin-left: 40px">
+	<div id="idPlease"></div>
+	<div class="map_wrap">
+		<div id="map" style="width: 100%; height: 100%; overflow: auto;"></div>
+	</div>
+	<div id="menu_wrap" class="bg_white">
+	   <div class="scrollbar" id="style-7"> 
+		<ul id="placesList" class="force-overflow"></ul>
+		<div id="pagination"></div>
+	   </div> 
+	</div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+var pst_no=null,
+prm_addr=null,
+det_addr=null;
+
+var markerText = null;
+var searchText = null;
+
+
+var imageSrc = null, // 마커 이미지 url, 스프라이트 이미지를 씁니다
+imageSize = new daum.maps.Size(36, 37), // 마커 이미지의 크기
+imgOptions = {  offset : new daum.maps.Point(13, 37)};
+
+
+var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+var options = { //지도를 생성할 때 필요한 기본 옵션
+    center : new daum.maps.LatLng(37.566295037, 126.9779450126), //지도의 중심좌표.
+    scrollwheel : false,
+    level : 5   
+};
+
+var map = null;
+var zoomControl = null;
+var user_photo = null;
+var user_nicname = null;
+var user_email = null;
+
+$.ajax('../../json/auth/loginUser', {
+	async: false,
+	dataType: 'json',
+	success: (result) => {
+		if(result.status == "fail"){
+			prm_addr = "서울특별시 중구 세종대로 110 서울특별시청";
+			$('#idPlease').html("");
+            $('<div>')
+             .html(     "<div style='    margin-top: 3em;position: absolute;z-index: 5;padding-top: 10em;text-align: center;height: 400px;background-color: #000000;opacity: 0.8;'>"+
+                     "<h3 style='float: left;font-size: 50px; margin-left: 3em;color:red;width:50px;'>!</h3>" +
+                     "<div style='float: left;width: 600px;color:white;font-size:40px;font-family:contsfont-kor;margin-right: 2em;'>로그인이 필요한 서비스입니다.</div>"+
+                     "</div>")
+                        .appendTo('#idPlease'); 
+			markerText = '<div style="width:400px;text-align:center;padding:6px 0;">로그인이 필요한 서비스입니다 로그인해서 확인해 주세요!</div>'; 
+			map = new daum.maps.Map(container, options);
+			zoomControl = new daum.maps.ZoomControl();
+		}else{
+			if(result.member.memberType == "병원회원"){
+			    user_email = result.member.email;
+		        user_nicname = result.member.nicname;
+		        for (var file of result.member.files){
+		            user_photo=file.filename;
+		        }
+				$.ajax('../../json/hospital/hospitalNo', {
+					async: false,
+					dataType: 'json',
+					success: (result) => {
+						if(result.status == "fail"){
+							$('.hospitalh2').text('Hospital');
+							$('.hospitalp').text('Register your Hospital');
+							$('<div>')
+		                     .html(  	
+		                    		 	'<button style="z-index: 5;    position: relative;"type="button" onclick="location.href=\'../hospital/form.html\'">AddBtn</button>'+
+		 	                            "</div>")
+		 	                            .appendTo('.pricing-header');
+							prm_addr = "서울특별시 중구 세종대로 110 서울특별시청";
+							$('#idPlease').html("");
+				            $('<div>')
+				             .html(     "<div style='    margin-top: 3em;position: absolute;z-index: 5;padding-top: 10em;text-align: center;height: 400px;background-color: #000000;opacity: 0.8;'>"+
+				                     "<h3 style='float: left;font-size: 50px; margin-left: 3em;color:red;width:50px;'>!</h3>" +
+				                     "<div style='float: left;width: 600px;color:white;font-size:35px;font-family:contsfont-kor;margin-right: 2em;'>병원이 등록이 필요한 서비스입니다.</div>"+
+				                     "</div>")
+				                        .appendTo('#idPlease'); 
+							markerText = '<div style="width:400px;text-align:center;padding:6px 0;">Register Your Hospital!</div>'; 
+							map = new daum.maps.Map(container, options);
+							zoomControl = new daum.maps.ZoomControl();
+						}else{
+							$('.hospitalh2').text('Hospital');
+							$('.hospitalp').text('Manage Hospital');
+							
+							
+						    $.ajax('../../json/hospital/hospitalview', {
+	      					 	dataType: 'json',
+	    					    method: 'POST',
+	        				    success: (result) => {
+	            				$('#hospitalbody').html("");
+	            				$('#cheol').css('display','none');
+	              				$('<div class="hoslptal" style="width:70%; margin-left:15%; margin-right:15%; margin-bottom:0.5%; text-align:center; background:#ffffff; position: relative;">')
+	                    		.html(  
+	                    		    "<div style=' border: 2px solid #343a40;border-radius: 48px;height: 500px; box-shadow: 30px 30px 45px rgba(0, 0, 0, 0.30);'>" +
+	                    		    "<div id='hos_fileView' class='col-sm-10' style='width: 50%; float:left'></div>" +
+	                    		    "<div id='hos_contsView' class='col-sm-10' style='font-family: contsfont-kor;width: 50%; float:left'></div>" +
+	                    		    "</div>")
+			                    .appendTo('#hospitalbody');
+
+                                for (var file of result.data.files) {
+                                	$('#hos_fileView').html("<img style='margin-top: 5em;border-radius: 75px;' src='../../download/" + file.filename + "' alt=" + file.filename + " width='100%'>").appendTo('#fileView');
+                                };
+                                    $('#hos_contsView').html(
+                                            "<div style='font-size: 2em; margin-bottom: 1em;color:  #E2758C;width:100%; display:inline-block;'>"+ result.data.hospitalName + "</div><br>" + 
+                                            "<div style='border-bottom: 1px solid #aaa;margin-bottom:10px;padding-bottom: 6em;'>" +
+                                            "<img style='float: left;border-radius: 75px;' src='../../download/" + user_photo + "' alt=" + user_photo + " width='40%'>" +
+                                            "<div style='width:60%; float: left; margin-top: 10px; '>" +
+                                            "<div style='width:100%;font-size: 1.3em; display:inline-block; '>"+ user_nicname + "</div>" +
+                                            "<div style='width:100%;color: #6c757d;font-size: 0.7em; display:inline-block; '>"+ user_email + "</div>" +
+                                            "</div></div>" +
+                                            "<div style=' border: 1px solid #aaa;width:100%; display:none; '>" + result.data.hospitalNo + "</div>" + 
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> Op Time : " + result.data.openTime + "</div>" +
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> Cl Time : " + result.data.closeTime + "</div>" +
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> 진료과목 : " + result.data.medicalSubject+ "</div>" +
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> 진료동물 : " + result.data.medicalAnimal + "</div>" +
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> 전화번호 : " + result.data.hospitalTel + "</div>"+
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '> 주소 : " + result.data.postalNo + "</div>" +
+                                            "<div style=' border-radius:10px;border: 1px solid #aaa;width:100%; display:inline-block; '>" + result.data.primaryAddress + "</div>" +
+                                            "<div style=' border-radius: 10px;border: 1px solid #aaa;width:100%; display:inline-block; '>" + result.data.detailAddress + "</div>")
+                                    $('<button class="btn btn-primary btn-sm" style="position: relative; z-index: 5;" type="button" onclick="location.href=\'../hospital/form.html?no='+result.data.hospitalNo +'\'">변경</button>').insertAfter('.hospitalp');
+	            },
+	            error: () => {
+	            }
+	        });
+						
+						/////////////////////////////	
+						}//innerelse end
+						
+					},//success:result
+					 error: () => {
+					 }
+				}); 
+			}else{
+				prm_addr = result.member.primaryAddress;
+				searchText = "동물병원",
+				imageSrc = '../../images/icon/placeholderhome.png';
+				map = new daum.maps.Map(container, options);
+				zoomControl = new daum.maps.ZoomControl();
+			}
+			
+		}
+	   
+	},
+	 error: () => {
+		  window.alert('서버 실행 오류!');
+	 }
+	 }); 
+
+
+
+
+//37.566295037
+
+//126.9779450126
+
+
+
+if(map != null){
+	map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);	
+	
+
+
+
+
+////////////////주소로 장소표시/////////////////////////////
+var geocoder = new daum.maps.services.Geocoder();
+
+//주소로 좌표를 검색합니다
+geocoder.addressSearch(prm_addr, function(result, status) {
+// 정상적으로 검색이 완료됐으면 
+if (status === daum.maps.services.Status.OK) {
+ var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+ var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize,imgOptions);
+ if(imageSrc === null){
+ var marker = new daum.maps.Marker({
+     map: map,
+     position: coords
+ });
+ }else{
+	 var marker = new daum.maps.Marker({
+			map: map,
+		 	position: coords,
+		    image:markerImage
+		  
+		});
+		 }
+		   // 인포윈도우로 장소에 대한 설명을 표시합니다
+		  if(prm_addr ==="서울특별시 중구 세종대로 110 서울특별시청"){
+		 	 var infowindow = new daum.maps.InfoWindow({
+		 	     content: markerText
+		 	 });
+		 	 infowindow.open(map, marker);
+		 	 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		 	 map.setCenter(coords);
+		  }else{
+		 	 map.setCenter(coords);
+		  }
+		 
+ ///////////////////////////////////////////////////////////////////////////////////////////
+ var markers = [];
+ // 장소 검색 객체를 생성합니다
+ var ps = new daum.maps.services.Places();
+
+ // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+ var infowindow = new daum.maps.InfoWindow({
+        zIndex : 1
+ });
+
+///////////////////////////////////////////////키워드 장소 검색//////////////////////////////////////////
+  // 키워드로 장소를 검색합니다
+     searchPlaces(coords);
+
+     // 키워드 검색을 요청하는 함수입니다
+     function searchPlaces(coords) {
+     	console.log(coords);
+     	
+     	 var options = { 
+     			 location: coords,
+     			 radius: 1000
+     	        };
+	        var keyword = searchText;
+			if(keyword!=null){
+				 if (!keyword.replace(/^\s+|\s+$/g, '')) {
+				       	swal('키워드를 입력해주세요!');
+				        return false;
+			        }
+				// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+			        ps.keywordSearch(keyword, placesSearchCB, options);
+			}
+     }
+
+     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+     function placesSearchCB(data, status, pagination) {
+	        if (status === daum.maps.services.Status.OK) {
+
+		        // 정상적으로 검색이 완료됐으면
+		        // 검색 목록과 마커를 표출합니다
+		        displayPlaces(data);
+
+		        // 페이지 번호를 표출합니다
+		        displayPagination(pagination);
+
+	        } else if (status === daum.maps.services.Status.ZERO_RESULT) {
+
+		        swal('검색 결과가 존재하지 않습니다.  ');
+		        return;
+
+	        } else if (status === daum.maps.services.Status.ERROR) {
+
+		        swal('검색 결과 중 오류가 발생했습니다.  ');
+		        return;
+
+	        }
+     }
+
+     // 검색 결과 목록과 마커를 표출하는 함수입니다
+     function displayPlaces(places) {
+
+	        var listEl = document.getElementById('placesList'), menuEl = document
+	                .getElementById('menu_wrap'), fragment = document
+	                .createDocumentFragment(), bounds = new daum.maps.LatLngBounds(), listStr = '';
+
+	        // 검색 결과 목록에 추가된 항목들을 제거합니다
+	        removeAllChildNods(listEl);
+
+	        // 지도에 표시되고 있는 마커를 제거합니다
+	        removeMarker();
+
+	        for (var i = 0; i < places.length; i++) {
+
+		        // 마커를 생성하고 지도에 표시합니다
+		        var placePosition = new daum.maps.LatLng(places[i].y,
+		                places[i].x), marker = addMarker(placePosition, i), itemEl = getListItem(
+		                i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+		        // 마커와 검색결과 항목에 mouseover 했을때
+		        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+		        // mouseout 했을 때는 인포윈도우를 닫습니다
+		        (function(marker, title) {
+			        daum.maps.event.addListener(marker, 'mouseover',
+			                function() {
+				                displayInfowindow(marker, title);
+			                });
+
+			        daum.maps.event.addListener(marker, 'mouseout', function() {
+				        infowindow.close();
+			        });
+
+			        itemEl.onmouseover = function() {
+				        displayInfowindow(marker, title);
+			        };
+
+			        itemEl.onmouseout = function() {
+				        infowindow.close();
+			        };
+		        })(marker, places[i].place_name);
+
+		        fragment.appendChild(itemEl);
+	        }
+
+	        // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+	        listEl.appendChild(fragment);
+	        menuEl.scrollTop = 0;
+
+     }
+
+     // 검색결과 항목을 Element로 반환하는 함수입니다
+     function getListItem(index, places) {
+
+	        var el = document.createElement('li'), itemStr = /* '<span class="markerbg marker_'
+	                + (index + 1)
+	                + '"></span>'
+	                + */ '<div class="info">'
+	                + '   <h5>' + places.place_name + '</h5>';
+
+	        if (places.road_address_name) {
+		        itemStr += '    <span>' + places.road_address_name + '</span>'
+		                + '   <span class="jibun gray">' + places.address_name
+		                + '</span>';
+	        } else {
+		        itemStr += '    <span>' + places.address_name + '</span>';
+	        }
+
+	        itemStr += '  <span class="tel">' + places.phone + '</span>'
+	                + '</div>';
+
+	        el.innerHTML = itemStr;
+	        el.className = 'item';
+
+	        return el;
+     }
+
+     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+     function addMarker(position, idx, title) {
+	        var imageSrc = '../../images/icon/placeholder.png',  // 마커 이미지 url, 스프라이트 이미지를 씁니다
+	        imageSize = new daum.maps.Size(36, 37), // 마커 이미지의 크기
+	        imgOptions = {
+	            //spriteSize : new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
+	            // spriteOrigin : new daum.maps.Point(0, (idx * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	            offset : new daum.maps.Point(13, 37)
+	        // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	        }, markerImage = new daum.maps.MarkerImage(imageSrc, imageSize,
+	                imgOptions), marker = new daum.maps.Marker({
+	            position : position, // 마커의 위치
+	            image : markerImage
+	        });
+
+	        marker.setMap(map); // 지도 위에 마커를 표출합니다
+	        markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+	        return marker;
+     }
+
+     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+     function removeMarker() {
+	        for (var i = 0; i < markers.length; i++) {
+		        markers[i].setMap(null);
+	        }
+	        markers = [];
+     }
+
+     // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+     function displayPagination(pagination) {
+	        var paginationEl = document.getElementById('pagination'), fragment = document
+	                .createDocumentFragment(), i;
+
+	        // 기존에 추가된 페이지번호를 삭제합니다
+	        while (paginationEl.hasChildNodes()) {
+		        paginationEl.removeChild(paginationEl.lastChild);
+	        }
+
+	        for (i = 1; i <= pagination.last; i++) {
+		        var el = document.createElement('a');
+		        el.href = "#";
+		        el.innerHTML = i;
+
+		        if (i === pagination.current) {
+			        el.className = 'on';
+		        } else {
+			        el.onclick = (function(i) {
+				        return function() {
+					        pagination.gotoPage(i);
+				        }
+			        })(i);
+		        }
+
+		        fragment.appendChild(el);
+	        }
+	        paginationEl.appendChild(fragment);
+     }
+
+     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+     // 인포윈도우에 장소명을 표시합니다
+     function displayInfowindow(marker, title) {
+	        var content = '<div style="padding:5px;z-index:1;">' + title
+	                + '</div>';
+
+	        infowindow.setContent(content);
+	        infowindow.open(map, marker);
+     }
+
+     // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+     function removeAllChildNods(el) {
+	        while (el.hasChildNodes()) {
+		        el.removeChild(el.lastChild);
+	        }
+     
+	   } 
+}else {
+	 var coords = new daum.maps.LatLng(37.566295037, 126.9779450126);
+	 var marker = new daum.maps.Marker({
+	     map: map,
+	     position: coords
+	 });
+	 var markerText2 = '<div style="width:400px;text-align:center;padding:6px 0;">주소가 정확하지 않습니다 MyInfo에서 주소를 설정해 주세요!</div>'; 
+	 var infowindow = new daum.maps.InfoWindow({
+	     content: markerText2 
+	 });
+	 infowindow.open(map, marker);
+	 map.setCenter(coords);
+	 
+}
+}); 
+}
+
+	</script>
+
+

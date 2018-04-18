@@ -1,0 +1,394 @@
+<meta charset="UTF-8">
+<link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../css/main.css" rel="stylesheet">
+<link href="../../css/resume.css" rel="stylesheet">
+<link href="../../css/together.css" rel="stylesheet">
+<link href="../../css/together2.css" rel="stylesheet">
+<style>
+body {
+padding-left: 0;
+}
+</style>
+<header style="text-align: center;">
+	<ul
+		style="cursor: pointer; list-style-type: none; text-align: center; padding-top: 2vh; font-size: 40px;">
+		<li class="menuItem" style="top: 12px; margin: 0; display: inline;">
+			<img id="_logo7"
+			src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/200px-Snoopy_Peanuts.png"
+			height="40"> Balance Pet
+		</li>
+		<li class="menuItem"
+			style="display: inline; padding: 0px 2% 0px 100px;"><a
+			class="js-scroll-trigger" href="../main/home.html#first">Home</a></li>
+		<li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px;"><a
+			class="js-scroll-trigger" href="../main/home.html#care">Pet Care</a></li>
+		<li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px;"><a
+			class="js-scroll-trigger" href="../main/home.html#diagnosis">Pet
+				Diagnosis</a></li>
+		<li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px;"><a
+			class="js-scroll-trigger" href="../main/home.html#together">Pet
+				Together</a></li>
+		<li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px;"><a
+			class="js-scroll-trigger" href="../main/home.html#cast">Cast</a></li>
+			<li class="menuItem" style="display: inline; padding: 0px 2% 0px 2px;"><a
+            class="js-scroll-trigger" href="../main/home.html#lost">Lost</a></li>
+		<li id="logoutBtn" class="menuItem"
+			style="display: inline; padding: 0px 0px 0px 2%; font-size: 25px; font: italic bold; color: black;"><a
+			class="js-scroll-trigger after-login" href="#"
+			style="color: #000000;">Logout</a></li>
+	</ul>
+	
+	<h2>PET' TOGETHER</h2>
+	<div>
+		<div><input style="display:none" type="text"   id="myaddress"></input></div>
+		<div><input style="display:none" type="text" id="mylocationx"></input></div>
+		<div><input style="display:none" type="text" id="mylocationy"></input></div>
+	</div>
+</header>
+<button id="addBtn" type="button" class='btn btn-primary btn-sm my-new'
+   style="margin-left: 25em;">추가</button>
+
+
+
+<div class="form-group row" style="text-align: right;">
+	<div class="col-sm-10">
+		<select id='category' class="btn btn-secondary data-reset"
+			name="category">
+			<option value=카테고리>카테고리</option>
+			<option value=숙박업소>숙박업소</option>
+			<option value=식당>식당</option>
+			<option value=기타>기타</option>
+		</select> 
+		
+	</div>
+	<div class="slidecontainer">
+  <input type="range" min="1" max="500"  value="500" class="slider" id="myRange">
+   <p><span id="demo"></span>Km</p>
+</div>
+	
+
+	
+	
+</div>
+<div class="bal-mb-3" style="margin-top: -60px; margin-left: 19em; width:77%;">
+	<div style="margin-top: 8%;">
+		<div class="bal-mb-3-list"></div>
+	</div>
+</div>
+<!-- <a href="../business/form.html?no={{businessNo}}"></a> -->
+<script src='../../node_modules/handlebars/dist/handlebars.min.js'></script>
+<script src='../../node_modules/jquery/dist/jquery.js'></script>
+<script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src="../../js/together.js"></script>
+<script src="../../js/together2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94bb2cfc7cdc1dacca4463266c794af3&libraries=services,clusterer,drawing"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script id="businessTemplate" type="text/x-handlebars-template">
+
+{{#each list}}
+    <div class="bal-mb-3-data" id="together{{businessNo}}" style="margin-top: 3em;width:300px; height:250px;">
+		<figure class="snip1132">
+        {{#each files}}
+            {{#if @first}}
+                 <img src="../../download/{{filename}}" alt="{{filename}}" style="width:100%; height:100%;">
+            {{/if}}
+        {{/each}}
+	<figcaption class="locationlength">
+		<div>{{location}}</div>
+		<div><input type="text" style="display:none" id="locationx{{businessNo}}"></input></div>
+		<div><input type="text" style="display:none" id="locationy{{businessNo}}"></input></div>
+		<div>{{length}}</div>
+		<div>{{km}}</div>
+    	<div class="heading">
+     		<h3><span>{{adress primary_address}} </span></h3>
+    	</div>
+    	<div class="caption">
+      		<p>{{category}}</p>
+    	</div>
+  	</figcaption>
+  	<a href="../business/form.html?no={{businessNo}}"></a>
+	</figure>
+    <div class="input-group mb-3">
+        <div><div style="float: left;font-weight: bold;font-family: contsfont-kor;text-align: center;margin-left: 8em;" id="length{{businessNo}}"></div><span style="font-weight: bold;font-family: contsfont-kor;">Km</span></div>
+    </div></div>
+{{/each}}
+</script>
+<script type="text/javascript">
+/* words = $('#words'),
+searchBtn = $('#searchBtn'), */
+var prevBtn = $('#prevBtn'),
+currBtn = $('#currBtn'),
+nextBtn = $('#nextBtn'),
+addBtn = $('#addBtn'),
+blistItem = $('.bal-mb-3-list'),
+category = '카테고리',
+currPageNo = 1;
+businessTemplateSrc = $('#businessTemplate').html(),
+businessTemplateEngine = Handlebars.compile(businessTemplateSrc);
+var locationx = null; 
+var locationy = null;
+var mylocationx = $('#mylocationx');
+var mylocationy = $('#mylocationy');
+var myaddress =  $('#myaddress');
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+var slidervalue =  slider.value;
+
+slider.oninput = function() {
+	  output.innerHTML = this.value;
+	  slidervalue = this.value;
+	  category = $("#category option:selected").val();
+	  console.log(slider.value)	
+	  if(category == '카테고리'){
+		 load2(1);
+	  }else if(category =='숙박업소'){
+		  load(1);
+	  }else if(category == '식당'){
+		  load(1);
+	  }else if(category == '기타'){
+		  load(1);
+	  }
+	}
+
+
+Handlebars.registerHelper('location', function (options) {
+     var bno = this.businessNo;
+	 var geocoder = new daum.maps.services.Geocoder();
+	 geocoder.addressSearch(this.primary_address,function(result, status) {
+		    var x = result[0].x
+		    var k = result[0].y
+		  	$('#locationx' + bno).val(result[0].x);
+		    $('#locationy' + bno).val(result[0].y); 
+	        var lon2 = $('#locationx'+bno).val();
+	        var lat2 = $('#locationy'+bno).val();
+	        var lon1 = $('#mylocationx').val();
+	        var lat1 = $('#mylocationy').val();
+	        
+		    var R = 6371; // km
+		    var dLat = ((lat2-lat1)*Math.PI) / 180;
+		    var dLon = ((lon2-lon1)*Math.PI) /180;
+		    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		            Math.cos((lat1*Math.PI)/180) * Math.cos((lat2*Math.PI)/180) * 
+		            Math.sin(dLon/2) * Math.sin(dLon/2); 
+		    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		    var d = Math.round(R * c);
+	        $('#length'+bno).text(d) ;
+	        if(slidervalue < d){
+	        	$('#together'+bno).css("display","none");
+	        }
+	        
+	});
+	 
+});
+
+Handlebars.registerHelper('adress', function (primary_adress) {
+    return primary_adress.substring(0,2);
+  });
+load2();
+
+
+
+$('#category').on('change', function() {
+	  category = $("#category option:selected").val();
+	
+	  if(category =='숙박업소'){
+		  load(1);
+	  }else if(category == '식당'){
+		  load(1);
+	  }else if(category == '기타'){
+		  load(1);
+	  }else {
+	      load2(1);
+	  }
+	})
+
+/* searchBtn.click(() => {
+//event.preventDefault();
+load(1, {
+    "words": words.value
+})
+}); */
+
+prevBtn.click(() => {
+load(currPageNo - 1)
+});
+
+nextBtn.click(() => {
+load(currPageNo + 1)
+});
+addBtn.click(() => {
+location.href = "../business/view.html";
+});
+
+function load(pageNo, options) {
+
+if (options == undefined) options = {};
+options.pn = pageNo;
+options.category = category;
+options.value = slider.value;
+var count;
+
+$.ajax('../../json/business/categoryList', {
+    /*method: 'GET',*/
+    data: options,
+    dataType: 'json',  
+    success: (result) => {
+        for (var item of result.list) {
+            for (var files of item.files) {
+                files.businessName = item.businessName;
+            }
+        }
+        console.log(result);
+        blistItem.html(businessTemplateEngine(result));
+        
+        currPageNo = result.pageNo;
+        currBtn.html(currPageNo);
+        
+        if (result.pageNo == 1) {
+            $(prevBtn.parent()).addClass("disabled");
+        } else {
+            $(prevBtn.parent()).removeClass("disabled");
+        }
+        
+        if (result.lastPageNo == result.pageNo) {
+            $(nextBtn.parent()).addClass("disabled");
+        } else {
+            $(nextBtn.parent()).removeClass("disabled");
+        }
+    },
+    error: () => {
+        window.alert('error! blist');
+    }
+});
+}
+
+function load2(pageNo, options) {
+	if (options == undefined) options = {};
+	options.pn = pageNo;
+	options.value = slider.value;
+	var count;
+	
+	$.ajax('../../json/auth/loginUser', {
+	    data: 	options,
+	    dataType: 'json',  
+        success: (result) => {
+        	myaddress.val(result.member.primaryAddress);
+        	var geocoder = new daum.maps.services.Geocoder();
+       		 geocoder.addressSearch(myaddress.val(),function(result, status) {
+       		    var x = result[0].x
+       		    var k = result[0].y
+       		  	$('#mylocationx').val(result[0].x);
+       		    $('#mylocationy').val(result[0].y); 
+       	}); 
+        },
+	    error: () => {
+	        window.alert('error! blist');
+	    }
+	});	
+	
+	 
+	
+	
+	
+	$.ajax('../../json/business/categoryAllList', {
+	    /*method: 'GET',*/
+	    data: 	options,
+	    dataType: 'json',  
+	    success: (result) => {
+	        console.log(result);
+	        blistItem.html(businessTemplateEngine(result));
+	        
+	        currPageNo = result.pageNo;
+	        currBtn.html(currPageNo);
+	        
+	        if (result.pageNo == 1) {
+	            $(prevBtn.parent()).addClass("disabled");
+	        } else {
+	            $(prevBtn.parent()).removeClass("disabled");
+	        }
+	        
+	        if (result.lastPageNo == result.pageNo) {
+	            $(nextBtn.parent()).addClass("disabled");
+	        } else {
+	            $(nextBtn.parent()).removeClass("disabled");
+	        }
+	    },
+	    error: () => {
+	        window.alert('error! blist');
+	    }
+	});
+}
+</script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript">
+    
+var loginBtn = $('#loginBtn'),
+    logoutBtn = $('#logoutBtn'),
+    memberView = $('#memberView'),
+    memberNo = '';
+    
+$.getJSON('../../json/auth/loginUser', (result) => {
+    if (result.status == 'fail') {
+        $('.after-login').css('display', 'none');
+        return;
+    } else {
+        var member = result.member;
+        memberNo = member.memberNo;
+        $('.before-login').css('display', 'none');
+        for (var file of member.files) {
+            if (file.filename == null) {
+                var srcpath = "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/200px-Snoopy_Peanuts.png";
+            } else {
+                var srcpath = "../../download/" + file.filename;
+            }
+            $('#memberPhoto').attr({
+                src: srcpath,
+                class: 'img-fluid img-profile rounded-circle mx-auto mb-2',
+                alt: "'" + file.filename + "'",
+                id: 'memberInfo'
+            });
+        }
+    }
+});
+
+var index = location.href.indexOf('?');
+if (index != -1) {
+    var qs = location.href.substr(index + 1);
+    var arr = qs.split('=');
+    $(function load() {
+        $.ajax('../../json/main/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                location.href = "../main/home.html";
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
+} else {}
+
+loginBtn.click(() => {
+    document.getElementById("loginSection").style.transform = "translateX(0%)";
+    document.getElementById("loginSection").style.transition = "1s";
+    
+    $('#loginSection').load('../auth/login.html');
+});
+    
+logoutBtn.click(() => {
+   $.getJSON('../../json/auth/logout', (result) => {
+       location.href = '../main/home.html';
+   });
+});
+
+$('#memberView').click(() => {
+document.getElementById("memberViewSection").style.transform = "translateX(0%)";
+document.getElementById("memberViewSection").style.transition = "1s";
+
+$('#memberViewSection').load('../member/memberView.html');
+});
+
+</script>
